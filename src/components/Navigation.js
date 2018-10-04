@@ -1,18 +1,41 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { db, auth } from '../firebase/firebase';
 import { Link } from 'react-router-dom';
 import Logo from './logo.svg';
+import withAutorization from './withAutorization';
 import './App.css';
 import SingOutButton from './SingOut';
 import * as routes from '../constants/routes';
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem, Button, Badge } from 'react-bootstrap';
 import { Mail, Bell, Power } from 'react-feather';
-import { db, auth } from '../firebase/firebase';
-
+import Nombre from './nombre'
 
 import AuthUserContext from './AuthUserContext';
 
+class Navigation extends Component {
+  constructor(props) {
+    super(props);
 
-const Navigation = () =>
+    this.state = {
+      users: null,
+    };
+  }
+
+  render() {
+    
+     return( 
+    
+     reNavigation()
+
+     )
+
+  }
+}
+
+
+
+
+const reNavigation = () =>
 
   <AuthUserContext.Consumer>
     {authUser => authUser
@@ -21,9 +44,7 @@ const Navigation = () =>
     }
   </AuthUserContext.Consumer>
 
-
-
-
+ 
 const NavigationAuth = () =>
 
 <div>
@@ -36,7 +57,7 @@ const NavigationAuth = () =>
     <Nav className="nav-sub"  pullRight>
       <NavItem>
         
-      <Link to={routes.ACCOUNT}>Sergio Maldonado</Link>
+      <Link to={routes.ACCOUNT}> <Nombre /> </Link>
       </NavItem>
       <NavItem>
       <Badge className="notificacion-numero">2</Badge> <Mail  className="ic" size={20} /> Inbox
@@ -52,7 +73,6 @@ const NavigationAuth = () =>
 </Navbar>
 
 </div>
-
 
 const NavigationNonAuth = () =>
 <div>
@@ -73,5 +93,7 @@ const NavigationNonAuth = () =>
 </Navbar>
 
 </div>
+
+
 
 export default Navigation;

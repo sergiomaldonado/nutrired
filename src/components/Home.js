@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 import withAutorization from './withAutorization';
 import { db, auth } from '../firebase/firebase';
 import { Grid, Row, Col, NavItem, Nav, Tab, Glyphicon, Form, FormGroup, FormControl, InputGroup, Image} from 'react-bootstrap';
@@ -9,16 +8,15 @@ import Imagen from './imagen.png'
 class HomePage extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      users: null,
+      user: null,
     };
   }
  
-
   componentDidMount() {
 
     const uid = auth.currentUser.uid;
+
 
     db.ref(`users/nutriologos/${uid}`).on('value', snapshot => {
         
