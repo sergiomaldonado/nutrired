@@ -39,13 +39,13 @@ const NavigationAuth = () =>
       <Link to={routes.ACCOUNT}>Sergio Maldonado</Link>
       </NavItem>
       <NavItem>
-      <a> <Badge className="notificacion-numero">2</Badge> <Mail  className="ic" size={20} /> Inbox</a>
+      <Badge className="notificacion-numero">2</Badge> <Mail  className="ic" size={20} /> Inbox
       </NavItem>
       <NavItem>
-      <a> <Badge className="notificacion-numero">9</Badge> <Bell  className="ic" size={20} /> Solicitudes</a>
+      <Badge className="notificacion-numero">9</Badge> <Bell  className="ic" size={20} /> Solicitudes
       </NavItem>
       <NavItem>
-      <Link to={routes.SIGN_IN}><SingOutButton /></Link>
+       <Link to={routes.SIGN_IN}><SingOutButton /></Link>
       </NavItem>
     </Nav>
   </Navbar.Collapse>

@@ -89,7 +89,7 @@ class HomePage extends Component {
            <Col className="card-cliente" xs={12} md={3}>
        
            <Image src={Imagen} className="img-card-cliente" circle />
-           <div class="tittle-card-cliente">
+           <div className="tittle-card-cliente">
                <h4>Sergio Maldonado</h4>
                <p className="text-card-cliente">Tel: (321) 23 23 0</p>
                <p className="text-card-cliente">srgiomaldonado@gmail.com</p>
