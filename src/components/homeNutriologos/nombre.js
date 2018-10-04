@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import withAutorization from './withAutorization';
-import { db, auth } from '../firebase/firebase';
+import withAutorization from '../withAutorization';
+import { db, auth } from '../../firebase/firebase';
 
 
 class Nombre extends Component {

@@ -8,7 +8,7 @@ import SingOutButton from './SingOut';
 import * as routes from '../constants/routes';
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem, Button, Badge } from 'react-bootstrap';
 import { Mail, Bell, Power } from 'react-feather';
-import Nombre from './nombre'
+import Nombre from './homeNutriologos/nombre'
 
 import AuthUserContext from './AuthUserContext';
 
