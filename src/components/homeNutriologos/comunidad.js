@@ -7,22 +7,20 @@ import { Users, Clipboard,BookOpen, Award, Globe, Calendar, Search } from 'react
 import Imagen from '../imagen.png'
 import SideNav from './side-nav'
 
-class Consultorio extends Component {
+class ComunidadNutriologos extends Component {
   constructor(props) {
     super(props);
     this.state = {
       user: null,
     }
   }
-  
   render() {
-
       return(
             <Grid>
   <Row className="show-grid">
    <SideNav />
     <Col xs={12} md={10}>
-    <h1>Bienvenido a la comunidad NREMCH</h1>
+    <h1>Bienvenido a la red de nutricion que cambiara tu vida</h1>
     </Col>
   </Row>
   </Grid>
@@ -37,4 +35,4 @@ class Consultorio extends Component {
 
 const authCondition = (authUser) => !!authUser;
 
-export default withAutorization(authCondition)(Consultorio);
+export default withAutorization(authCondition)(ComunidadNutriologos)

@@ -2,7 +2,7 @@ import { db, auth } from './firebase';
 
 // User API
 
-export const doCreateUser = (id, nombre, apellido, email, telefono, matricula, pacientes, dietas, recetas, agenda, roll) =>
+export const doCreateUser = (id, nombre, apellido, email, telefono, matricula, pacientes, dietas, recetas, agenda,alertas, roll) =>
   db.ref(`users/nutriologos/${id}`).set({
     nombre,
     apellido,
@@ -11,8 +11,19 @@ export const doCreateUser = (id, nombre, apellido, email, telefono, matricula, p
     telefono,
     matricula,
     dietas,
+    recetas,
     pacientes,
     agenda,
+    alertas,
+    roll
+  });
+
+  export const doCreatePaciente = (id, nombre, apellido, email, telefono, roll) =>
+  db.ref(`users/pacientes/${id}`).set({
+    nombre,
+    apellido,
+    email,
+    telefono,
     roll
   });
 

@@ -15,7 +15,6 @@ class Nombre extends Component {
 
     const uid = auth.currentUser.uid;
 
-
     db.ref(`users/nutriologos/${uid}`).on('value', snapshot => {
         
       this.setState({
@@ -23,12 +22,8 @@ class Nombre extends Component {
       })
 
     })
-   
   }
-
   render() {
-
-
     if(this.state.user){
       const  {nombre, apellido} = this.state.user;
       return(<p> {nombre} {apellido} </p>)
