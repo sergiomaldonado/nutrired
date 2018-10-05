@@ -20,7 +20,7 @@ class ComunidadNutriologos extends Component {
   <Row className="show-grid">
    <SideNav />
     <Col xs={12} md={10}>
-    <h1>Bienvenido a la red de nutricion que cambiara tu vida</h1>
+    <h1>Bienvenido a la red de nutriologos</h1>
     </Col>
   </Row>
   </Grid>

@@ -15,16 +15,11 @@ class SideNav extends Component {
       return(
  <Col xs={12} md={2}>
      <ul className="left-menu">
-     <Link to={routes.COMUNIDAD}> <li className="left-menu-item">  <Globe  className="ic" size={20} /> Comunidad</li> </Link>
-     <Link to={routes.HOME}><li className="left-menu-item">  <Users  className="ic" size={20} /> Consultorio</li></Link>
-        <li className="left-menu-item">  <Calendar  className="ic" size={20} /> Agenda</li>
+     <Link to={routes.HOME}> <li className="left-menu-item">  <Globe  className="ic" size={20} /> Comunidad</li> </Link>
+    <li className="left-menu-item">  <Calendar  className="ic" size={20} /> Agenda</li>
      </ul>
     </Col>
-
       )
-
-      
-    
   }
 }
 
