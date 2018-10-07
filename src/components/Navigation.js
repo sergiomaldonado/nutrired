@@ -32,7 +32,6 @@ class Navigation extends Component {
  </AuthUserContext.Consumer>
     )
  }
-
 }
 
 const NavigationNonAuth = () =>

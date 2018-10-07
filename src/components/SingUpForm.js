@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import { auth, db } from './../firebase'
+import firebase from 'firebase'
 import {
     Link,
     withRouter,
@@ -56,29 +57,25 @@ class SignUpForm extends Component {
                 agenda,
                 alertas
               } = this.state;
-
               const {
                 history,
               } = this.props;
-          
               auth.doCreateUserWithEmailAndPassword(email, passwordOne)
                 .then(authUser => {
               
-              db.doCreateUser(authUser.user.uid, nombre, apellido, email, telefono, matricula, pacientes, dietas, recetas, agenda, alertas, roll )
-        .then(() => {
-          this.setState({ ...INITIAL_STATE });
-          history.push(routes.HOME);
-        })
-        .catch(error => {
-          this.setState(byPropKey('error', error));
-        });
-                })
-                .catch(error => {
-                  this.setState(byPropKey('error', error));
-                });
-          
+              db.doCreateUser(authUser.user.uid, nombre, apellido, email, telefono, matricula, pacientes, dietas, recetas, agenda, alertas, roll, authUser.user.uid )
+              .then(() => {
+              this.setState({ ...INITIAL_STATE });
+              history.push(routes.HOME);
+                   })
+              .catch(error => {
+              this.setState(byPropKey('error', error));
+              });
+              })
+              .catch(error => {
+              this.setState(byPropKey('error', error));
+              });
               event.preventDefault();
-      
         }
       
         render() {
@@ -189,8 +186,10 @@ class SignUpForm extends Component {
           
               auth.doCreateUserWithEmailAndPassword(email, passwordOne)
                 .then(authUser => {
+
+            
               
-              db.doCreatePaciente(authUser.user.uid, nombre, apellido, email, telefono, roll )
+              db.doCreatePaciente(authUser.user.uid, nombre, apellido, email, telefono, roll, )
         .then(() => {
           this.setState({ ...INITIAL_STATE });
           history.push(routes.LANDING);

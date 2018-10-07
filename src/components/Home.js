@@ -31,6 +31,8 @@ class HomePage extends Component {
     return this.state.nutriologo === true
       ?<Consultorio />
       :<ComunidadPacientes />
+
+  
   
            }     
   }

@@ -15,6 +15,7 @@ import { firebase } from '../firebase';
 import withAuthentication from './withAutentication'
 import Consultorio from './homeNutriologos/consultorio'
 import Comunidad from './homeNutriologos/comunidad'
+import Nutriologos from './homePacientes/nutriologos'
 
 const App = () =>
   
@@ -26,6 +27,7 @@ const App = () =>
      <Route exact path={routes.LANDING} component={ Landing } />
      <Route exact path={routes.HOME} component={ Home } />
      <Route exact path={routes.COMUNIDAD} component={ Comunidad } />
+     <Route exact path={routes.NUTRIOLOGOS} component={ Nutriologos } />
      <Route exact path={routes.CONSULTORIO} component={ Consultorio } />
      <Route exact path={routes.SIGN_IN} component={ Singin } />
      <Route exact path={routes.SIGN_UP} component={ Singup } />

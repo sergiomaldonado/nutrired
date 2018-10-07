@@ -5,11 +5,19 @@ a{
   color: #929292;
 }
 .ic{vertical-align: -4px;}
+
+.left-menu{
+  width: auto;
+
+}
 .left-menu-item{
   list-style: none;
   margin-bottom:20px;
   color:#888888;
+  width: 300px;
+  display: inline-block;
 }
+
 .search{ margin-top:40px;}
 .input-group-addon{
   background-color: white;
@@ -43,17 +51,24 @@ a{
 }
 .card-cliente{
   margin:20px;
-  width: 250px;
   background-color: white;
   border-radius: 10px; 
   border:1px solid #D6D6D6 !important;
-  height: 100px;
+  padding:20px;
+
+}
+.contenidoCard{
+text-align: center;
 }
 .img-card-cliente{
-  width: 60px;
-  height: 60px;
-  vertical-align: -65px;
+  width: 100px;
+  height: 100px;
+  text-align: center ;
+  margin: 0 auto;
  
+}
+.tarjetaUser{
+  padding:50px;
 }
 .tittle-card-cliente{
   float: right;

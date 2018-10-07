@@ -11,7 +11,6 @@ import 'firebase/database'
     storageBucket: "nutrired-cf271.appspot.com",
     messagingSenderId: "584377680064"
   };
-
   if(!firebase.apps.length){
     firebase.initializeApp(config);
   }

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import './App.css';
+import UserProfile from './homePacientes/userProfile'
 
 
 const Acount = () => 
 
-   <h1>Actualiza tu cuenta</h1>
+   <UserProfile />
 
 export default Acount;
