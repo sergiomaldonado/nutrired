@@ -10,7 +10,39 @@ a{
   width: auto;
 
 }
-
+.control-form{
+  width: 100%;
+  height: 20px;
+  text-align:center !important;
+  margin-bottom:30px;
+}
+.select-1{
+  width: 33.3%;
+  height: 20px;
+  float: left;
+  padding:10px;
+}
+.input-1{
+  width: 33.3%;
+  height: 20px;
+  float: left;
+  padding:10px;
+}
+.textarea-1{
+  width: 100%;
+  height: 20px;
+  float: left;
+  padding:10px;
+  margin-top: 25px;
+}
+.button-1{
+ 
+  height: 20px;
+  float: right !important;
+  padding:10px;
+  margin-top:80px;
+  
+}
 .rangos{
   height: 20px;
   width:100%;
@@ -67,7 +99,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#91e842', end
 }
 .ungrid{
   text-align: center !important;
-  background-color: #009C1A;
+  
 }
 .input-form{
   width: 100%;
@@ -77,16 +109,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#91e842', end
   background-color: red;
   width: 100%;
   text-align: center !important;
-
 }
-
-.grid-steps{
-  text-align: center;
-  margin: 0 auto;
-}
-
-
-
 .left-menu-item{
   list-style: none;
   margin-bottom:20px;
@@ -183,6 +206,14 @@ text-align: center;
 .col-paso{
   margin-right:-55px !important ; 
 }
+.tittle-step{
+  margin-left: -20px;
+  text-align: left;
+}
+.tittle-step2{
+  margin-left: -10px;
+  text-align: left;
+}
 .step-activado{
   background-color: #7ED321;
   border-radius: 80px;
@@ -191,6 +222,9 @@ text-align: center;
   width: 50px;
   height: 50px;
   z-index: 2;
+}
+.formulario1{
+  margin-top: 30px;
 }
 .step-counter-activado{
   color:white;
@@ -220,6 +254,7 @@ text-align: center;
 }
 .gridgrid{
   margin-left: 200px;
+  margin-top: 20px;
 }
 .line-desactivado{ height: 3px; width: 80%; background-color: #DEDEDE; z-index: 0;}
 .line-3{ height: 3px; width: 80%; background-color: #F4F4F4; z-index: 0;}

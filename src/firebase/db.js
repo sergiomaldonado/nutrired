@@ -33,11 +33,13 @@ export const doCreateUser = (id, nombre, apellido, email, telefono, matricula, p
     mensaje
   });
 
-  export const actualizarPerfil = ( uid, anoNacimiento, diaNacimiento, mesNacimiento, peso, estatura, meta) =>
+  export const actualizarPerfil = ( uid, selectedOptions,  anoNacimiento, diaNacimiento, mesNacimiento, sexo, peso, estatura, meta) =>
   db.ref(`users/pacientes/${uid}/datospersonales`).set({
+    selectedOptions,
     anoNacimiento,
     diaNacimiento,
     mesNacimiento,
+    sexo,
     peso,
     estatura,
     meta
