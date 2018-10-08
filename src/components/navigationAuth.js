@@ -68,13 +68,13 @@ class NavigationAuth extends Component {
           <Nav className="nav-sub"  pullRight>
             <NavItem>
               
-            <Link to={routes.ACCOUNT}> <NombreUser /> </Link>
+            <p className="nav-item-hijo"> <Link to={routes.ACCOUNT}> <NombreUser /> </Link></p>
             </NavItem>
             <NavItem>
-            <Badge className="notificacion-numero">2</Badge> <Mail  className="ic" size={20} /> Inbox
+            <p className="nav-item-hijo"> <Badge className="notificacion-numero">2</Badge> <Mail  className="ic" size={20} /> Inbox</p>
             </NavItem>
-            <NavItem>
-            <Badge className="notificacion-numero">9</Badge> <Bell  className="ic" size={20} /> Solicitudes
+            <NavItem className="nav-item">
+            <p className="nav-item-hijo"> <Badge className="notificacion-numero">9</Badge> <Bell  className="ic" size={20} /> Solicitudes </p>
             </NavItem>
             <NavItem>
              <Link to={routes.SIGN_IN}><SingOutButton /></Link>

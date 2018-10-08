@@ -59,7 +59,6 @@ class Nutriologos extends Component {
            <Image src={Imagen} className="img-card-cliente" circle />
            <div className="tittle-card-cliente" key={key}>
                <h4>{users[key].nombre} {users[key].apellido} </h4>
-              
                <form>
                </form>
                <form>

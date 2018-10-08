@@ -16,9 +16,11 @@ import 'firebase/database'
   }
   const db = firebase.database();
   const auth = firebase.auth();
+  const authfb = firebase.auth();
 
   export {
     db,
-    auth
+    auth,
+    authfb
   }
  

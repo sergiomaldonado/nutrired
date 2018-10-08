@@ -14,7 +14,7 @@ class SideNav extends Component {
       return(
     <Col xs={12} md={2}>
      <ul className="left-menu">
-     <Link className="left-menu-item" to={routes.HOME}> <li >  <Globe  className="ic" size={20} /> <NombreUser /> </li></Link>
+     <Link className="left-menu-item" to={routes.HOME}> <li >  <User  className="ic" size={20} /> Tú </li></Link>
      <Link to={routes.HOME}> <li className="left-menu-item">  <Globe  className="ic" size={20} /> Comunidad</li> </Link>
      <li className="left-menu-item">  <Calendar  className="ic" size={20} /> Agenda</li>
      <Link to={routes.NUTRIOLOGOS}> <li className="left-menu-item">  <User  className="ic" size={20} /> Nutriologos</li> </Link>

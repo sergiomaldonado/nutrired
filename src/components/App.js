@@ -16,6 +16,7 @@ import withAuthentication from './withAutentication'
 import Consultorio from './homeNutriologos/consultorio'
 import Comunidad from './homeNutriologos/comunidad'
 import Nutriologos from './homePacientes/nutriologos'
+import CompletarPerfil from './homePacientes/completarPerfil'
 
 const App = () =>
   
@@ -32,6 +33,7 @@ const App = () =>
      <Route exact path={routes.SIGN_IN} component={ Singin } />
      <Route exact path={routes.SIGN_UP} component={ Singup } />
      <Route exact path={routes.ACCOUNT} component={ Acount } />
+     <Route exact path={routes.COMPLETARPERFIL} component={ CompletarPerfil } />
      </div>
         </div>
       </Router>

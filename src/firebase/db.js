@@ -12,7 +12,6 @@ export const doCreateUser = (id, nombre, apellido, email, telefono, matricula, p
     matricula,
     dietas,
     recetas,
-
     pacientes,
     agenda,
     alertas,
@@ -34,8 +33,17 @@ export const doCreateUser = (id, nombre, apellido, email, telefono, matricula, p
     mensaje
   });
 
+  export const actualizarPerfil = ( uid, anoNacimiento, diaNacimiento, mesNacimiento, peso, estatura, meta) =>
+  db.ref(`users/pacientes/${uid}/datospersonales`).set({
+    anoNacimiento,
+    diaNacimiento,
+    mesNacimiento,
+    peso,
+    estatura,
+    meta
+  });
 
-  const uid = () => auth.currentUser.uid
+const uid = () => auth.currentUser.uid
 
 export const onceGetUsers = () =>
 
@@ -43,7 +51,6 @@ export const onceGetUsers = () =>
 
     return(
         snapshot.val()
-
     )
   })
 

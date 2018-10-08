@@ -11,15 +11,11 @@ class NombreUser extends Component {
     };
   }
   componentDidMount() {
-
     const uid = auth.currentUser.uid;
-
     db.ref(`users/pacientes/${uid}`).on('value', snapshot => {
-        
       this.setState({
         user: snapshot.val()
       })
-
     })
   }
   render() {

@@ -155,7 +155,6 @@ class SignUpForm extends Component {
         <button disabled={isInvalid} type="submit">
           Sign Up
         </button>
-
         { error && <p>{error.message}</p> }
             </form>
           );
@@ -186,13 +185,10 @@ class SignUpForm extends Component {
           
               auth.doCreateUserWithEmailAndPassword(email, passwordOne)
                 .then(authUser => {
-
-            
-              
               db.doCreatePaciente(authUser.user.uid, nombre, apellido, email, telefono, roll, )
         .then(() => {
           this.setState({ ...INITIAL_STATE });
-          history.push(routes.LANDING);
+          history.push(routes.COMPLETARPERFIL);
         })
         .catch(error => {
           this.setState(byPropKey('error', error));

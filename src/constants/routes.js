@@ -7,4 +7,4 @@ export const PASSWORD_FORGET = '/pw-forget';
 export const CONSULTORIO = '/home/consultorio';
 export const COMUNIDAD = '/home/comunidad';
 export const NUTRIOLOGOS = '/home/nutriologos';
-export const PASO1 = '/home/nutriologos';
+export const COMPLETARPERFIL = '/completarperfil';

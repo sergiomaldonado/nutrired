@@ -10,6 +10,83 @@ a{
   width: auto;
 
 }
+
+.rangos{
+  height: 20px;
+  width:100%;
+  z-index: 9;
+  position: absolute;
+  border-radius:20px;
+  margin-top: 20px;
+  background: rgba(145,232,66,1);
+background: -moz-linear-gradient(left, rgba(145,232,66,1) 0%, rgba(255,234,0,1) 52%, rgba(255,0,0,1) 100%);
+background: -webkit-gradient(left top, right top, color-stop(0%, rgba(145,232,66,1)), color-stop(52%, rgba(255,234,0,1)), color-stop(100%, rgba(255,0,0,1)));
+background: -webkit-linear-gradient(left, rgba(145,232,66,1) 0%, rgba(255,234,0,1) 52%, rgba(255,0,0,1) 100%);
+background: -o-linear-gradient(left, rgba(145,232,66,1) 0%, rgba(255,234,0,1) 52%, rgba(255,0,0,1) 100%);
+background: -ms-linear-gradient(left, rgba(145,232,66,1) 0%, rgba(255,234,0,1) 52%, rgba(255,0,0,1) 100%);
+background: linear-gradient(to right, rgba(145,232,66,1) 0%, rgba(255,234,0,1) 52%, rgba(255,0,0,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#91e842', endColorstr='#ff0000', GradientType=1 );
+}
+.rango1{
+   border-right:solid 2px white;
+   width: 20%;
+   height: 20px;
+   float:left;
+   text-align: center;
+   padding-top:25px;
+}
+.rango2{
+  border-right:solid 2px white;
+  width: 20%;
+  height: 20px;
+  float:left;
+  text-align: center;
+  padding-top:25px;
+}
+.rango3{
+  border-right:solid 2px white;
+  width: 20%;
+  height: 20px;
+  float:left;
+  text-align: center;
+  padding-top:25px;
+}.rango4{
+  border-right:solid 2px white;
+  width: 20%;
+  height: 20px;
+  float:left;
+  text-align: center;
+  padding-top:25px;
+}
+.rango5{
+  width: 20%;
+  height: 20px;
+  float:left;
+  text-align: center;
+  padding-top:25px;
+}
+.ungrid{
+  text-align: center !important;
+  background-color: #009C1A;
+}
+.input-form{
+  width: 100%;
+}
+.optionContainer{
+  height: 20px;
+  background-color: red;
+  width: 100%;
+  text-align: center !important;
+
+}
+
+.grid-steps{
+  text-align: center;
+  margin: 0 auto;
+}
+
+
+
 .left-menu-item{
   list-style: none;
   margin-bottom:20px;
@@ -17,7 +94,6 @@ a{
   width: 300px;
   display: inline-block;
 }
-
 .search{ margin-top:40px;}
 .input-group-addon{
   background-color: white;
@@ -60,12 +136,126 @@ a{
 .contenidoCard{
 text-align: center;
 }
+.nombreCard{
+  color:#00B713;
+  }
+.strongCard{
+    text-align: center;
+    color:#00B713;
+    }
+    .p-card{ color:grey;}
+
 .img-card-cliente{
   width: 100px;
   height: 100px;
   text-align: center ;
   margin: 0 auto;
  
+}
+
+.paso1visible{
+  text-align: center;
+}
+.paso1invisible{
+  display: none;
+}
+.paso2visible{
+  
+}
+.paso2invisible{
+  display: none;
+}
+.paso3visible{
+  
+}
+.paso2invisible{
+  display: none;
+}
+.alineador{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/***   ESTILOS STEPS ****/
+.row-paso{
+  text-align: center;
+}
+.col-paso{
+  margin-right:-55px !important ; 
+}
+.step-activado{
+  background-color: #7ED321;
+  border-radius: 80px;
+  color:white;
+  text-align: center;
+  width: 50px;
+  height: 50px;
+  z-index: 2;
+}
+.step-counter-activado{
+  color:white;
+  line-height: 12px;
+}
+.line-activado{ height: 3px; width: 80%; background-color: #7ED321;   z-index: 0;}
+.pasomarkactivado{
+  color: white;
+}
+.pasomarkdesactivado{
+  color:#ECE6E6;
+}
+
+.step-desactivado{
+  background-color: white;
+  border-radius: 100px;
+  color:grey;
+  border:3px solid #7ED321;
+  text-align: center;
+  width: 50px;
+  height: 50px;
+  z-index: 1;
+}
+.step-counter-desactivado{
+  color:#DEDEDE;
+  line-height: 5px;
+}
+.gridgrid{
+  margin-left: 200px;
+}
+.line-desactivado{ height: 3px; width: 80%; background-color: #DEDEDE; z-index: 0;}
+.line-3{ height: 3px; width: 80%; background-color: #F4F4F4; z-index: 0;}
+.pasomarkactivado{
+  color: #7ED321;
+}
+.pasomarkdesactivado{
+  color:#ECE6E6;
+}
+
+
+
+
+/***   TERMINA ESTILOS STEPS ****/
+
+.contfoto{
+
+  color:white;
+  border-radius: 10px;
+  background: rgba(187,245,12,1);
+background: -moz-linear-gradient(-45deg, rgba(187,245,12,1) 0%, rgba(89,184,0,1) 100%);
+background: -webkit-gradient(left top, right bottom, color-stop(0%, rgba(187,245,12,1)), color-stop(100%, rgba(89,184,0,1)));
+background: -webkit-linear-gradient(-45deg, rgba(187,245,12,1) 0%, rgba(89,184,0,1) 100%);
+background: -o-linear-gradient(-45deg, rgba(187,245,12,1) 0%, rgba(89,184,0,1) 100%);
+background: -ms-linear-gradient(-45deg, rgba(187,245,12,1) 0%, rgba(89,184,0,1) 100%);
+background: linear-gradient(135deg, rgba(187,245,12,1) 0%, rgba(89,184,0,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#bbf50c', endColorstr='#59b800', GradientType=1 );
+  padding:20px;
+}
+.p-meta{
+  color:white;
+  text-shadow: 2px 2px 5px #009C1A;
+text-align: center;
+}
+.continfo{
+  padding-top:20px; 
 }
 .tarjetaUser{
   padding:50px;
@@ -92,4 +282,27 @@ text-align: center;
 }
 .notificacion-numero{
   background-color: #72F535;
+}
+.nav-item{
+  height: 63px;
+  display: flex;
+   justify-content: center;
+   align-items: center;
+}
+.nav-item-hijo{
+  line-height: 33px;
+}
+.btn-primary {
+  background-color: #700DF2;
+  border-color: #700DF2;
+  box-shadow: 3px 1px 4px  rgba(0, 0, 0, .14);
+}
+
+.btn-primary:active, .btn-primary:focus, .btn-primary:hover {
+  background-color: #5708C0 !important;
+  border-color: #5708C0 !important;
+}
+
+.btn-primary:focus {
+   box-shadow: 0 1px 4px  rgba(0, 0, 0, .6);
 }
