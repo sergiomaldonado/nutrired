@@ -12,6 +12,7 @@
     "npm": "^6.4.1",
     "react": "^16.5.2",
     "react-bootstrap": "^0.32.4",
+    "react-chips": "^0.7.0",
     "react-datepicker": "^1.6.0",
     "react-dom": "^16.5.2",
     "react-feather": "^1.1.3",

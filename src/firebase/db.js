@@ -33,9 +33,8 @@ export const doCreateUser = (id, nombre, apellido, email, telefono, matricula, p
     mensaje
   });
 
-  export const actualizarPerfil = ( uid, selectedOptions,  anoNacimiento, diaNacimiento, mesNacimiento, sexo, peso, estatura, meta) =>
+  export const actualizarPerfil = ( uid, anoNacimiento, diaNacimiento, mesNacimiento, sexo, peso, estatura, meta) =>
   db.ref(`users/pacientes/${uid}/datospersonales`).set({
-    selectedOptions,
     anoNacimiento,
     diaNacimiento,
     mesNacimiento,
@@ -43,6 +42,24 @@ export const doCreateUser = (id, nombre, apellido, email, telefono, matricula, p
     peso,
     estatura,
     meta
+  });
+
+  export const actualizarHistorialMedico = ( uid, enfermedadesFamiliares, enfermedadActual, medicamentos, cirujia, ejercicio, cigarro, alcohol, suplementos ) =>
+  db.ref(`users/pacientes/${uid}/historialmedico`).set({
+    enfermedadesFamiliares,
+    enfermedadActual,
+    medicamentos, 
+    cirujia,
+    ejercicio, 
+    cigarro,
+    alcohol, 
+    suplementos 
+  });
+  export const actualizarDietaHabitual = ( uid, desayuno,comida, cena ) =>
+  db.ref(`users/pacientes/${uid}/dietaHabitual`).set({
+    desayuno,
+    comida, 
+    cena
   });
 
 const uid = () => auth.currentUser.uid

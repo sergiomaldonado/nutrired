@@ -5,10 +5,8 @@ a{
   color: #929292;
 }
 .ic{vertical-align: -4px;}
-
 .left-menu{
   width: auto;
-
 }
 .control-form{
   width: 100%;
@@ -16,17 +14,78 @@ a{
   text-align:center !important;
   margin-bottom:30px;
 }
+.control-form-multiselect-2{
+  width: 100%;
+  height: 20px;
+  text-align:center !important;
+  margin-bottom:30px;
+}
+.control-form-dieta{
+  width: 100%;
+  height: 20px;
+  text-align:center !important;
+
+}
+.control-form-dieta-1{
+  width: 100%;
+  height: 20px;
+  text-align:center !important;
+  margin-bottom:150px;
+}
+.comida{
+  
+}
+hr{
+  border: solid 1px #DEDEDE;
+  margin-top: 80px;
+}
 .select-1{
   width: 33.3%;
   height: 20px;
   float: left;
   padding:10px;
 }
+.input-dieta-1{
+  width: 33.3%;
+  height: 20px;
+  float: left;
+  padding:10px;
+}
+
+.multiselect-1{
+  width: 100%;
+  height: auto;
+  float: left;
+  padding-bottom:20px;
+}
+.css-12jo7m5{
+  background-color: #A7F551;
+}
+.css-1alnv5e{
+  background-color: #A7F551;
+}
+.css-2o5izw{
+  border-color: #009C1A !important; 
+  box-shadow: 0 0 0 1px #009C1A;
+}
 .input-1{
   width: 33.3%;
   height: 20px;
   float: left;
   padding:10px;
+}
+.input-3{
+  width: 50%;
+  height: 20px;
+  float: left;
+  padding:10px;
+}
+.input-4{
+  width: 33.3%;
+  height: 20px;
+  float: left;
+  padding:10px;
+  margin-top: 60px;
 }
 .textarea-1{
   width: 100%;
@@ -35,13 +94,18 @@ a{
   padding:10px;
   margin-top: 25px;
 }
+.textarea-2{
+  width: 100%;
+  height: 20px;
+  float: left;
+  padding:10px;
+  margin-top: 55px;
+}
 .button-1{
- 
   height: 20px;
   float: right !important;
   padding:10px;
   margin-top:80px;
-  
 }
 .rangos{
   height: 20px;
@@ -341,3 +405,4 @@ text-align: center;
 .btn-primary:focus {
    box-shadow: 0 1px 4px  rgba(0, 0, 0, .6);
 }
+
