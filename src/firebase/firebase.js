@@ -1,6 +1,7 @@
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
+import 'firebase/storage'
 
   // Initialize Firebase
   var config = {
@@ -16,11 +17,17 @@ import 'firebase/database'
   }
   const db = firebase.database();
   const auth = firebase.auth();
+
+  {/** Aveces necesito usar estas const son basicamente lo mismo**/}
+  const dbfb = firebase.database();
   const authfb = firebase.auth();
+  var storage = firebase.storage();
 
   export {
     db,
+    dbfb,
     auth,
-    authfb
+    authfb,
+    storage
   }
  

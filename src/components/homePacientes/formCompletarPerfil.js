@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import withAutorization from '../withAutorization';
 import './../App.css';
 import { db, auth } from './../../firebase'
-import { authfb } from './../../firebase/firebase'
+import { authfb, dbfb } from './../../firebase/firebase'
 import {
     Link,
     withRouter,
@@ -15,7 +15,7 @@ import Select from 'react-select'
 import FormStep2 from './step2'
 import Chips from 'react-chips'
 
-const antecedentesFamiliares  = [
+const antecedentesFamiliares  = [ 
   { label: "Hipertencion", value: 1 },
   { label: "Diabetes", value: 2 },
   { label: "Cancer", value: 3 },
@@ -49,7 +49,7 @@ const FormCompletarPerfil = ({ history }) =>
     <ActualizarPerfilForm history={history} />
     </Col>
   </Row> 
-</Grid>
+  </Grid>
      </div>
      
 const INITIAL_STATE = {
@@ -92,7 +92,6 @@ const byPropKey = (propertyName, value) => () => ({
     [propertyName]: value,
   });  
 
-
 class ActualizarPerfilForm extends Component {
  
         constructor(props) {
@@ -110,9 +109,7 @@ class ActualizarPerfilForm extends Component {
         }
         onChangeChips = enfermedadActual => {
           this.setState({ enfermedadActual });
-         
         }
-       
         componentDidMount() {
             
           }
@@ -203,15 +200,21 @@ class ActualizarPerfilForm extends Component {
         const comida = [this.state.comidaHorario, this.state.comidaAlimento , this.state.comidaBebida,]
         const cena = [this.state.cenaHorario, this.state.cenaAlimento , this.state.cenaBebida,]
 
+
         const {
             history,
           } = this.props;
+
+          const img = "https://firebasestorage.googleapis.com/v0/b/nutrired-cf271.appspot.com/o/usersPics%2Fpp.png?alt=media&token=e155910a-51bf-4c91-be3e-d9a1cebdbccd"
+          console.log(uid)
+          dbfb.ref(`users/pacientes/${uid}/urlPic/`).set({
+          img
+          });
 
           db.actualizarDietaHabitual(uid, desayuno, comida, cena)
           .then(() => {
           this.setState({ ...INITIAL_STATE });
           history.push(routes.ACCOUNT);
-  
                })
           .catch(error => {
           this.setState(byPropKey('error', error));

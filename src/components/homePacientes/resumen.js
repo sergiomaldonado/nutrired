@@ -1,7 +1,6 @@
 
 import React, { Component } from 'react';
-import { User,  Activity, TrendingUp, Book, Clipboard,BookOpen, Award, Globe, Calendar, Search } from 'react-feather'
-import { Grid, ProgressBar, Row, Col, NavItem, Nav, Tab, Glyphicon, Form, FormGroup, FormControl, InputGroup, Image} from 'react-bootstrap'
+import { Button, Tooltip, Popover, ProgressBar,Modal,OverlayTrigger, Row, Col, Image} from 'react-bootstrap'
 import * as routes from '../../constants/routes';
 import { Link } from 'react-router-dom';
 import NombreUser from './nombre-user';
@@ -10,15 +9,29 @@ import { db, auth } from '../../firebase/firebase';
 import Moment from 'react-moment'
 import InputRange from 'react-input-range';
 import 'react-input-range/lib/css/index.css';
+import FotoPaciente from './editarFotoUser'
 
 class Resumen extends Component {
-  constructor(props) {
-    super(props);
+  constructor(props, context) {
+    super(props, context);
+
+    this.handleShow = this.handleShow.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+
     this.state = {
         user: null,
-        datos:null
+        datos:null,
+        show: false
       };
   }
+  handleClose() {
+    this.setState({ show: false });
+  }
+
+  handleShow() {
+    this.setState({ show: true });
+  }
+
   componentDidMount() {
     const uid = auth.currentUser.uid;
     db.ref(`users/pacientes/${uid}`).on('value', snapshot => {
@@ -31,18 +44,47 @@ class Resumen extends Component {
         datos: snapshot.val()
       })
     })
+    db.ref(`users/pacientes/${uid}/urlPic/img/`).on('value', snapshot => {
+      this.setState({
+        img: snapshot.val()
+      })
+    })
   }
   render() {
+
+    const popover = (
+      <Popover id="modal-popover" title="popover">
+        very popover. such engagement
+      </Popover>
+    );
+    const tooltip = <Tooltip id="modal-tooltip">wow.</Tooltip>;
 
     if(this.state.user){
         const  {nombre, apellido, telefono, email} = this.state.user;
         const  {anoNacimiento, diaNacimiento, estatura, peso, meta} = this.state.datos;
+        const  {img} = this.state.img;
         return(
             <Col xs={12} md={10}>
           <Row className="show-grid">
            <Col className="card-cliente" xs={12} md={12}>
             <Col className="contfoto" xs={12} md={12}>
-            <Col  xs={12} md={3}><Image src={Imagen} className="img-card-cliente" circle /></Col>
+            <Col  xs={12} md={3}>  <Button className="btnPic" onClick={this.handleShow}>Cambiar</Button><Image src={this.state.img} className="img-card-cliente" thumbnail circle />
+           
+             </Col>
+
+               <Modal show={this.state.show} onHide={this.handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Cambiar foto de perfil</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+             <FotoPaciente />
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={this.handleClose}>¡Listo!</Button>
+          </Modal.Footer>
+        </Modal>
+
+
             <Col  xs={12} md={9}> <h2 className="p-meta">"{meta}"</h2></Col>
      
             </Col>

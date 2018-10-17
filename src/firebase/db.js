@@ -28,9 +28,19 @@ export const doCreateUser = (id, nombre, apellido, email, telefono, matricula, p
     roll
   });
 
-  export const solicitud = (ref, mensaje) =>
-  db.ref(`users/nutriologos/${ref}/alertas`).push({
-    mensaje
+  export const solicitud = (ref, emisorid, datospersonales, historialmedico, mensaje, refEmisor, urlPic) =>
+  db.ref(`users/nutriologos/${ref}/solicitudes/${emisorid}`).set({
+     datospersonales, 
+     historialmedico,
+     mensaje,
+     refEmisor,
+     urlPic
+  });
+  export const aceptarPaciente = (ref, pacienteId, datospersonales, historialmedico) =>
+  db.ref(`users/nutriologos/${ref}/pacientes/${pacienteId}`).set({
+     pacienteId,
+     datospersonales,
+     historialmedico
   });
 
   export const actualizarPerfil = ( uid, anoNacimiento, diaNacimiento, mesNacimiento, sexo, peso, estatura, meta) =>
@@ -62,14 +72,34 @@ export const doCreateUser = (id, nombre, apellido, email, telefono, matricula, p
     cena
   });
 
-const uid = () => auth.currentUser.uid
+  export const cambiarFotoPaciente = (uid, urlPic) =>
+  db.ref(`users/pacientes/${uid}`).set({
+    urlPic
+  });
 
-export const onceGetUsers = () =>
+  
+  export const obtenerPacientes = () => 
 
-  db.ref('users/nutriologos').once('value', snapshot => {
+  db.ref("users/nutriologos/pacientes").once('value', snapshot => {
+
+    return(
+        snapshot.val()
+    )
+  })  
+
+   
+   
+
+export const onceGetUsers = () => 
+
+  db.ref("users/nutriologos").once('value', snapshot => {
 
     return(
         snapshot.val()
     )
   })
+
+
+
+  
 

@@ -1,24 +1,33 @@
 import React, { Component } from 'react'
 import { db, auth } from '../firebase/firebase'
-import { Navbar, Nav, NavItem, NavDropdown, MenuItem, Button, Badge } from 'react-bootstrap';
-import { Mail, Bell, Power } from 'react-feather';
+import { Navbar, Nav, NavItem, NavDropdown, MenuItem, Button, Badge, Popover, OverlayTrigger } from 'react-bootstrap';
+import { Mail, Bell, Power, User } from 'react-feather';
 import { Link } from 'react-router-dom';
 import Logo from './logo.svg';
 import SingOutButton from './SingOut';
 import * as routes from '../constants/routes';
 import Nombre from './homeNutriologos/nombre'
 import NombreUser from './homePacientes/nombre-user'
+import SolicitudesPendientes from './homeNutriologos/solicitudesPacientes'
+import CountSolicitudes from './homeNutriologos/countSolicitudes'
+const popoverClickRootClose = (
 
-
+  <Popover id="popover-trigger-click-root-close" title="Ellos quieren ser tus pacientes.">
+   <SolicitudesPendientes />  
+  </Popover>
+);
 class NavigationAuth extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      nutriologo: null
+      nutriologo: null,
+
     };
+
   }
+  
   componentDidMount() {
-        const uid = auth.currentUser.uid;
+       const uid = auth.currentUser.uid;
         db.ref('users/nutriologos/').child(uid).on('value', snapshot => {
           const exists = (snapshot.val() !== null);
           console.log(exists)
@@ -36,16 +45,17 @@ class NavigationAuth extends Component {
         <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse>
-          <Nav className="nav-sub"  pullRight>
+          <Nav className="nav-sub" pullRight>
             <NavItem>
-              
-            <Link to={routes.ACCOUNT}> <Nombre /> </Link>
+            <Link to={routes.ACCOUNT}><Nombre /></Link>
             </NavItem>
             <NavItem>
-            <Badge className="notificacion-numero">2</Badge> <Mail  className="ic" size={20} /> Inbox
+            <Badge className="notificacion-numero"><span>2</span> </Badge> <Mail  className="ic" size={20} /> Inbox
             </NavItem>
             <NavItem>
-            <Badge className="notificacion-numero">9</Badge> <Bell  className="ic" size={20} /> Solicitudes
+            <OverlayTrigger  trigger="click" rootClose placement="bottom" overlay={popoverClickRootClose}>
+            <Button className="buttonNav"> <CountSolicitudes /> <User className="ic" size={20} />Solicitudes</Button>
+            </OverlayTrigger>
             </NavItem>
             <NavItem>
              <Link to={routes.SIGN_IN}><SingOutButton /></Link>
@@ -53,7 +63,6 @@ class NavigationAuth extends Component {
           </Nav>
         </Navbar.Collapse>
       </Navbar>
-      
       </div>)
 
 // NAV USUARIOS

@@ -6,7 +6,8 @@ import { Grid, Row, Col, NavItem, Nav, Tab, Glyphicon, Form, FormGroup, FormCont
 import { Users, User, TrendingUp,  Clipboard,BookOpen, Award, Globe, Calendar, Search } from 'react-feather'
 import Imagen from '../imagen.png'
 import SideNav from './side-nav-users'
-import Resumen from './resumen';
+import Resumen from './resumen'
+import HMedico from './historialMedico'
 
 class UserProfile extends Component {
   constructor(props) {
@@ -62,7 +63,12 @@ class UserProfile extends Component {
             <Resumen />
         
         </Tab.Pane>
-        <Tab.Pane eventKey="second">Tab 2 content</Tab.Pane>
+        <Tab.Pane eventKey="second">
+            
+            <HMedico/>
+           
+
+        </Tab.Pane>
         <Tab.Pane eventKey="tercera">Tab 3 content</Tab.Pane>
         <Tab.Pane eventKey="cuarta">Tab 3 content</Tab.Pane>
       </Tab.Content>
