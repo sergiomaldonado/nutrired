@@ -15,24 +15,29 @@ contador = () =>{
     dbfb.ref(`users/nutriologos/${uid}/solicitudes`).on('value', snapshot => {
         if( snapshot.val() !== null ){
             const numero = Object.keys(snapshot.val()).length 
-            this.state = {
+            this.setState({
               contador: numero
-            }
+            })
         }else{
-            return false
+            
+            this.setState({
+                contador: 0
+              })
         }
     }) 
    }
-  componentWillMount() {    
+  componentDidMount() {    
      this.contador()
       }
-      shouldComponentUpdate(){
-        this.contador()
-      } 
+
 
   render() {
-        return(
-            <Badge className="notificacion-numero">{this.state.contador}</Badge>        
+       
+        return (
+            this.state.contador === 0 
+            ? null      
+            : <Badge className="notificacion-numero">{this.state.contador}</Badge> 
+            
             )
            }     
   }

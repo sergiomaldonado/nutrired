@@ -28,6 +28,98 @@ a{
   margin: 0 auto;
  
 }
+.enfermedadActual{
+  margin-left:5px;
+  background-color: #FF42AD;
+  font-size: 13px;
+  border-radius: 20px;
+  padding: 7px;
+  height: auto;
+}
+.enfermedadesFamiliares{
+  margin-left:5px;
+  background-color: #8FE016;
+  font-size: 13px;
+  border-radius: 20px;
+  padding: 7px;
+  height: auto;
+
+}
+.icoHistorial{
+  padding-top: 10px;
+}
+.labelHistorial{
+  float: left;
+  margin: 8px;
+  margin-left: 0px;
+}
+.horaHistorial{
+  background-color: #00D0FF;
+  width: 60px;
+  height: 60px;
+  text-align: center;
+  font-size: 12px;
+  line-height: 60px;
+  color: white;
+  border-radius: 100px;
+  z-index:99999 !important;
+  float:left;
+  position: relative;
+}
+.horaHistorial-comida{
+  background-color: #FF9800;
+  width: 60px;
+  height: 60px;
+  text-align: center;
+  font-size: 12px;
+  line-height: 60px;
+  color: white;
+  border-radius: 100px;
+  z-index:99999 !important;
+  float:left;
+  position: relative;
+}
+.horaHistorial-cena{
+  background-color: #601E00;
+  width: 60px;
+  height: 60px;
+  text-align: center;
+  font-size: 12px;
+  line-height: 60px;
+  color: white;
+  border-radius: 100px;
+  z-index:99999 !important;
+  float:left;
+  position: relative;
+}
+
+.gridHistorial{
+  width: 100%;
+  padding: 0px;
+}
+.tittleHistorial{
+  color:#909090;
+  margin-left: 20px;
+}
+.chipsPerfil{
+  width: 100% !important;
+}
+.cardPerfil{
+  margin:10px;
+  border:solid 1px #E9E9E9;
+  border-radius:10px;
+}
+.cardPerfil-desayuno{
+  margin:10px;
+  background-color: #E9E9E9;
+  border-radius:10px;
+  width: 90%;
+  padding: 15px;
+  padding-left: 60px;
+  margin-top: -55px;
+  float: right;
+  z-index:00000 !important;
+}
 .control-form{
   width: 100%;
   height: 20px;
@@ -44,7 +136,6 @@ a{
   width: 100%;
   height: 20px;
   text-align:center !important;
-
 }
 .control-form-dieta-1{
   width: 100%;
@@ -52,7 +143,6 @@ a{
   text-align:center !important;
   margin-bottom:150px;
 }
-
 hr{
   border: solid 1px #DEDEDE;
   margin-top: 80px;
@@ -181,7 +271,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#91e842', end
 }
 .ungrid{
   text-align: center !important;
-  
 }
 .input-form{
   width: 100%;
@@ -231,12 +320,75 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#91e842', end
   box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 }
 .card-cliente{
-  margin:20px;
+  text-align: center;
   background-color: white;
   border-radius: 10px; 
   border:1px solid #D6D6D6 !important;
   padding:20px;
+  margin: 20px;
 
+}
+.card-cliente-nutriologo{
+  
+  background-color: white;
+  border-radius: 10px; 
+  border:1px solid #D6D6D6 !important;
+  padding:20px;
+}
+.close{
+  float: right;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    /* color: #000; */
+    text-shadow: none;
+    filter:none;
+    opacity: 1;
+    background-color: red !important;
+    width: 13px;
+    height: 13px;
+    border-radius: 100px;
+    border: none;
+    color:red;
+}
+.close:hover{
+  color:brown;
+     float: right;
+    /* font-size: 21px; */
+    font-weight: 700;
+    line-height: 1;
+    /* color: #000; */
+    /* text-shadow: 0 1px 0 #fff; */
+    filter:none;
+    opacity: 1;
+      background-color: red;
+ 
+}
+.modalPerfil{
+  background-color: #F4F4F4;
+  padding-bottom:0px;
+  border:none;
+}
+.show{
+  width: 100%;
+  height: 400px;
+}
+.noshow{
+ display:none;
+}
+.colHistorialMedico{
+  border: solid 1px grey;
+  border-radius: 10px; 
+}
+.tittleHistorialMedico{
+  width: 100%;
+  border-bottom:solid 1px #BFBFBF;
+}
+
+
+.btnCardPaciente{
+  float: right;
+  padding-top: 20px;
 }
 .contenidoCard{
 text-align: center;
@@ -251,12 +403,14 @@ text-align: center;
     .p-card{ color:grey;}
 
 .img-card-cliente{
-  width: 120px;
-  height: 120px;
+  width: 80px;
+  height: 80px;
   text-align: center ;
   margin: 0 auto;
 
- 
+}
+.card{
+  text-align: center;
 }
 
 .paso1visible{
@@ -411,14 +565,25 @@ text-align: center;
   line-height: 33px;
 }
 .btn-primary {
-  background-color: #700DF2;
-  border-color: #700DF2;
+  background-color: #EF0056;
+  border-color: #EF0056;
   box-shadow: 3px 1px 4px  rgba(0, 0, 0, .14);
+}
+.btn-green {
+  background-color: #36DC28;
+  border-color: #36DC28;
+  box-shadow: 3px 1px 4px  rgba(0, 0, 0, .14);
+  color:white;
+}
+.btn-orange {
+  background-color: #EB6509;
+  border-color: #EB6509;
+  box-shadow: 3px 1px 4px  rgba(0, 0, 0, .14);
+  color:white;
 }
 
 .btn-primary:active, .btn-primary:focus, .btn-primary:hover {
   background-color: #5708C0 !important;
-  border-color: #5708C0 !important;
 }
 
 .btn-primary:focus {

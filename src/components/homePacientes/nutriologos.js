@@ -43,7 +43,7 @@ class Nutriologos extends Component {
   enviarSolicitud = (ref) => {
       const emisorid = authfb.currentUser.uid
       const refEmisor = emisorid
-      const {nombre, apellido, datospersonales, historialmedico, urlPic} = this.state.user
+      const {nombre, apellido, datospersonales, historialmedico, urlPic, email, telefono, dietaHabitual} = this.state.user
       const estadoSolicitud = false
       const mensaje = `${nombre} ${apellido} quiere ser tu paciente.`
       dbfb.ref(`users/nutriologos/${ref}/pacientes`).child(emisorid).once('value', snapshot => {
@@ -60,7 +60,7 @@ class Nutriologos extends Component {
          })})
       this.state.registrado || this.state.yaenviado
       ? alert("Ya enviaste una solicitud o ya eres paciente de este nutriologo.")
-      : db.solicitud(ref, emisorid, datospersonales, historialmedico, mensaje, refEmisor, urlPic)
+      : db.solicitud(ref, emisorid, nombre, apellido, datospersonales, historialmedico, mensaje, refEmisor, urlPic, email, telefono, dietaHabitual)
         .then(() => {
         this.setState({ ...INITIAL_STATE });
                })

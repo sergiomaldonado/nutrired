@@ -22,19 +22,37 @@ class SolicitudesPendientes extends Component {
         aceptado: false
       }  
   }
-  aceptarSolicitud = (refEmisor, datospersonales, historialmedico) => {
+  contador = () => {
+    const uid = authfb.currentUser.uid
+    dbfb.ref(`users/nutriologos/${uid}/solicitudes`).on('value', snapshot => {
+        if( snapshot.val() !== null ){
+            const numero = Object.keys(snapshot.val()).length 
+            this.setState({
+              contador: numero
+            })
+        }else{
+            this.setState({
+                contador: 0
+              })
+        }
+    }) 
+   }
+  aceptarSolicitud = (refEmisor, nombre, apellido, datospersonales, historialmedico, urlPic, email, telefono, dietaHabitual) => {
     const ref = authfb.currentUser.uid
-    db.aceptarPaciente(ref, refEmisor, datospersonales, historialmedico)
+    db.aceptarPaciente(ref, refEmisor, nombre, apellido, datospersonales, historialmedico, urlPic, email, telefono, dietaHabitual)
     .then(() => {
     this.setState({ ...INITIAL_STATE, aceptado: true });
          })
     .catch(error => {
     this.setState(byPropKey('error', error));
     });
+    dbfb.ref(`users/nutriologos/${ref}`).on('value', snapshot => {
+      const datosNutriologos = snapshot.val()
+      const {nombre, apellido, email, telefono}  = datosNutriologos
+     db.confirmacionUsuario(refEmisor, ref, nombre, apellido, email, telefono)
+    })
     dbfb.ref(`users/nutriologos/${ref}/solicitudes/${refEmisor}`).remove()
-
 }
-  
   componentDidMount(){
     const uid = authfb.currentUser.uid
     dbfb.ref(`users/nutriologos/${uid}/solicitudes`).on('value', snapshot => {
@@ -42,18 +60,21 @@ class SolicitudesPendientes extends Component {
           users: snapshot.val()
         })
     }) 
+    this.contador()
   }
   render() {
     const { users } = this.state;
+    this.state.contador === 0
       return(
         <div>
         { !!users && (
-     <div>
+     <div> 
+       
           {Object.keys(users).map( key =>
             <SolicitudIndependiente   
             img={users[key].urlPic.img} 
             mensaje={users[key].mensaje}
-            aceptarSolicitud={()=>this.aceptarSolicitud(users[key].refEmisor, users[key].datospersonales, users[key].historialmedico)}
+            aceptarSolicitud={()=>this.aceptarSolicitud(users[key].refEmisor, users[key].nombre,users[key].apellido, users[key].datospersonales, users[key].historialmedico, users[key].urlPic, users[key].email, users[key].telefono, users[key].dietaHabitual)}
             estadoSolicitud={this.state.aceptado}
             />
             )}
@@ -63,7 +84,5 @@ class SolicitudesPendientes extends Component {
       )
   } 
 }
-
-
 export default SolicitudesPendientes;
 

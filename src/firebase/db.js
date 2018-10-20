@@ -28,19 +28,38 @@ export const doCreateUser = (id, nombre, apellido, email, telefono, matricula, p
     roll
   });
 
-  export const solicitud = (ref, emisorid, datospersonales, historialmedico, mensaje, refEmisor, urlPic) =>
+  export const solicitud = (ref, emisorid,nombre, apellido, datospersonales, historialmedico, mensaje, refEmisor, urlPic, email, telefono, dietaHabitual) =>
   db.ref(`users/nutriologos/${ref}/solicitudes/${emisorid}`).set({
+     nombre,
+     apellido,
      datospersonales, 
      historialmedico,
      mensaje,
      refEmisor,
-     urlPic
+     urlPic,
+     email,
+     telefono,
+     dietaHabitual
   });
-  export const aceptarPaciente = (ref, pacienteId, datospersonales, historialmedico) =>
+  export const aceptarPaciente = (ref, pacienteId, nombre, apellido, datospersonales, historialmedico, urlPic, email, telefono, dietaHabitual) =>
   db.ref(`users/nutriologos/${ref}/pacientes/${pacienteId}`).set({
      pacienteId,
+     nombre,
+     apellido,
      datospersonales,
-     historialmedico
+     historialmedico,
+     urlPic,
+     email,
+     telefono,
+     dietaHabitual
+  });
+  export const confirmacionUsuario = (refEmisor, ref, nombre, apellido, mail, telefono) =>
+  db.ref(`users/pacientes/${refEmisor}/minutriologo/`).set({
+     ref,
+     nombre,
+     apellido,
+     mail,
+     telefono
   });
 
   export const actualizarPerfil = ( uid, anoNacimiento, diaNacimiento, mesNacimiento, sexo, peso, estatura, meta) =>
@@ -65,11 +84,13 @@ export const doCreateUser = (id, nombre, apellido, email, telefono, matricula, p
     alcohol, 
     suplementos 
   });
-  export const actualizarDietaHabitual = ( uid, desayuno,comida, cena ) =>
+  export const actualizarDietaHabitual = ( uid, horarioDesayuno, alimentoDesayuno, bebidaDesayuno,horarioComida, alimentoComida, bebidaComida,  horarioCena, alimentoCena, bebidaCena ) =>
   db.ref(`users/pacientes/${uid}/dietaHabitual`).set({
-    desayuno,
-    comida, 
-    cena
+
+     desayuno:{ horario: horarioDesayuno, alimento:alimentoDesayuno, bebida:bebidaDesayuno},
+     comida:{horario:horarioComida, alimento:alimentoComida, bebida:bebidaComida },
+     cena:{horario:horarioCena, alimento:alimentoCena, bebida:bebidaCena,}
+  
   });
 
   export const cambiarFotoPaciente = (uid, urlPic) =>

@@ -104,8 +104,8 @@ class ActualizarPerfilForm extends Component {
             enfermedadesFamiliares
           });
           enfermedadesFamiliares.forEach( enfermedadesFamiliares => 
-            console.log( `Selected: ${enfermedadesFamiliares.label}` ) 
-          );
+            false
+          )
         }
         onChangeChips = enfermedadActual => {
           this.setState({ enfermedadActual });
@@ -194,13 +194,16 @@ class ActualizarPerfilForm extends Component {
       }
      
       enviarDietaHabitual= (event) => {
-        const uid = authfb.currentUser.uid;
-
-        const desayuno = [this.state.desayunoHorario, this.state.desayunoAlimento , this.state.desayunoBebida,]
-        const comida = [this.state.comidaHorario, this.state.comidaAlimento , this.state.comidaBebida,]
-        const cena = [this.state.cenaHorario, this.state.cenaAlimento , this.state.cenaBebida,]
-
-
+       const uid = authfb.currentUser.uid;
+       const horarioDesayuno = this.state.desayunoHorario
+       const alimentoDesayuno  = this.state.desayunoAlimento
+       const  bebidaDesayuno = this.state.desayunoBebida
+       const horarioComida = this.state.comidaHorario
+       const alimentoComida = this.state.comidaAlimento
+       const bebidaComida = this.state.comidaBebida
+       const horarioCena = this.state.cenaHorario
+       const alimentoCena = this.state.cenaAlimento
+       const bebidaCena = this.state.cenaBebida
         const {
             history,
           } = this.props;
@@ -211,7 +214,7 @@ class ActualizarPerfilForm extends Component {
           img
           });
 
-          db.actualizarDietaHabitual(uid, desayuno, comida, cena)
+          db.actualizarDietaHabitual(uid, horarioDesayuno, alimentoDesayuno, bebidaDesayuno, horarioComida, alimentoComida, bebidaComida,  horarioCena, alimentoCena, bebidaCena)
           .then(() => {
           this.setState({ ...INITIAL_STATE });
           history.push(routes.ACCOUNT);

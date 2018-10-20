@@ -17,13 +17,13 @@ class Resumen extends Component {
 
     this.handleShow = this.handleShow.bind(this);
     this.handleClose = this.handleClose.bind(this);
-
     this.state = {
         user: null,
         datos:null,
         show: false
       };
   }
+  
   handleClose() {
     this.setState({ show: false });
   }

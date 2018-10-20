@@ -40,6 +40,7 @@ class FotoPaciente extends Component {
                 dbfb.ref(`users/pacientes/${uid}/urlPic/`).set({
                   img
                 });
+                
             })
            
           

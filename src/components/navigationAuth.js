@@ -21,11 +21,8 @@ class NavigationAuth extends Component {
     super(props);
     this.state = {
       nutriologo: null,
-
     };
-
   }
-  
   componentDidMount() {
        const uid = auth.currentUser.uid;
         db.ref('users/nutriologos/').child(uid).on('value', snapshot => {
