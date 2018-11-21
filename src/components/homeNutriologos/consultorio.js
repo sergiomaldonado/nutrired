@@ -1,22 +1,26 @@
 import React, { Component } from 'react'
-
 import withAutorization from '../withAutorization'
 import { dbfb, authfb } from '../../firebase/firebase'
+import { db, auth } from '../../firebase/'
 import { Grid, Thumbnail, Modal, Button, Row, Col, NavItem, Nav, Tab, Label, FormGroup, FormControl, InputGroup, Image} from 'react-bootstrap'
 import { Users, User,Phone, Clipboard,BookOpen, Award, MessageCircle, Search, ChevronDown} from 'react-feather'
 import Imagen from '../imagen.png'
 import SideNav from './side-nav'
 import './../App.css'
 import InputRange from 'react-input-range';
-
+import ModalDietas from './modalDietas'
+const byPropKey = (propertyName, value) => () => ({
+  [propertyName]: value,
+});  
 class Consultorio extends Component {
-  constructor(props) {
+  constructor(props, context) {
     
-    super(props);
+    super(props, context);
     this.handleShow = this.handleShow.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.state = {
       show: false,
+      showDieta: false,
       nombrePaciente:'',
       apellidoPaciente:'',
       emailPaciente:'',
@@ -28,7 +32,8 @@ class Consultorio extends Component {
       tabActivo1: "show",
       tabActivo2: "noshow",
       tabActivo3: "noshow",
-      dieta:''
+      dieta:'',
+       btnCerrarModal:"salirModalDesactivado"
     }
   }
   componentDidMount(){  
@@ -39,11 +44,10 @@ class Consultorio extends Component {
           }) 
        })
     }
-
     handleClose() {
       this.setState({ show: false });
     }
-  
+
     handleShow(
       nombre, 
       apellido, 
@@ -62,7 +66,6 @@ class Consultorio extends Component {
       cenaAlimento,
       cenaBebida,
       ) {
-      
       this.setState({ 
         show: true, 
         nombrePaciente:nombre,
@@ -73,16 +76,32 @@ class Consultorio extends Component {
         historialMedicoPaciente:historialmedico,
         urlImg:urlPic,
         desayunoHorario:desayunoHorario,
-      desayunoAlimento:desayunoAlimento,
-      desayunoBebida:desayunoBebida,
-      comidaHorario:comidaHorario,
-      comidaAlimento:comidaAlimento,
-      comidaBebida:comidaBebida,
-      cenaHorario:cenaHorario,
-      cenaAlimento:cenaAlimento,
-      cenaBebida:cenaBebida,
+        desayunoAlimento:desayunoAlimento,
+        desayunoBebida:desayunoBebida,
+        comidaHorario:comidaHorario,
+        comidaAlimento:comidaAlimento,
+        comidaBebida:comidaBebida,
+        cenaHorario:cenaHorario,
+        cenaAlimento:cenaAlimento,
+        cenaBebida:cenaBebida,
        });
 
+    }
+    cerrarDieta = () => {
+      this.setState({ showDieta: false,
+        btnCerrarModal:"salirModalDesactivado"
+      
+      });
+    }
+    mostrarDieta = () => {
+      const uid = authfb.currentUser.uid;
+      const claveDieta = dbfb.ref().push();
+      const key = claveDieta.key
+      db.crearDieta(uid,key)
+      this.setState({ showDieta: true,
+          btnCerrarModal:"salirModal",
+          dietaId:key
+          });
     }
 
      clickTab1 = ()=>{
@@ -113,12 +132,13 @@ class Consultorio extends Component {
   render() {
       
       const  {users} = this.state;
-     
-      console.log(this.state.dieta)
-
       return(
+         
+         <div>
+              <button onClick={this.cerrarDieta} className={this.state.btnCerrarModal}>x</button>
+              <ModalDietas mostrar={this.state.showDieta} idReceta={this.state.dietaId} />
             <Grid>
-
+                {/***  MODAL PERFIL USUARIO ***/}
           <Modal bsSize="large" show={this.state.show} onHide={this.handleClose}>
           <Modal.Header className="modalPerfil" closeButton>
           <Nav bsStyle="tabs" activeKey={this.state.perfilActivo} >
@@ -131,7 +151,6 @@ class Consultorio extends Component {
         <NavItem eventKey="3" onClick={this.clickTab3} >
           Plan de Alimentacion
         </NavItem>
-        
       </Nav>
           </Modal.Header>
           <Modal.Body>
@@ -144,7 +163,6 @@ class Consultorio extends Component {
             <Col  xs={12} md={3}><Image src={this.state.urlImg.img} className="img-card-cliente" thumbnail circle />
              </Col>
             <Col  xs={12} md={9}> <h2 className="p-meta">"{this.state.datosPersonalesPaciente.meta}"</h2></Col>
-     
             </Col>
            <Col  xs={12} md={9}>
            <h1 className="nombreCard">{this.state.nombrePaciente} {this.state.apellidoPaciente}</h1>
@@ -236,7 +254,6 @@ class Consultorio extends Component {
             <Col xs={12} md={4}>
             <h5 className="tittleHistorial">Comida</h5>
             <div className="horaHistorial-comida">
-            
             {this.state.comidaHorario}
             </div>
           <div className="cardPerfil-desayuno">
@@ -246,11 +263,9 @@ class Consultorio extends Component {
               <Col xs={12} md={4}>
             <h5 className="tittleHistorial">Cena</h5>
             <div className="horaHistorial-cena">
-            
                   {this.state.cenaHorario}
                   </div>
                 <div className="cardPerfil-desayuno">
-                  
                   <p>{this.state.cenaAlimento} con {this.state.cenaBebida}</p>
                 </div>
               </Col>
@@ -258,7 +273,6 @@ class Consultorio extends Component {
         </Grid>
          </div>
          </Modal.Body>
-       
         </Modal>
   <Row className="show-grid">
    <SideNav />
@@ -268,20 +282,19 @@ class Consultorio extends Component {
     <Col xs={4} md={2}>
       <Nav bsStyle="pills" stacked>
         <NavItem eventKey="first"> <Users  className="ic" size={20} /> Pacientes</NavItem>
-        
       </Nav>
     </Col>
     <Col xs={4} md={2}>
       <Nav bsStyle="pills" stacked>
       
-        <NavItem eventKey="second"> <Clipboard className="ic" size={20} /> Dietas</NavItem>
+        <NavItem eventKey="second"> <Clipboard className="ic" size={20} />Dietas</NavItem>
       </Nav>
       
     </Col>
     <Col xs={4} md={2}>
       <Nav bsStyle="pills" stacked>
       
-        <NavItem eventKey="tercera"><BookOpen className="ic" size={20} /> Recetas</NavItem>
+        <NavItem eventKey="tercera"><BookOpen className="ic" size={20} />Recetas</NavItem>
       </Nav>
       
     </Col>
@@ -353,7 +366,28 @@ class Consultorio extends Component {
 
         
         </Tab.Pane>
-        <Tab.Pane eventKey="second">Tab 2 content</Tab.Pane>
+        <Tab.Pane eventKey="second">
+   
+
+      <Grid> 
+        <Row>
+       <FormGroup className="search">
+       <Col  className="crearDieta" xs={12} md={1}>
+          <InputGroup bsSize="large">
+         <Button onClick={this.mostrarDieta} className="btn-primary">Crear Dieta</Button>
+          </InputGroup>
+          </Col>
+         <Col xs={12} md={8}>
+        <InputGroup bsSize="large">
+         <InputGroup.Addon><Search color="#FF7500" className="ic" size={20} /></InputGroup.Addon>
+          <FormControl type="text" />
+          </InputGroup>
+          </Col>
+         
+          </FormGroup>
+          </Row>
+          </Grid>  
+        </Tab.Pane>
         <Tab.Pane eventKey="tercera">Tab 3 content</Tab.Pane>
         <Tab.Pane eventKey="cuarta">Tab 3 content</Tab.Pane>
       </Tab.Content>
@@ -369,7 +403,7 @@ class Consultorio extends Component {
   
   </Grid>
   
-
+  </div>
       ) 
    
     

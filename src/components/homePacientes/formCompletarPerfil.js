@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import withAutorization from '../withAutorization';
 import './../App.css';
-import { db, auth } from './../../firebase'
+import { db } from './../../firebase'
 import { authfb, dbfb } from './../../firebase/firebase'
 import {
     Link,
@@ -9,10 +9,7 @@ import {
   } from 'react-router-dom'
 import { Grid, Row, Col, HelpBlock, Button, Form, FormGroup, FormControl, FieldGroup, ControlLabel, InputGroup} from 'react-bootstrap'
 import * as routes from '../../constants/routes'
-import DatePicker from 'react-datepicker'
-import moment from 'moment'
 import Select from 'react-select'
-import FormStep2 from './step2'
 import Chips from 'react-chips'
 
 const antecedentesFamiliares  = [ 
@@ -213,7 +210,6 @@ class ActualizarPerfilForm extends Component {
           dbfb.ref(`users/pacientes/${uid}/urlPic/`).set({
           img
           });
-
           db.actualizarDietaHabitual(uid, horarioDesayuno, alimentoDesayuno, bebidaDesayuno, horarioComida, alimentoComida, bebidaComida,  horarioCena, alimentoCena, bebidaCena)
           .then(() => {
           this.setState({ ...INITIAL_STATE });
@@ -224,9 +220,6 @@ class ActualizarPerfilForm extends Component {
           });
             event.preventDefault();
     }
-   
-    
-      
         render() {
 
             const {

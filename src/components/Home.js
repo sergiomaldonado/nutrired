@@ -20,7 +20,7 @@ class HomePage extends Component {
         const uid = auth.currentUser.uid;
         db.ref('users/nutriologos/').child(uid).on('value', snapshot => {
           const exists = (snapshot.val() !== null);
-          console.log(exists)
+         // console.log(exists)
           this.setState({
             nutriologo: exists
           });

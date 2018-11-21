@@ -2,6 +2,24 @@ import { db, auth } from './firebase';
 
 // User API
 
+
+export const crearDieta = (id,key) =>{
+
+  db.ref(`users/nutriologos/${id}/dietas/${key}`).set({
+    key
+  });
+}
+export const dietoCalculoReceta = (uid,idReceta, metaKcalDieta, metaLipDieta,metaHCODieta, metaProDieta, dietoCalculo) =>{
+db.ref(`users/nutriologos/${uid}/dietas/${idReceta}`).set({
+   idReceta, 
+   metaKcalDieta, 
+   metaLipDieta,
+   metaHCODieta, 
+   metaProDieta,
+   dietoCalculo,
+   dieta:{desayuno:{platillo1:''}}
+})
+}
 export const doCreateUser = (id, nombre, apellido, email, telefono, matricula, pacientes, dietas, recetas, agenda,alertas, roll, ref) =>
   db.ref(`users/nutriologos/${id}`).set({
     nombre,
@@ -86,7 +104,6 @@ export const doCreateUser = (id, nombre, apellido, email, telefono, matricula, p
   });
   export const actualizarDietaHabitual = ( uid, horarioDesayuno, alimentoDesayuno, bebidaDesayuno,horarioComida, alimentoComida, bebidaComida,  horarioCena, alimentoCena, bebidaCena ) =>
   db.ref(`users/pacientes/${uid}/dietaHabitual`).set({
-
      desayuno:{ horario: horarioDesayuno, alimento:alimentoDesayuno, bebida:bebidaDesayuno},
      comida:{horario:horarioComida, alimento:alimentoComida, bebida:bebidaComida },
      cena:{horario:horarioCena, alimento:alimentoCena, bebida:bebidaCena,}

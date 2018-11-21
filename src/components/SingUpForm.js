@@ -77,7 +77,6 @@ class SignUpForm extends Component {
               });
               event.preventDefault();
         }
-      
         render() {
 
             const {

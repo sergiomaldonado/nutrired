@@ -1,6 +1,724 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700,700i,800,900,900i');
+
 body{
   background-color: #F4F4F4;
+  font-family: 'Montserrat', sans-serif;
 }
+.infoNutrimental{
+width: 100%;
+}
+.navDieta{
+  margin-left: 60px;
+  margin-top: 20px;
+  width: 100%;
+}
+.contenedorNutrimentos{
+  border-radius:10px;
+  margin-top: 20px;
+padding: 20px;
+box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+  background-color: white;
+}
+.tituloInfo{
+  width: 100%;
+  border-bottom:solid 5px black;
+  text-align: left;
+}
+.info{
+  width: 100%;
+  border-bottom:solid 1px black;
+  text-align: left;
+  padding-top:5px;
+  padding-bottom:-5px;
+}
+.kcalinfo{
+  width: 100%;
+  border-bottom:solid 3px black;
+  text-align: left;
+  padding-top:5px;
+  padding-bottom:-5px;
+}
+.infoSub{
+  width: 90%;
+  border-bottom:solid 1px black;
+  text-align: left;
+  float: right;
+  padding-top:5px;
+  padding-bottom:2px;
+}
+.h4Title{
+  font-weight: 800;
+  text-align: left;
+}
+.input-eq-platillo{
+  width: 100%;
+  max-width: 100%;
+}
+.trigger{
+  background-color: #009C1A;
+  height: 30px;
+  width: 30px;
+  margin-top: -35px !important;
+  position: relative;
+  border-radius:5px;
+  margin:0 auto;
+  margin-bottom: 8px;	
+  color:white;
+  padding-top:5px;
+}
+.trigger:after {
+  top: 100%;
+	left: 50%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+	border-color: rgba(0, 59, 25, 0);
+	border-top-color: #009C1A;
+	border-width: 5px;
+	margin-left: -5px;
+}
+.triggerRed{
+  background-color: red;
+  height: 30px;
+  width: 30px;
+  margin-top: -35px !important;
+  position: relative;
+  border-radius:5px;
+  margin:0 auto;
+  margin-bottom: 8px;	
+  color:white;
+  padding-top:5px;
+ -webkit-animation: trigerRed 0.7s infinite;  /* Safari 4+ */
+ -moz-animation:    trigerRed 0.7s infinite; /* Fx 5+ */
+ -o-animation:      trigerRed 0.7s infinite; /* Opera 12+ */
+  animation:         trigerRed 0.7s infinite; /* IE 10+, Fx 29+ */
+}
+
+@keyframes trigerRed {
+  
+  0%{
+    margin-top: -35px;
+  }
+  50%{
+    margin-top: -55px;
+  }
+  100%{
+      margin-top: -35px;
+  }
+}
+
+.triggerRed:after {
+  top: 100%;
+	left: 50%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+	border-color: rgba(0, 59, 25, 0);
+	border-top-color: rgb(255, 0, 0);
+	border-width: 5px;
+	margin-left: -5px;
+}
+.triggerGrey{
+  background-color: gray;
+  height: 30px;
+  width: 30px;
+  margin-top: -35px !important;
+  position: relative;
+  border-radius:5px;
+  margin:0 auto;
+  margin-bottom: 8px;	
+  color:white;
+  padding-top:5px;
+}
+.triggerGrey:after {
+  top: 100%;
+	left: 50%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+	border-color: rgba(0, 59, 25, 0);
+	border-top-color: gray;
+	border-width: 5px;
+	margin-left: -5px;
+}
+.noMostrar{
+display: none;
+}
+.siMostrar{
+  background-color:white;
+  border-top:none; 
+  border-bottom:solid 1px #DCDCDC;
+  border-left:solid 1px #DCDCDC;
+  border-right:solid 1px #DCDCDC;
+  max-width: 93.5%;
+  min-width: 93.5%;
+  height: auto;
+  max-height: 200px;
+  overflow-y:scroll;
+  position: absolute;
+  z-index: 999;
+}
+.seleccionAlimentos{
+  background-color:white;
+ font-size: 10px;
+  max-width: 96%;
+  min-width: 96%;
+  overflow-y:scroll;
+}
+.alimentosYaSeleccionados{
+ font-size: 10px;
+  width: 100%;
+  overflow-y:scroll;
+}
+.colSeleccionAlimentosTitle{
+  overflow: hidden;
+  text-align: center !important;
+  width: 13.5%;
+  font-size: 12px;
+}
+.colSeleccionAlimentosProTitle{
+  overflow: hidden;
+  text-align: center !important;
+  width: 19%;
+  font-size: 12px;
+}
+.colSeleccionAlimentos{
+  overflow: hidden;
+  text-align: center !important;
+  width: 13.5%;
+}
+.colSeleccionAlimentosPro{
+  overflow: hidden;
+  text-align: center !important;
+  width: 19%;
+}
+.colSugerenciaAlimentos{
+  overflow: hidden;
+  text-align: center !important;
+  font-size: 11px;
+}
+.resultadoAlimentosBusqueda{
+  border-bottom: solid 1px #DCDCDC;
+  height: 30px;
+  padding-top: 10px;
+  padding-bottom:30px;
+}
+.resultadoAlimentosBusqueda:hover{
+  background-color: #5CC416;
+  height: 30px;
+  padding-top: 10px;
+  padding-bottom:30px;
+  color: white;
+}
+.regresarS {
+  float: left;
+  margin-top:-15px;
+}
+.siguienteStepDieta{
+  float: right;
+  margin-right: 100px;
+ margin-top:-15px;
+}
+.siguienteStepDieta2{
+  float:left;
+  margin-right: 100px;
+margin-top: 8px;
+}
+.gridStepsDietas{
+  margin-left: 180px;
+  margin-top: 10px;
+}
+/***   ESTILOS STEPS ****/
+.row-paso{
+  text-align: center;
+}
+.col-paso{
+  margin-right:-55px !important ; 
+}
+.tittle-step{
+  margin-left: -20px;
+  text-align: left;
+}
+.tittle-step2{
+  margin-left: -10px;
+  text-align: left;
+}
+.dieta-activado{
+  background-color: #7ED321;
+  border-radius: 80px;
+  color:white;
+  text-align: center;
+  width: 30px;
+  height: 30px;
+  z-index: 2;
+}
+.formulario1{
+  margin-top: 30px;
+}
+.step-dieta-activado{
+  color:white;
+  line-height: 12px;
+}
+.line-activado{ height: 3px; width: 80%; background-color: #7ED321;   z-index: 0;}
+.pasomarkactivado{
+  color: white;
+}
+.pasomarkdesactivado{
+  color:#ECE6E6;
+}
+.dieta-desactivado{
+  background-color: white;
+  border-radius: 100px;
+  color:grey;
+  border:3px solid #7ED321;
+  text-align: center;
+  width: 30px;
+  height: 30px;
+  z-index: 1;
+}
+.step-counter-desactivado{
+  color:#DEDEDE;
+  line-height: 5px;
+}
+.gridgrid{
+  margin-left: 200px;
+  margin-top: 20px;
+}
+.line-desactivado{ height: 3px; width: 80%; background-color: #DEDEDE; z-index: 0;}
+.line-3{ height: 3px; width: 80%; background-color: #F4F4F4; z-index: 0;}
+.pasomarkactivado{
+  color: #7ED321;
+}
+.pasomarkdesactivado{
+  color:#ECE6E6;
+}
+/***   TERMINA ESTILOS STEPS ****/
+li{
+  list-style: none;
+  padding: 5px;
+}
+.porcentajeKcal{
+  color: #B7A54E;
+}
+.resultadosContainer{
+  margin: 0 auto;
+  width: 98%;
+  height: 100px;
+  margin-left: 200px;
+}
+.tittleResultado{
+  float: left;
+ width: 12%;
+ height: 20px;
+ text-align: right;
+}
+.dietoTittle{
+  width: 45%;
+  float: left;
+  border-bottom:solid 3px #F9008F;
+}
+.dietoTittle2{
+  width: 54%;
+  float: left;
+  border-bottom:solid 3px #7ED321; 
+}
+.resultUno{
+  float: left;
+ width: 19.6%;
+ height: 20px;
+}
+.eqTablero{
+  float: left;
+ width: 11%;
+ height: 20px;
+}
+.resultUno{
+  float: left;
+ width: 19.6%;
+ height: 20px;
+}
+.resultDos{
+  float: left;
+  width: 19.6%;
+  height: 20px;
+ }
+.resetFG{
+  padding-bottom: 0px;
+  margin-bottom:0px;
+  background-color: transparent;
+}
+.ulAlimentos{
+  text-align: right;
+  padding: 0px;
+ }
+.ulRange{
+  width: 100%;
+  padding: 0px;
+}
+.ulEq{
+  padding: 0px;
+}
+.liUlAlimentos{
+  border-bottom:solid 1px #D9D5D5;
+  height: 40px;
+  line-height: 30px;
+}
+.liEq{
+  height: 40px;
+  font-weight: 100;
+  width: 100%;
+  border-bottom:solid 1px #D9D5D5;
+  line-height: 30px;
+}
+.liDesayuno{
+  height: 40px;
+  border-bottom:solid 1px #D9D5D5;
+  width: 100%;
+  padding:0px !important;
+}
+.liDesayunofinal{
+  height: 40px;
+  width: 100%;
+  padding:0px !important;
+  line-height: 30px;
+}
+.asignadoDieta{
+  float:  left;
+}
+.desayunoDieta{
+  background-color: #E5E5E5;
+  text-align: center;
+  border-radius:10px;
+  padding: 0px;
+  overflow: hidden;
+}
+.colacion1Dieta{
+  background-color: #E5E5E5;
+  text-align: center; 
+  border-radius:10px;
+  padding: 0px;
+}
+.comidaDieta{
+  background-color: #E5E5E5;
+  text-align: center; 
+  border-radius:10px;
+  padding: 0px;
+}
+
+.frutasDesayunoRojo{
+  border-bottom: solid 1px red;
+  border-left:none; border-top:none; border-right:none;
+  box-shadow: none;
+  text-align: center;
+  height: 40px !important;
+ margin-bottom: 0px;
+ line-height: 20px;
+ padding-left: 20px !important;
+  background-color:#F9AAAA;
+  
+}
+.salirModal{
+    position: relative;
+    z-index: 999999;
+    margin-right: 20px;
+    margin-top: -75px;
+    float: right;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    /* color: #000; */
+    text-shadow: none;
+    filter:none;
+    opacity: 1;
+    background-color: red !important;
+    width: 13px;
+    height: 13px;
+    border-radius: 100px;
+    border: none;
+    color:red;
+  
+}
+.salirModal:hover{
+  color:brown;
+     float: right;
+    /* font-size: 21px; */
+    font-weight: 700;
+    line-height: 1;
+    /* color: #000; */
+    /* text-shadow: 0 1px 0 #fff; */
+    filter:none;
+    opacity: 1;
+      background-color: red;
+}
+.salirModalDesactivado{
+  position: absolute;
+  z-index: 999999;
+  display: none;
+}
+.frutasDesayunoVerde{
+  border-bottom: solid 1px #D0D0D0;
+  border-left:none; border-top:none; border-right:none;
+  box-shadow: none;
+  text-align: center;
+  height: 40px !important;
+ margin-bottom: 0px;
+ line-height: 20px;
+ padding-left: 20px !important;
+  background-color:#E5FBD5;
+}
+
+.inputDieta{
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  text-align: center;
+  height: 40px !important;
+ margin-bottom: 0px;
+ line-height: 20px;
+ padding-left: 20px !important;
+}
+.parrafoDieta{
+  padding: 0px;
+  margin: 0px;
+  margin-top: 5px;
+}
+.gridPlatillos{
+  height: auto;
+  padding: 0px;
+}
+.overDiv{
+  width: 95%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.781);
+  position: absolute;
+  z-index: 9999;
+  border:dotted 3px #DCDCDC;
+  line-height: 470px;
+   color:#c9c9c9;
+   cursor: pointer;
+}
+.overDiv:hover{
+  width: 95%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.781);
+  position: absolute;
+  z-index: 99;
+  border:dotted 3px #DCDCDC;
+  line-height: 470px;
+   color:grey;
+}
+.platillo-1-desactivado{
+  padding-top:50px;
+  width: 96.5%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.781);
+  position: absolute;
+  z-index: 99;
+  border:dotted 3px #DCDCDC;
+   color:#c9c9c9;
+   cursor: pointer;
+   border-radius: 10px;
+}
+.platillo-1-desactivado:hover{
+  width: 96.5%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.781);
+  position: absolute;
+  z-index: 99;
+  border:dotted 3px #DCDCDC;
+  color:grey;
+  cursor: pointer;
+}
+.platillo-2-desactivado{
+  padding-top:50px;
+  width: 96.5%;
+  height: 49%;
+  background-color: rgba(255, 255, 255, 0.781);
+  position: absolute;
+  z-index: 99;
+  border:dotted 3px #DCDCDC;
+  color:#c9c9c9;
+  cursor: pointer;
+  border-radius: 10px;
+}
+.platillo-2-desactivado:hover{
+  width: 96.5%;
+  height: 49%;
+  background-color: rgba(255, 255, 255, 0.781);
+  position: absolute;
+  z-index: 99;
+  border:dotted 3px #DCDCDC;
+  line-height: 470px;
+  color:grey;
+   cursor: pointer;
+}
+.platillo-3-desactivado{
+  padding-top:50px;
+  width: 96.5%;
+  height: 32%;
+  background-color:rgba(255, 255, 255, 0.781);
+  position: absolute;
+  z-index: 99;
+  border:dotted 3px #DCDCDC;
+   color:#c9c9c9;
+   cursor: pointer;
+   border-radius: 10px;
+}
+.nohayquemostrar{
+display: none;
+}
+.hayquemostrar{
+  margin-top: 20px;
+}
+.platillo-1-activado{
+ display: none;
+}
+.platillo-2-activado{
+  display: none;
+ }
+ .platillo-3-activado{
+  display: none;
+ }
+
+.mostrarPaso2{
+  display: none;
+}
+.platillo-2-invisible{
+  display: none;
+}
+.formTittlePlatillo{
+  border: none;
+  text-align:center;
+  font-size: 30px !important;
+  -webkit-box-shadow: inset 0 10px 10px rgba(0,0,0,.075) !important; 
+  box-shadow: inset 0 0px 0px white !important;
+
+}
+
+.platillo1{
+  width: 100%;
+  min-height: 300px;
+  height:auto;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  border-radius:10px;
+  padding: 10px;
+  margin-top: 20px;
+  background-color: white;
+  
+}
+.circuloCheck{
+  border-radius:100px;
+  background-color: #009C1A;
+  color:white;
+  width: 25px;
+  height: 25px;
+  float: right;
+position: absolute
+}
+.circuloCheckRed{
+  border-radius:100px;
+  background-color: red;
+  color:white;
+  width: 25px;
+  height: 25px;
+  float: right;
+position: absolute
+}
+.icoCheckDietas{
+  margin-top: 2.5px;
+}
+
+.icon{
+  width: 25px;
+  height: 25px;
+}
+.iconDieta{
+  width: 35px;
+  height: 35px;
+}
+.btnDisplayNone{
+  display: none;
+}
+
+.modalDietas{
+  overflow: scroll;
+  padding-top: 2%;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: 999;
+  margin-top: -94px;
+background-color: white}
+.dietaADesactivada{
+display: none;}
+
+.contenidoModalDietas{
+  width: 100%;
+  height: auto;
+  background-color:#F9F9F9;
+  text-align: center;
+  margin: 0 auto;
+  max-height: 95%;
+  overflow: scroll;
+  margin-top: 25px;
+  padding-bottom:60px;
+
+}
+.footerModal{
+  background-color:white;
+  width: 100%;
+  height: 60px;
+  position: fixed;
+  margin-top:-20px;
+  padding: 10px;
+  box-shadow: 0 -3px 8px rgba(201, 201, 201, 0.2), 0 -3px 8px rgba(201, 201, 201, 0.2);
+
+}
+.headDietasModal{
+  padding: 10px;
+}
+.dietaConfiguracion{
+  width: 100%;
+  height: auto;
+  background-color: #FDF5BF;
+  line-height: 35px;
+}
+
+.dietoCalculocomponent{
+  height: auto;
+  width: 100%;
+  display: none;
+}
+.containerPanelDietas{
+  width: 100%;
+  margin-top: -10px;
+  padding: 20px;
+  /** 
+  background: rgba(252,244,247,1);
+  background: -moz-linear-gradient(left, rgba(252,244,247,1) 0%, rgba(252,244,247,1) 45%, rgba(232,245,213,1) 45%, rgba(232,245,213,1) 100%);
+  background: -webkit-gradient(left top, right top, color-stop(0%, rgba(252,244,247,1)), color-stop(45%, rgba(252,244,247,1)), color-stop(45%, rgba(232,245,213,1)), color-stop(100%, rgba(232,245,213,1)));
+  background: -webkit-linear-gradient(left, rgba(252,244,247,1) 0%, rgba(252,244,247,1) 45%, rgba(232,245,213,1) 45%, rgba(232,245,213,1) 100%);
+  background: -o-linear-gradient(left, rgba(252,244,247,1) 0%, rgba(252,244,247,1) 45%, rgba(232,245,213,1) 45%, rgba(232,245,213,1) 100%);
+  background: -ms-linear-gradient(left, rgba(252,244,247,1) 0%, rgba(252,244,247,1) 45%, rgba(232,245,213,1) 45%, rgba(232,245,213,1) 100%);
+  background: linear-gradient(to right, rgba(252,244,247,1) 0%, rgba(252,244,247,1) 45%, rgba(232,245,213,1) 45%, rgba(232,245,213,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcf4f7', endColorstr='#e8f5d5', GradientType=1 );
+  **/
+}
+.uno{width: 10%; float: left; overflow: hidden;}
+.dos{width:10%; float: left; padding-left:5px;}
+.tres{width:10%; float: left;  padding-left:5px;}
+.cuatro{width:5%; float: left;}
+
 .color{
   background-color: #009C1A;
   color: white;
@@ -106,7 +824,6 @@ a{
 }
 .cardPerfil{
   margin:10px;
-  border:solid 1px #E9E9E9;
   border-radius:10px;
 }
 .cardPerfil-desayuno{
@@ -158,6 +875,7 @@ hr{
   height: 20px;
   float: left;
   padding:10px;
+  
 }
 
 .multiselect-1{
@@ -301,6 +1019,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#91e842', end
   background-color:white;
   border:solid 1px #D6D6D6;
   border-left: none;
+
 }
 .nav-pills>li {
   background-color: white;
@@ -308,22 +1027,22 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#91e842', end
   text-align: center;
   color:#01C216 !important;
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-  
-
+  padding: 0px;
+  fill:#ff0000 !important;
 }
+
 .nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover {
-  color:#095000 !important;
+  color:#E62C6A !important;
   background-color: white;
   border-radius: 10px; 
   border:0px solid white !important;
-
   box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  fill:#ff0000 !important;
 }
 .card-cliente{
   text-align: center;
   background-color: white;
   border-radius: 10px; 
-  border:1px solid #D6D6D6 !important;
   padding:20px;
   margin: 20px;
 
@@ -332,7 +1051,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#91e842', end
   
   background-color: white;
   border-radius: 10px; 
-  border:1px solid #D6D6D6 !important;
   padding:20px;
 }
 .close{
@@ -384,21 +1102,22 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#91e842', end
   width: 100%;
   border-bottom:solid 1px #BFBFBF;
 }
-
-
 .btnCardPaciente{
   float: right;
   padding-top: 20px;
+}
+.crearDieta{
+  margin-right: 20px;
 }
 .contenidoCard{
 text-align: center;
 }
 .nombreCard{
-  color:#00B713;
+  color:#4F4F4F;
   }
 .strongCard{
     text-align: center;
-    color:#00B713;
+    color:#4F4F4F;
     }
     .p-card{ color:grey;}
 
@@ -408,6 +1127,18 @@ text-align: center;
   text-align: center ;
   margin: 0 auto;
 
+}
+.verde{
+  color: #009C1A;
+}
+.rojo{
+  color: red;
+}
+.semaforoVerde{
+  height: 20px !important;
+  width: 20px !important;
+  border-radius:100px;
+  background-color: #009C1A;
 }
 .card{
   text-align: center;
@@ -436,6 +1167,7 @@ text-align: center;
   justify-content: center;
   align-items: center;
 }
+
 /***   ESTILOS STEPS ****/
 .row-paso{
   text-align: center;
@@ -502,28 +1234,18 @@ text-align: center;
   color:#ECE6E6;
 }
 
-
-
-
 /***   TERMINA ESTILOS STEPS ****/
 
 .contfoto{
 
   color:white;
   border-radius: 10px;
-  background: rgba(187,245,12,1);
-background: -moz-linear-gradient(-45deg, rgba(187,245,12,1) 0%, rgba(89,184,0,1) 100%);
-background: -webkit-gradient(left top, right bottom, color-stop(0%, rgba(187,245,12,1)), color-stop(100%, rgba(89,184,0,1)));
-background: -webkit-linear-gradient(-45deg, rgba(187,245,12,1) 0%, rgba(89,184,0,1) 100%);
-background: -o-linear-gradient(-45deg, rgba(187,245,12,1) 0%, rgba(89,184,0,1) 100%);
-background: -ms-linear-gradient(-45deg, rgba(187,245,12,1) 0%, rgba(89,184,0,1) 100%);
-background: linear-gradient(135deg, rgba(187,245,12,1) 0%, rgba(89,184,0,1) 100%);
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#bbf50c', endColorstr='#59b800', GradientType=1 );
-  padding:20px;
+  background-image: url('./bgPerfil.png');
+  background-size: cover;
+ padding:20px;
 }
 .p-meta{
   color:white;
-  text-shadow: 2px 2px 5px #009C1A;
 text-align: center;
 }
 .continfo{
@@ -561,6 +1283,7 @@ text-align: center;
    justify-content: center;
    align-items: center;
 }
+
 .nav-item-hijo{
   line-height: 33px;
 }
