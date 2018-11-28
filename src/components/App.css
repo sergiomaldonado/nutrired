@@ -12,6 +12,7 @@ width: 100%;
   margin-top: 20px;
   width: 100%;
 }
+
 .contenedorNutrimentos{
   border-radius:10px;
   margin-top: 20px;
@@ -341,6 +342,14 @@ li{
   float: left;
  width: 11%;
  height: 20px;
+ margin-top: -15px;
+
+}
+
+.icon{
+  width: 25px;
+  height: 25px;
+  margin-top: 0px;
 }
 .resultUno{
   float: left;
@@ -638,10 +647,6 @@ position: absolute
   margin-top: 2.5px;
 }
 
-.icon{
-  width: 25px;
-  height: 25px;
-}
 .iconDieta{
   width: 35px;
   height: 35px;

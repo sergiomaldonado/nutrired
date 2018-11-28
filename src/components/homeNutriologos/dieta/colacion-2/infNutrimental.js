@@ -16,6 +16,7 @@ class TablaNutrimentalDesayuno extends Component{
                            <h3 className="h4Title">Información Nutrimental del desayuno</h3>
                            <p>Tamaño por porcion: </p>
                            </div>
+                  
                       <div className="kcalinfo">
                            <h4>Calorías: {sumar}Kcal.</h4>
                       </div> 
@@ -28,8 +29,12 @@ class TablaNutrimentalDesayuno extends Component{
                       <div className="info">
                            <p>Sodio, Na: {sumatoria}</p>
                       </div>  
+
+                    
                       </div> 
                     </Col>
+
+
             </div>
         )
     }

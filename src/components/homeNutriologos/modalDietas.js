@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import './../App.css'
-import { db, auth } from './../../firebase'
+import { db } from './../../firebase'
 import { authfb, dbfb } from './../../firebase/firebase'
-import { Grid,Row, Tooltip, Col, OverlayTrigger, FormGroup, FormControl, Navbar,NavItem , Nav, Button} from 'react-bootstrap'
-import { CheckCircle, Check, AlertCircle,Plus, ChevronDown, Trash2, ArrowRight, ArrowLeft, PlusCircle} from 'react-feather'
+import { Grid,Row, Tooltip, Col, FormGroup, FormControl, Navbar,NavItem , Nav, Button} from 'react-bootstrap'
+import { CheckCircle, Check, AlertCircle, ChevronDown, ArrowRight, ArrowLeft} from 'react-feather'
 import Slider from 'react-rangeslider'
 import './../rangeSlideStyles.css'
 import ico1 from './icons/ico-1.svg'
@@ -20,13 +20,29 @@ import icoDesayunoActivado from './icons/icoDesayuno-activado.svg'
 import icoColacionActivado from './icons/icoColacion-activado.svg'
 import icoColacion from './icons/icoColacion.svg'
 import icoComida from './icons/icoComida.svg'
+import icoComidaActivado from './icons/icoComida-activado.svg'
 import icoCena from './icons/icoCena.svg'
-import Chips from 'react-chips'
+import icoCenaActivado from './icons/icoCena-activado.svg'
+
+
 import CCG from './dbAlimentos/cerealesConGrasa.json'
-import ListaDeAlimentos from './listaAlimentos'
+
 import Platillo1Desayuno from './dieta/desayuno/Platillo-1'
 import Platillo2Desayuno from './dieta/desayuno/Platillo-2'
 import Platillo3Desayuno from './dieta/desayuno/Platillo-3'
+import Platillo1Colacion1 from './dieta/colacion-1/Platillo-1'
+import Platillo2Colacion1 from './dieta/colacion-1/Platillo-2'
+import Platillo3Colacion1 from './dieta/colacion-1/Platillo-3'
+import Platillo1Comida from './dieta/comida/Platillo-1'
+import Platillo2Comida from './dieta/comida/Platillo-2'
+import Platillo3Comida from './dieta/comida/Platillo-3'
+import Platillo1Colacion2 from './dieta/colacion-2/Platillo-1'
+import Platillo2Colacion2 from './dieta/colacion-2/Platillo-2'
+import Platillo3Colacion2 from './dieta/colacion-2/Platillo-3'
+import TablaNutrimentalComida from './dieta/comida/infNutrimental'
+import Platillo1Cena from './dieta/cena/Platillo-1'
+import Platillo2Cena from './dieta/cena/Platillo-2'
+import Platillo3Cena from './dieta/cena/Platillo-3'
 import TablaNutrimentalDesayuno from './dieta/desayuno/infNutrimental' 
 import {debounce} from 'lodash'
 const byPropKey = (propertyName, value) => () => ({
@@ -116,28 +132,45 @@ class ModalDietas extends Component {
         platillo1:'platillo-1-desactivado',
         platillo2:'platillo-2-desactivado',
         platillo3:'platillo-3-desactivado',
+        platillo1colacion1:'platillo-1-desactivado',
+        platillo2colacion1:'platillo-2-desactivado',
+        platillo3colacion1:'platillo-3-desactivado',
+        platillo1comida:'platillo-1-desactivado',
+        platillo2comida:'platillo-2-desactivado',
+        platillo3comida:'platillo-3-desactivado',
+        platillo1colacion2:'platillo-1-desactivado',
+        platillo2colacion2:'platillo-2-desactivado',
+        platillo3colacion2:'platillo-3-desactivado',
+        platillo1cena:'platillo-1-desactivado',
+        platillo2cena:'platillo-2-desactivado',
+        platillo3cena:'platillo-3-desactivado',
         mostrarPaso2:'mostrarPaso2',
-         /*** Distribucion */
-         desayunoDistribucion:{
-             frutas:{clase:"1",  valor:5},
-             verduras:0,
-             proteinas:0,
-             grasas:0,
-             lacteos:0,
-             azucares:0,
-             cereales:0,
-             leguminosas:0,
-             agua:0,   
-        },
         cargando:false,
         mostrar:"nohayquemostrar",
         mostrarPlatillo3:"nohayquemostrar",
+        
+        
+        mostrarColacion1:"nohayquemostrar",
+        mostrarPlatillo3Colacion1:"nohayquemostrar",
+        cargandoComidaPlatillo1:false,
+        mostrarComida:"nohayquemostrar",
+        mostrarPlatillo3Comida:"nohayquemostrar",
+        cargandoColacion2Platillo1:false,
+        mostrarColacion2:"nohayquemostrar",
+        mostrarPlatillo3Colacion2:"nohayquemostrar",
+        cargandoCenaPlatillo1:false,
+        mostrarCena:"nohayquemostrar",
+        mostrarPlatillo3Cena:"nohayquemostrar",
+
+
         stepDesayuno:true,
         stepColacion1:false,
         stepComida:false,
         stepColacion2:false,
         stepCena:false,
         checkDesayuno:true,
+        checkComida:false,
+        checkColacion2:false,
         bottomNavDesayuno:true
     }
     
@@ -160,20 +193,90 @@ class ModalDietas extends Component {
   activarPlatillo3desayuno = () =>{
     this.setState({
         platillo3:"platillo-3-activado"
-        
     })  
-
   }
+  
+activarPlatillo1Colacion1 = () =>{
+    this.setState({
+        platillo1colacion1:"platillo-1-activado",
+        mostrarColacion1:'hayquemostrar'
+    })
+}
+activarPlatillo2Colacion1 = () =>{
+  this.setState({
+      platillo2colacion1:"platillo-2-activado",
+      platillo3colacion1:"platillo-3-desactivado",
+      mostrarPlatillo3Colacion1:"hayquemostrar"
+  })  
+}
+activarPlatillo3Colacion1 = () =>{
+  this.setState({
+      platillo3colacion1:"platillo-3-activado"
+  })  
+}
+activarPlatillo1Comida = () =>{
+    this.setState({
+        platillo1comida:"platillo-1-activado",
+        mostrarComida:'hayquemostrar'
+    })
+}
+activarPlatillo2Comida = () =>{
+  this.setState({
+      platillo2comida:"platillo-2-activado",
+      platillo3comida:"platillo-3-desactivado",
+      mostrarPlatillo3Comida:"hayquemostrar"
+  })  
+}
+activarPlatillo3Comida = () =>{
+  this.setState({
+      platillo3comida:"platillo-3-activado"
+  })  
+}
 
-setAlimentosPlatillo1 = debounce(query =>{
-       let filteredAlimento = CCG.filter((alimento) => {
-       return alimento.alimento.toLowerCase().includes(query)
-       });
-      query == ""
-      ?this.setState({filteredAlimento:[], cargando:false })
-      :this.setState({filteredAlimento, cargando:false })
-},1000)
+activarPlatillo1Colacion2 = () =>{
+    this.setState({
+        platillo1colacion2:"platillo-1-activado",
+        mostrarColacion2:'hayquemostrar'
+    })
+}
+activarPlatillo2Colacion2 = () =>{
+  this.setState({
+      platillo2colacion2:"platillo-2-activado",
+      platillo3colacion2:"platillo-3-desactivado",
+      mostrarPlatillo3Colacion2:"hayquemostrar"
+  })  
+}
+activarPlatillo3Colacion2 = () =>{
+  this.setState({
+      platillo3colacion2:"platillo-3-activado"
+  })  
+}
+activarPlatillo1Cena = () =>{
+    this.setState({
+        platillo1cena:"platillo-1-activado",
+        mostrarCena:'hayquemostrar'
+    })
+}
+activarPlatillo2Cena = () =>{
+  this.setState({
+      platillo2cena:"platillo-2-activado",
+      platillo3cena:"platillo-3-desactivado",
+      mostrarPlatillo3Cena:"hayquemostrar"
+  })  
+}
+activarPlatillo3Cena = () =>{
+  this.setState({
+      platillo3cena:"platillo-3-activado"
+  })  
+}
 
+fuera = () =>{
+    this.setState({filteredAlimento:[],filteredAlimento2:[],filteredAlimento3:[],filteredAlimento3:[],
+        filteredAlimentoColacion1:[],filteredAlimento2Colacion1:[],filteredAlimento3Colacion1:[],
+        filteredAlimentoComida:[],filteredAlimento2Comida:[],filteredAlimento3Comida1:[],
+        filteredAlimentoColacion2:[],filteredAlimento2Colacion2:[],filteredAlimento3Colacion2:[],
+        filteredAlimentoCena:[],filteredAlimento2Cena:[],filteredAlimento3Cena:[]  })
+  } 
 buscarPlatillo1Desayuno = (e) => {
        e.target.value == '' ?this.setState({filteredAlimento:[], cargando:false}) :null
        this.setState({cargando:true})
@@ -183,11 +286,10 @@ buscarPlatillo1Desayuno = (e) => {
     let filteredAlimento = CCG.filter((alimento) => {
     return alimento.alimento.toLowerCase().includes(query)
     });
-   query == ""
+   query === ""
    ?this.setState({filteredAlimento:[], cargando:false })
    :this.setState({filteredAlimento, cargando:false })
 },1000)
-
   buscarPlatillo2Desayuno = (e) => {
 
        e.target.value == '' ?this.setState({filteredAlimento2:[], cargando2:false}) :null
@@ -198,7 +300,7 @@ setAlimentosPlatillo2 = debounce(query =>{
         let filteredAlimento2 = CCG.filter((alimento) => {
         return alimento.alimento.toLowerCase().includes(query)
         });
-       query == ""
+       query === ""
        ?this.setState({filteredAlimento2:[], cargando2:false })
        :this.setState({filteredAlimento2, cargando2:false })
 },1000)
@@ -216,8 +318,184 @@ setAlimentosPlatillo3 = debounce(query =>{
    ?this.setState({filteredAlimento3:[], cargando3:false })
    :this.setState({filteredAlimento3, cargando3:false })
 },1000)
- 
-  crearReceta = () => {
+
+buscarPlatillo1Colacion1 = (e) => {
+    e.target.value == '' ?this.setState({filteredAlimentoColacion1:[], cargandoColacion1:false}) :null
+    this.setState({cargandoColacion1:true})
+    this.setAlimentosPlatillo1Colacion1(e.target.value.toLowerCase())
+}
+setAlimentosPlatillo1Colacion1 = debounce(query =>{
+ let filteredAlimentoColacion1 = CCG.filter((alimento) => {
+ return alimento.alimento.toLowerCase().includes(query)
+ });
+query == ""
+?this.setState({filteredAlimentoColacion1:[], cargandoColacion1:false })
+:this.setState({filteredAlimentoColacion1, cargandoColacion1:false })
+},1000)
+
+
+buscarPlatillo2Colacion1 = (e) => {
+    e.target.value == '' ?this.setState({filteredAlimento2Colacion1:[], cargandoColacion1Platillo2:false}) :null
+    this.setState({cargandoColacion1Platillo2:true})
+    this.setAlimentosPlatillo2Colacion1(e.target.value.toLowerCase())
+}
+setAlimentosPlatillo2Colacion1 = debounce(query =>{
+ let filteredAlimento2Colacion1 = CCG.filter((alimento) => {
+ return alimento.alimento.toLowerCase().includes(query)
+ });
+query == ""
+?this.setState({filteredAlimento2Colacion1:[], cargandoColacion1Platillo2:false })
+:this.setState({filteredAlimento2Colacion1, cargandoColacion1Platillo2:false })
+},1000)
+
+buscarPlatillo3Colacion1 = (e) => {
+    e.target.value == '' ?this.setState({filteredAlimento3Colacion1:[], cargandoColacion1Platillo3:false}) :null
+    this.setState({cargandoColacion1Platillo3:true})
+    this.setAlimentosPlatillo3Colacion1(e.target.value.toLowerCase())
+}
+setAlimentosPlatillo3Colacion1 = debounce(query =>{
+ let filteredAlimento3Colacion1 = CCG.filter((alimento) => {
+ return alimento.alimento.toLowerCase().includes(query)
+ });
+query == ""
+?this.setState({filteredAlimento3Colacion1:[], cargandoColacion1Platillo3:false })
+:this.setState({filteredAlimento3Colacion1, cargandoColacion1Platillo3:false })
+},1000)
+
+
+buscarPlatillo1Comida = (e) => {
+    e.target.value == '' ?this.setState({filteredAlimento1Comida:[], cargandoComidaPlatillo1:false}) :null
+    this.setState({cargandoComidaPlatillo1:true})
+    this.setAlimentosPlatillo1Comida(e.target.value.toLowerCase())
+}
+setAlimentosPlatillo1Comida = debounce(query =>{
+ let filteredAlimento1Comida = CCG.filter((alimento) => {
+ return alimento.alimento.toLowerCase().includes(query)
+ });
+query == ""
+?this.setState({filteredAlimento1Comida:[], cargandoComidaPlatillo1:false })
+:this.setState({filteredAlimento1Comida, cargandoComidaPlatillo1:false })
+},1000)
+
+buscarPlatillo2Comida = (e) => {
+    e.target.value == '' ?this.setState({filteredAlimento2Comida:[], cargandoComidaPlatillo2:false}) :null
+    this.setState({cargandoComidaPlatillo2:true})
+    this.setAlimentosPlatillo2Comida(e.target.value.toLowerCase())
+}
+setAlimentosPlatillo2Comida = debounce(query =>{
+ let filteredAlimento2Comida = CCG.filter((alimento) => {
+ return alimento.alimento.toLowerCase().includes(query)
+ });
+query == ""
+?this.setState({filteredAlimento2Comida:[], cargandoComidaPlatillo2:false })
+:this.setState({filteredAlimento2Comida, cargandoComidaPlatillo2:false })
+},1000)
+
+buscarPlatillo3Comida = (e) => {
+    e.target.value == '' ?this.setState({filteredAlimento3Comida:[], cargandoComidaPlatillo3:false}) :null
+    this.setState({cargandoComidaPlatillo3:true})
+    this.setAlimentosPlatillo3Comida(e.target.value.toLowerCase())
+}
+setAlimentosPlatillo3Comida = debounce(query =>{
+ let filteredAlimento3Comida = CCG.filter((alimento) => {
+ return alimento.alimento.toLowerCase().includes(query)
+ });
+query == ""
+?this.setState({filteredAlimento3Comida:[], cargandoComidaPlatillo3:false })
+:this.setState({filteredAlimento3Comida, cargandoComidaPlatillo3:false })
+},1000)
+
+buscarPlatillo1Colacion2 = (e) => {
+    e.target.value == '' ?this.setState({filteredAlimentoColacion2:[], cargandoColacion2:false}) :null
+    this.setState({cargandoColacion2:true})
+    this.setAlimentosPlatillo1Colacion2(e.target.value.toLowerCase())
+}
+setAlimentosPlatillo1Colacion2 = debounce(query =>{
+ let filteredAlimentoColacion2 = CCG.filter((alimento) => {
+ return alimento.alimento.toLowerCase().includes(query)
+ });
+query == ""
+?this.setState({filteredAlimentoColacion2:[], cargandoColacion2:false })
+:this.setState({filteredAlimentoColacion2, cargandoColacion2:false })
+},1000)
+
+
+buscarPlatillo2Colacion2 = (e) => {
+    e.target.value == '' ?this.setState({filteredAlimento2Colacion2:[], cargandoColacion2Platillo2:false}) :null
+    this.setState({cargandoColacion2Platillo2:true})
+    this.setAlimentosPlatillo2Colacion2(e.target.value.toLowerCase())
+}
+setAlimentosPlatillo2Colacion2 = debounce(query =>{
+ let filteredAlimento2Colacion2 = CCG.filter((alimento) => {
+ return alimento.alimento.toLowerCase().includes(query)
+ });
+query == ""
+?this.setState({filteredAlimento2Colacion2:[], cargandoColacion2Platillo2:false })
+:this.setState({filteredAlimento2Colacion2, cargandoColacion2Platillo2:false })
+},1000)
+
+buscarPlatillo3Colacion2 = (e) => {
+    e.target.value == '' ?this.setState({filteredAlimento3Colacion2:[], cargandoColacion2Platillo3:false}) :null
+    this.setState({cargandoColacion2Platillo3:true})
+    this.setAlimentosPlatillo3Colacion2(e.target.value.toLowerCase())
+}
+setAlimentosPlatillo3Colacion2 = debounce(query =>{
+ let filteredAlimento3Colacion2 = CCG.filter((alimento) => {
+ return alimento.alimento.toLowerCase().includes(query)
+ });
+query == ""
+?this.setState({filteredAlimento3Colacion2:[], cargandoColacion2Platillo3:false })
+:this.setState({filteredAlimento3Colacion2, cargandoColacion2Platillo3:false })
+},1000)
+
+/*** C  E  N  A */
+
+buscarPlatillo1Cena = (e) => {
+    e.target.value == '' ?this.setState({filteredAlimentoCena:[], cargandoCena:false}) :null
+    this.setState({cargandoCena:true})
+    this.setAlimentosPlatillo1Cena(e.target.value.toLowerCase())
+}
+setAlimentosPlatillo1Cena = debounce(query =>{
+ let filteredAlimentoCena = CCG.filter((alimento) => {
+ return alimento.alimento.toLowerCase().includes(query)
+ });
+query == ""
+?this.setState({filteredAlimentoCena:[], cargandoCena:false })
+:this.setState({filteredAlimentoCena, cargandoCena:false })
+},1000)
+
+
+buscarPlatillo2Cena = (e) => {
+    e.target.value == '' ?this.setState({filteredAlimento2Cena:[], cargandoCenaPlatillo2:false}) :null
+    this.setState({cargandoCenaPlatillo2:true})
+    this.setAlimentosPlatillo2Cena(e.target.value.toLowerCase())
+}
+setAlimentosPlatillo2Cena = debounce(query =>{
+ let filteredAlimento2Cena = CCG.filter((alimento) => {
+ return alimento.alimento.toLowerCase().includes(query)
+ });
+query == ""
+?this.setState({filteredAlimento2Cena:[], cargandoCenaPlatillo2:false })
+:this.setState({filteredAlimento2Cena, cargandoCenaPlatillo2:false })
+},1000)
+
+buscarPlatillo3Cena = (e) => {
+    e.target.value == '' ?this.setState({filteredAlimento3Cena:[], cargandoCenaPlatillo3:false}) :null
+    this.setState({cargandoCenaPlatillo3:true})
+    this.setAlimentosPlatillo3Cena(e.target.value.toLowerCase())
+}
+setAlimentosPlatillo3Cena = debounce(query =>{
+ let filteredAlimento3Cena = CCG.filter((alimento) => {
+ return alimento.alimento.toLowerCase().includes(query)
+ });
+query == ""
+?this.setState({filteredAlimento3Cena:[], cargandoCenaPlatillo3:false })
+:this.setState({filteredAlimento3Cena, cargandoCenaPlatillo3:false })
+},1000)
+
+
+
+crearReceta = () => {
       const uid = authfb.currentUser.uid
       this.setState({pasoUno:false,pasoDos:true, clickPaso:this.crearReceta, btnRegresar:"siguienteStepDieta2"}) 
       const idRecetaEnProceso = this.props.idReceta
@@ -235,7 +513,7 @@ setAlimentosPlatillo3 = debounce(query =>{
         }
       db.dietoCalculoReceta(uid, idRecetaEnProceso, metaKcalDieta, metaLipDieta, metaHCODieta, metaProDieta, dietoCalculo)
 }
-  otrosDatosReceta = () => {
+otrosDatosReceta = () => {
     this.setState({pasoDos:false,pasoTres:true, clickPaso:this.otrosDatosReceta})
     alert("mas Datos para receta") 
 }
@@ -376,12 +654,7 @@ verdurasValue = (value) => {
       ? this.setState({ inputDisabled9:true}) 
       : this.setState({ inputDisabled9:false})
   }
-  agregarPlatillo = ()=>{
-    this.setState({
-        idPlatillo:2
-    })
-    alert(this.state.idPlatillo)
-}
+ 
   mostrarAlimento = (nombre, categoria, unidad, kcal,clase, grm, cantidad,lipidos,sodio,hco) => {
     const uid = authfb.currentUser.uid
     const idRecetaEnProceso = this.props.idReceta
@@ -398,9 +671,7 @@ verdurasValue = (value) => {
          })
     this.setState({filteredAlimento:[]})
   }
-  fuera = () =>{
-    this.setState({filteredAlimento:[],filteredAlimento2:[],filteredAlimento3:[] })
-  }
+  
   mostrarAlimento2 = (nombre, categoria, unidad, kcal,clase, grm, cantidad) => {
     const uid = authfb.currentUser.uid
     const idRecetaEnProceso = this.props.idReceta
@@ -431,7 +702,8 @@ verdurasValue = (value) => {
          })
          this.setState({mostrarAlimentos3:'noMostrar'})
   }
-   enviarEq = (e, ref)=>{
+
+enviarEq = (e, ref)=>{
        const uid = authfb.currentUser.uid
        const idRecetaEnProceso = this.props.idReceta
        const valor = e == "" ?0 :e
@@ -470,6 +742,91 @@ borrarAlimento3 = (ref)=>{
     const idRecetaEnProceso = this.props.idReceta
     dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/desayuno/platillo3/alimentos/${ref}/`).remove()
 }
+
+enviarEqColacion1Platillo1 = (e, ref)=>{
+    const uid = authfb.currentUser.uid
+    const idRecetaEnProceso = this.props.idReceta
+    const valor = e == "" ?0 :e
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/colacion1/platillo1/alimentos/${ref}/`).update({
+      eq: parseInt(valor)
+   });
+}
+enviarEqColacion1Platillo2 = (e, ref)=>{
+    const uid = authfb.currentUser.uid
+    const idRecetaEnProceso = this.props.idReceta
+    const valor = e == "" ?0 :e
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/colacion1/platillo2/alimentos/${ref}/`).update({
+      eq: parseInt(valor)
+   });
+}
+enviarEqColacion1Platillo3 = (e, ref)=>{
+    const uid = authfb.currentUser.uid
+    const idRecetaEnProceso = this.props.idReceta
+    const valor = e == "" ?0 :e
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/colacion1/platillo3/alimentos/${ref}/`).update({
+      eq: parseInt(valor)
+   });
+}
+
+
+borrarAlimentoColacion1Platillo1 = (ref)=>{
+    const uid = authfb.currentUser.uid 
+    const idRecetaEnProceso = this.props.idReceta
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/colacion1/platillo1/alimentos/${ref}/`).remove()
+}
+borrarAlimentoColacion1Platillo2 = (ref)=>{
+    const uid = authfb.currentUser.uid 
+    const idRecetaEnProceso = this.props.idReceta
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/colacion1/platillo2/alimentos/${ref}/`).remove()
+}
+borrarAlimentoColacion1Platillo3 = (ref)=>{
+    const uid = authfb.currentUser.uid 
+    const idRecetaEnProceso = this.props.idReceta
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/colacion1/platillo3/alimentos/${ref}/`).remove()
+}
+
+
+borrarAlimentoComidaPlatillo1 = (ref)=>{
+    const uid = authfb.currentUser.uid 
+    const idRecetaEnProceso = this.props.idReceta
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/comida/platillo1/alimentos/${ref}/`).remove()
+}
+borrarAlimentoComidaPlatillo2 = (ref)=>{
+    const uid = authfb.currentUser.uid 
+    const idRecetaEnProceso = this.props.idReceta
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/comida/platillo2/alimentos/${ref}/`).remove()
+}
+borrarAlimentoComidaPlatillo3 = (ref)=>{
+    const uid = authfb.currentUser.uid 
+    const idRecetaEnProceso = this.props.idReceta
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/comida/platillo3/alimentos/${ref}/`).remove()
+}
+
+enviarEqColacion2Platillo1 = (e, ref)=>{
+    const uid = authfb.currentUser.uid
+    const idRecetaEnProceso = this.props.idReceta
+    const valor = e == "" ?0 :e
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/colacion2/platillo1/alimentos/${ref}/`).update({
+      eq: parseInt(valor)
+   });
+}
+enviarEqColacion2Platillo2 = (e, ref)=>{
+    const uid = authfb.currentUser.uid
+    const idRecetaEnProceso = this.props.idReceta
+    const valor = e == "" ?0 :e
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/colacion2/platillo2/alimentos/${ref}/`).update({
+      eq: parseInt(valor)
+   });
+}
+enviarEqColacion2Platillo3 = (e, ref)=>{
+    const uid = authfb.currentUser.uid
+    const idRecetaEnProceso = this.props.idReceta
+    const valor = e == "" ?0 :e
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/colacion2/platillo3/alimentos/${ref}/`).update({
+      eq: parseInt(valor)
+   });
+}
+
    enviarNombre = (e) => {
     const uid = authfb.currentUser.uid
     const idRecetaEnProceso = this.props.idReceta
@@ -477,6 +834,9 @@ borrarAlimento3 = (ref)=>{
     dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/desayuno/platillo1`).update({
       nombre: valor
    });
+   this.setState({
+       nombrePlatilloDesayuno:e
+   })
    }
    enviarNombre2 = (e) => {
     const uid = authfb.currentUser.uid
@@ -494,23 +854,448 @@ borrarAlimento3 = (ref)=>{
       nombre: valor
    });
    }
+  
+
+  
+
+/*** C  O  L  A  C  I  O  N  1   -   C  O  L  A  C  I  O  N  1  */
+
+enviarNombre1Colacion1 = (e) => {
+    const uid = authfb.currentUser.uid
+    const idRecetaEnProceso = this.props.idReceta
+    const valor = e == "" ?"platillo 1" :e
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/colacion1/platillo1`).update({
+      nombre: valor
+   });
+   }
+   enviarNombre2Colacion1 = (e) => {
+    const uid = authfb.currentUser.uid
+    const idRecetaEnProceso = this.props.idReceta
+    const valor = e == "" ?"platillo 2" :e
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/colacion1/platillo2`).update({
+      nombre: valor
+   });
+   }
+   enviarNombre3Colacion1 = (e) => {
+    const uid = authfb.currentUser.uid
+    const idRecetaEnProceso = this.props.idReceta
+    const valor = e == "" ?"platillo 3" :e
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/colacion1/platillo3`).update({
+      nombre: valor
+   });
+   }
+   enviarAlientoColacion1 = (nombre, categoria, unidad, kcal,clase, grm, cantidad,lipidos,sodio,hco) => {
+    const uid = authfb.currentUser.uid
+    const idRecetaEnProceso = this.props.idReceta
+    const claveAlimento = dbfb.ref().push();
+    const key = claveAlimento.key      
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/colacion1/platillo1/alimentos/${key}`).set({
+        nombre: nombre, categoria:categoria, unidad:unidad,  kcal:parseInt(kcal), ref:key, eq:1, clase:clase, gramos:grm, cantidad:cantidad,
+        lipidos:lipidos, sodio:sodio, hco:hco
+      });
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/colacion1/platillo1/alimentos`).on('value', snapshot =>{
+          this.setState({
+           platillo1Colacion1Array: snapshot.val()
+            })
+         })
+    this.setState({filteredAlimentoColacion1:[]})
+  }
+
+  enviarAlimentoPlatillo2Colacion1 = (nombre, categoria, unidad, kcal,clase, grm, cantidad,lipidos,sodio,hco) => {
+    const uid = authfb.currentUser.uid
+    const idRecetaEnProceso = this.props.idReceta
+    const claveAlimento = dbfb.ref().push();
+    const key = claveAlimento.key      
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/colacion1/platillo2/alimentos/${key}`).set({
+        nombre: nombre, categoria:categoria, unidad:unidad,  kcal:parseInt(kcal), ref:key, eq:1, clase:clase, gramos:grm, cantidad:cantidad,
+        lipidos:lipidos, sodio:sodio, hco:hco
+      });
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/colacion1/platillo2/alimentos`).on('value', snapshot =>{
+          this.setState({
+           platillo2Colacion1Array: snapshot.val()
+            })
+         })
+    this.setState({filteredAlimento2Colacion1:[]})
+  }
+  enviarAlimentoPlatillo3Colacion1 = (nombre, categoria, unidad, kcal,clase, grm, cantidad,lipidos,sodio,hco) => {
+    const uid = authfb.currentUser.uid
+    const idRecetaEnProceso = this.props.idReceta
+    const claveAlimento = dbfb.ref().push();
+    const key = claveAlimento.key      
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/colacion1/platillo3/alimentos/${key}`).set({
+        nombre: nombre, categoria:categoria, unidad:unidad,  kcal:parseInt(kcal), ref:key, eq:1, clase:clase, gramos:grm, cantidad:cantidad,
+        lipidos:lipidos, sodio:sodio, hco:hco
+      });
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/colacion1/platillo3/alimentos`).on('value', snapshot =>{
+          this.setState({
+           platillo3Colacion1Array: snapshot.val()
+            })
+         })
+    this.setState({filteredAlimento3Colacion1:[]})
+  }
+
+  /***   C  O  M  I  D  A  -   C  O  M  I  D  A -   C  O  M  I  D  A */
+
+
+  enviarNombre1Comida = (e) => {
+    const uid = authfb.currentUser.uid
+    const idRecetaEnProceso = this.props.idReceta
+    const valor = e == "" ?"platillo 1" :e
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/comida/platillo1`).update({
+      nombre: valor
+   });
+   }
+   enviarNombre2Comida = (e) => {
+    const uid = authfb.currentUser.uid
+    const idRecetaEnProceso = this.props.idReceta
+    const valor = e == "" ?"platillo 2" :e
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/comida/platillo2`).update({
+      nombre: valor
+   });
+   }
+   enviarNombre3Comida = (e) => {
+    const uid = authfb.currentUser.uid
+    const idRecetaEnProceso = this.props.idReceta
+    const valor = e == "" ?"platillo 3" :e
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/comida/platillo3`).update({
+      nombre: valor
+   });
+   }
+  enviarAlimentoPlatillo1Comida = (nombre, categoria, unidad, kcal,clase, grm, cantidad,lipidos,sodio,hco) => {
+    const uid = authfb.currentUser.uid
+    const idRecetaEnProceso = this.props.idReceta
+    const claveAlimento = dbfb.ref().push();
+    const key = claveAlimento.key      
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/comida/platillo1/alimentos/${key}`).set({
+        nombre: nombre, categoria:categoria, unidad:unidad,  kcal:parseInt(kcal), ref:key, eq:1, clase:clase, gramos:grm, cantidad:cantidad,
+        lipidos:lipidos, sodio:sodio, hco:hco
+      });
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/comida/platillo1/alimentos`).on('value', snapshot =>{
+          this.setState({
+           platillo1ComidaArray: snapshot.val()
+            })
+         })
+    this.setState({filteredAlimento1Comida:[]})
+  }
+  enviarAlimentoPlatillo2Comida = (nombre, categoria, unidad, kcal,clase, grm, cantidad,lipidos,sodio,hco) => {
+    const uid = authfb.currentUser.uid
+    const idRecetaEnProceso = this.props.idReceta
+    const claveAlimento = dbfb.ref().push();
+    const key = claveAlimento.key      
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/comida/platillo2/alimentos/${key}`).set({
+        nombre: nombre, categoria:categoria, unidad:unidad,  kcal:parseInt(kcal), ref:key, eq:1, clase:clase, gramos:grm, cantidad:cantidad,
+        lipidos:lipidos, sodio:sodio, hco:hco
+      });
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/comida/platillo2/alimentos`).on('value', snapshot =>{
+          this.setState({
+           platillo2ComidaArray: snapshot.val()
+            })
+         })
+    this.setState({filteredAlimento2Comida:[]})
+  }
+  enviarAlimentoPlatillo3Comida = (nombre, categoria, unidad, kcal,clase, grm, cantidad,lipidos,sodio,hco) => {
+    const uid = authfb.currentUser.uid
+    const idRecetaEnProceso = this.props.idReceta
+    const claveAlimento = dbfb.ref().push();
+    const key = claveAlimento.key      
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/comida/platillo3/alimentos/${key}`).set({
+        nombre: nombre, categoria:categoria, unidad:unidad,  kcal:parseInt(kcal), ref:key, eq:1, clase:clase, gramos:grm, cantidad:cantidad,
+        lipidos:lipidos, sodio:sodio, hco:hco
+      });
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/comida/platillo3/alimentos`).on('value', snapshot =>{
+          this.setState({
+           platillo3ComidaArray: snapshot.val()
+            })
+         })
+    this.setState({filteredAlimento3Comida:[]})
+  }
+
+  /**** C  O  L  A  C  I  O  N  2   -   C  O  L  A  C  I  O  N  2 */
+
+  enviarNombre1Colacion2 = (e) => {
+    const uid = authfb.currentUser.uid
+    const idRecetaEnProceso = this.props.idReceta
+    const valor = e == "" ?"platillo 1" :e
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/colacion2/platillo1`).update({
+      nombre: valor
+   });
+   }
+   enviarNombre2Colacion2 = (e) => {
+    const uid = authfb.currentUser.uid
+    const idRecetaEnProceso = this.props.idReceta
+    const valor = e == "" ?"platillo 2" :e
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/colacion2/platillo2`).update({
+      nombre: valor
+   });
+   }
+   enviarNombre3Colacion2 = (e) => {
+    const uid = authfb.currentUser.uid
+    const idRecetaEnProceso = this.props.idReceta
+    const valor = e == "" ?"platillo 3" :e
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/colacion2/platillo3`).update({
+      nombre: valor
+   });
+   }
+
+  enviarAlimentoColacion2 = (nombre, categoria, unidad, kcal,clase, grm, cantidad,lipidos,sodio,hco) => {
+    const uid = authfb.currentUser.uid
+    const idRecetaEnProceso = this.props.idReceta
+    const claveAlimento = dbfb.ref().push();
+    const key = claveAlimento.key      
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/colacion2/platillo1/alimentos/${key}`).set({
+        nombre: nombre, categoria:categoria, unidad:unidad,  kcal:parseInt(kcal), ref:key, eq:1, clase:clase, gramos:grm, cantidad:cantidad,
+        lipidos:lipidos, sodio:sodio, hco:hco
+      });
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/colacion2/platillo1/alimentos`).on('value', snapshot =>{
+          this.setState({
+           platillo1Colacion2Array: snapshot.val()
+            })
+         })
+    this.setState({filteredAlimentoColacion2:[]})
+  }
+
+  enviarAlimentoPlatillo2Colacion2 = (nombre, categoria, unidad, kcal,clase, grm, cantidad,lipidos,sodio,hco) => {
+    const uid = authfb.currentUser.uid
+    const idRecetaEnProceso = this.props.idReceta
+    const claveAlimento = dbfb.ref().push();
+    const key = claveAlimento.key      
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/colacion2/platillo2/alimentos/${key}`).set({
+        nombre: nombre, categoria:categoria, unidad:unidad,  kcal:parseInt(kcal), ref:key, eq:1, clase:clase, gramos:grm, cantidad:cantidad,
+        lipidos:lipidos, sodio:sodio, hco:hco
+      });
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/colacion2/platillo2/alimentos`).on('value', snapshot =>{
+          this.setState({
+           platillo2Colacion2Array: snapshot.val()
+            })
+         })
+    this.setState({filteredAlimento2Colacion2:[]})
+  }
+  enviarAlimentoPlatillo3Colacion2 = (nombre, categoria, unidad, kcal,clase, grm, cantidad,lipidos,sodio,hco) => {
+    const uid = authfb.currentUser.uid
+    const idRecetaEnProceso = this.props.idReceta
+    const claveAlimento = dbfb.ref().push();
+    const key = claveAlimento.key      
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/colacion2/platillo3/alimentos/${key}`).set({
+        nombre: nombre, categoria:categoria, unidad:unidad,  kcal:parseInt(kcal), ref:key, eq:1, clase:clase, gramos:grm, cantidad:cantidad,
+        lipidos:lipidos, sodio:sodio, hco:hco
+      });
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/colacion2/platillo3/alimentos`).on('value', snapshot =>{
+          this.setState({
+           platillo3Colacion2Array: snapshot.val()
+            })
+         })
+    this.setState({filteredAlimento3Colacion2:[]})
+  }
+  borrarAlimentoColacion2Platillo1 = (ref)=>{
+    const uid = authfb.currentUser.uid 
+    const idRecetaEnProceso = this.props.idReceta
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/colacion2/platillo1/alimentos/${ref}/`).remove()
+}
+borrarAlimentoColacion2Platillo2 = (ref)=>{
+    const uid = authfb.currentUser.uid 
+    const idRecetaEnProceso = this.props.idReceta
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/colacion2/platillo2/alimentos/${ref}/`).remove()
+}
+borrarAlimentoColacion2Platillo3 = (ref)=>{
+    const uid = authfb.currentUser.uid 
+    const idRecetaEnProceso = this.props.idReceta
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/colacion2/platillo3/alimentos/${ref}/`).remove()
+}
+
+/*** C  E  N  A      C  E  N  A      C  E  N  A */
+enviarNombre1Cena = (e) => {
+    const uid = authfb.currentUser.uid
+    const idRecetaEnProceso = this.props.idReceta
+    const valor = e == "" ?"platillo 1" :e
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/cena/platillo1`).update({
+      nombre: valor
+   });
+   }
+   enviarNombre2Cena = (e) => {
+    const uid = authfb.currentUser.uid
+    const idRecetaEnProceso = this.props.idReceta
+    const valor = e == "" ?"platillo 2" :e
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/cena/platillo2`).update({
+      nombre: valor
+   });
+   }
+   enviarNombre3Cena = (e) => {
+    const uid = authfb.currentUser.uid
+    const idRecetaEnProceso = this.props.idReceta
+    const valor = e == "" ?"platillo 3" :e
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/cena/platillo3`).update({
+      nombre: valor
+    });
+}
+  enviarAlimentoCena = (nombre, categoria, unidad, kcal,clase, grm, cantidad,lipidos,sodio,hco) => {
+    const uid = authfb.currentUser.uid
+    const idRecetaEnProceso = this.props.idReceta
+    const claveAlimento = dbfb.ref().push();
+    const key = claveAlimento.key      
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/cena/platillo1/alimentos/${key}`).set({
+        nombre: nombre, categoria:categoria, unidad:unidad,  kcal:parseInt(kcal), ref:key, eq:1, clase:clase, gramos:grm, cantidad:cantidad,
+        lipidos:lipidos, sodio:sodio, hco:hco
+      });
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/cena/platillo1/alimentos`).on('value', snapshot =>{
+          this.setState({
+           platillo1CenaArray: snapshot.val()
+            })
+         })
+    this.setState({filteredAlimentoCena:[]})
+  }
+
+  enviarAlimentoPlatillo2Cena = (nombre, categoria, unidad, kcal,clase, grm, cantidad,lipidos,sodio,hco) => {
+    const uid = authfb.currentUser.uid
+    const idRecetaEnProceso = this.props.idReceta
+    const claveAlimento = dbfb.ref().push();
+    const key = claveAlimento.key      
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/cena/platillo2/alimentos/${key}`).set({
+        nombre: nombre, categoria:categoria, unidad:unidad,  kcal:parseInt(kcal), ref:key, eq:1, clase:clase, gramos:grm, cantidad:cantidad,
+        lipidos:lipidos, sodio:sodio, hco:hco
+      });
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/cena/platillo2/alimentos`).on('value', snapshot =>{
+          this.setState({
+           platillo2CenaArray: snapshot.val()
+            })
+         })
+    this.setState({filteredAlimento2Cena:[]})
+  }
+  enviarAlimentoPlatillo3Cena = (nombre, categoria, unidad, kcal,clase, grm, cantidad,lipidos,sodio,hco) => {
+    const uid = authfb.currentUser.uid
+    const idRecetaEnProceso = this.props.idReceta
+    const claveAlimento = dbfb.ref().push();
+    const key = claveAlimento.key      
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/cena/platillo3/alimentos/${key}`).set({
+        nombre: nombre, categoria:categoria, unidad:unidad,  kcal:parseInt(kcal), ref:key, eq:1, clase:clase, gramos:grm, cantidad:cantidad,
+        lipidos:lipidos, sodio:sodio, hco:hco
+      });
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/cena/platillo3/alimentos`).on('value', snapshot =>{
+          this.setState({
+           platillo3CenaArray: snapshot.val()
+            })
+         })
+    this.setState({filteredAlimento3Cena:[]})
+  }
+  borrarAlimentoCenaPlatillo1 = (ref)=>{
+    const uid = authfb.currentUser.uid 
+    const idRecetaEnProceso = this.props.idReceta
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/cena/platillo1/alimentos/${ref}/`).remove()
+}
+borrarAlimentoCenaPlatillo2 = (ref)=>{
+    const uid = authfb.currentUser.uid 
+    const idRecetaEnProceso = this.props.idReceta
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/cena/platillo2/alimentos/${ref}/`).remove()
+}
+borrarAlimentoCenaPlatillo3 = (ref)=>{
+    const uid = authfb.currentUser.uid 
+    const idRecetaEnProceso = this.props.idReceta
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/cena/platillo3/alimentos/${ref}/`).remove()
+}
+
+enviarEqCenaPlatillo1 = (e, ref)=>{
+    const uid = authfb.currentUser.uid
+    const idRecetaEnProceso = this.props.idReceta
+    const valor = e == "" ?0 :e
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/cena/platillo1/alimentos/${ref}/`).update({
+      eq: parseInt(valor)
+   });
+}
+enviarEqCenaPlatillo2 = (e, ref)=>{
+    const uid = authfb.currentUser.uid
+    const idRecetaEnProceso = this.props.idReceta
+    const valor = e == "" ?0 :e
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/cena/platillo2/alimentos/${ref}/`).update({
+      eq: parseInt(valor)
+   });
+}
+enviarEqCenaPlatillo3 = (e, ref)=>{
+    const uid = authfb.currentUser.uid
+    const idRecetaEnProceso = this.props.idReceta
+    const valor = e == "" ?0 :e
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/cena/platillo3/alimentos/${ref}/`).update({
+      eq: parseInt(valor)
+   });
+}
+
+
    stepDieta1 = () =>{
     this.setState({
      stepDesayuno:true,
      stepColacion1:false,
+     stepComida:false,
      bottomNavDesayuno:true,
-        bottomNavColacion1:false
+        bottomNavColacion1:false,
+        bottomNavComida:false,
+        bottomNavColacion2:false,
+        stepColacion2:false,
+        stepCena:false,
+        bottomNavCena:false
+
     })
 }
    stepDieta2 = () =>{
        this.setState({
         stepDesayuno:false,
         stepColacion1:true,
+        stepComida:false,
         checkColacion1:true,
         bottomNavDesayuno:false,
-        bottomNavColacion1:true
+        bottomNavColacion1:true,
+        bottomNavComida:false,
+        bottomNavColacion2:false,
+        stepColacion2:false,
+        stepCena:false,
+        bottomNavCena:false
        })
+      
    }
+   stepDieta3 = () =>{
+    this.setState({
+     stepDesayuno:false,
+     stepColacion1:false,
+     stepComida:true,
+     stepCena:false,
+     checkComida:true,
+     bottomNavDesayuno:false,
+     bottomNavColacion1:false,
+     bottomNavComida:true,
+     bottomNavColacion2:false,
+     stepColacion2:false,
+     bottomNavCena:false
+    })
+}
+stepDieta4 = () =>{
+    this.setState({
+     stepDesayuno:false,
+     stepComida:false,
+     stepColacion1:false,
+     stepColacion2:true,
+     stepCena:false,
+     checkColacion2:true,
+     bottomNavDesayuno:false,
+     bottomNavColacion1:false,
+     bottomNavComida:false,
+     bottomNavColacion2:true,
+     bottomNavCena:false
+    })
+}
+stepDieta5 = () =>{
+    this.setState({
+     stepDesayuno:false,
+     stepColacion1:false,
+     stepComida:false,
+     stepColacion2:false,
+     stepCena:true,
+     checkCena:true,
+     bottomNavDesayuno:false,
+     bottomNavColacion1:false,
+     bottomNavComida:false,
+     bottomNavColacion2:false,
+     bottomNavCena:true
+    })
+}
+
+
 /** Funciones Set de Valores de Tablero de resultados de meta  */
 metaKcalDieta = (value) => { this.setState({ metaKcalDieta: value }) }
 cerrarDieta = () =>{
@@ -532,6 +1317,18 @@ cerrarDieta = () =>{
         const arrayPlatillo = this.state.platillo1array
         const arrayPlatillo2 = this.state.platillo2array
         const arrayPlatillo3 = this.state.platillo3array
+        const arrayColacion1Platillo1 = this.state.platillo1Colacion1Array
+        const arrayColacion1Platillo2 = this.state.platillo2Colacion1Array
+        const arrayColacion1Platillo3 = this.state.platillo3Colacion1Array
+        const arrayComidaPlatillo1 = this.state.platillo1ComidaArray
+        const arrayComidaPlatillo2 = this.state.platillo2ComidaArray
+        const arrayComidaPlatillo3 = this.state.platillo3ComidaArray
+        const arrayColacion2Platillo1 = this.state.platillo1Colacion2Array
+        const arrayColacion2Platillo2 = this.state.platillo2Colacion2Array
+        const arrayColacion2Platillo3 = this.state.platillo3Colacion2Array
+        const arrayCenaPlatillo1 = this.state.platillo1CenaArray
+        const arrayCenaPlatillo2 = this.state.platillo2CenaArray
+        const arrayCenaPlatillo3 = this.state.platillo3CenaArray
     /** Indicadores Equivalentes Dieta */  
     /** Frutas */
     /** Platillo 1 */
@@ -582,11 +1379,11 @@ cerrarDieta = () =>{
     const totalEqLacteosDesayuno1 = sumDesayunoEqLacteos+sumDesayunoEqLacteos2+sumDesayunoEqLacteos3
     const eqLacteos = parseInt(DisLacteosDesayunoVal) - totalEqLacteosDesayuno1
     /** Aceites y Grasas */
-    const DesayunoEqGrasas = !!arrayPlatillo &&  Object.keys(arrayPlatillo).map((key)=> arrayPlatillo[key].clase === "8" ?arrayPlatillo[key].eq:0)
+    const DesayunoEqGrasas = !!arrayPlatillo &&  Object.keys(arrayPlatillo).map((key)=> arrayPlatillo[key].clase === "4" ?arrayPlatillo[key].eq:0)
     const sumDesayunoEqGrasas = !! arrayPlatillo && DesayunoEqGrasas.reduce((a,b) => a + b)
-    const DesayunoEqGrasas2 = !!arrayPlatillo2 &&  Object.keys(arrayPlatillo2).map((key)=> arrayPlatillo2[key].clase === "8" ?arrayPlatillo2[key].eq:0)
+    const DesayunoEqGrasas2 = !!arrayPlatillo2 &&  Object.keys(arrayPlatillo2).map((key)=> arrayPlatillo2[key].clase === "4" ?arrayPlatillo2[key].eq:0)
     const sumDesayunoEqGrasas2 = !! arrayPlatillo2 && DesayunoEqGrasas2.reduce((a,b) => a + b)
-    const DesayunoEqGrasas3 = !!arrayPlatillo3 &&  Object.keys(arrayPlatillo3).map((key)=> arrayPlatillo3[key].clase === "8" ?arrayPlatillo3[key].eq:0)
+    const DesayunoEqGrasas3 = !!arrayPlatillo3 &&  Object.keys(arrayPlatillo3).map((key)=> arrayPlatillo3[key].clase === "4" ?arrayPlatillo3[key].eq:0)
     const sumDesayunoEqGrasas3 = !! arrayPlatillo3 && DesayunoEqGrasas3.reduce((a,b) => a + b)
     const totalEqGrasasDesayuno1 = sumDesayunoEqGrasas+sumDesayunoEqGrasas2+sumDesayunoEqGrasas3
     const eqGrasas = parseInt(DisGrasasDesayunoVal) - totalEqGrasasDesayuno1
@@ -608,7 +1405,7 @@ cerrarDieta = () =>{
     const sumDesayunoEqLeguminosas3 = !! arrayPlatillo3 && DesayunoEqLeguminosas3.reduce((a,b) => a + b)
     const totalEqLeguminosasDesayuno1 = sumDesayunoEqLeguminosas+sumDesayunoEqLeguminosas2+sumDesayunoEqLeguminosas3
     const eqLeguminosas = parseInt(DisLeguminosasDesayunoVal) - totalEqLeguminosasDesayuno1
-    /** Leguminosas */
+    /** Agua */
     const DesayunoEqAgua = !!arrayPlatillo &&  Object.keys(arrayPlatillo).map((key)=> arrayPlatillo[key].clase === "9" ?arrayPlatillo[key].eq:0)
     const sumDesayunoEqAgua = !! arrayPlatillo && DesayunoEqAgua.reduce((a,b) => a + b)
     const DesayunoEqAgua2 = !!arrayPlatillo2 &&  Object.keys(arrayPlatillo2).map((key)=> arrayPlatillo2[key].clase === "9" ?arrayPlatillo2[key].eq:0)
@@ -617,11 +1414,379 @@ cerrarDieta = () =>{
     const sumDesayunoEqAgua3 = !! arrayPlatillo3 && DesayunoEqAgua3.reduce((a,b) => a + b)
     const totalEqAguaDesayuno1 = sumDesayunoEqAgua+sumDesayunoEqAgua2+sumDesayunoEqAgua3
     const eqAgua = parseInt(DisAguaDesayunoVal) - totalEqAguaDesayuno1
+
+    /** COLACION 1 */
+    /** Platillo 1 */
+    /** Frutas */
+    const Colacion1EqFrutas = !!arrayColacion1Platillo1 &&  Object.keys(arrayColacion1Platillo1).map((key)=> arrayColacion1Platillo1[key].clase === "7" ?arrayColacion1Platillo1[key].eq:0)
+    const sumColacion1EqFrutas = !! arrayColacion1Platillo1 && Colacion1EqFrutas.reduce((a,b) => a + b)
+    const Colacion1EqFrutas2 = !!arrayColacion1Platillo2 &&  Object.keys(arrayColacion1Platillo2).map((key)=> arrayColacion1Platillo2[key].clase === "7" ?arrayColacion1Platillo2[key].eq:0)
+    const sumColacion1EqFrutas2 = !! arrayColacion1Platillo2 && Colacion1EqFrutas2.reduce((a,b) => a + b)
+    const Colacion1EqFrutas3 = !!arrayColacion1Platillo3 &&  Object.keys(arrayColacion1Platillo3).map((key)=> arrayColacion1Platillo3[key].clase === "7" ?arrayColacion1Platillo3[key].eq:0)
+    const sumColacion1EqFrutas3 = !! arrayColacion1Platillo3 && Colacion1EqFrutas3.reduce((a,b) => a + b)
+    const totalEqColacion11 = sumColacion1EqFrutas + sumColacion1EqFrutas2 + sumColacion1EqFrutas3
+    const eqFrutasColacion1 = parseInt(DisfrutaColacion1Val) - totalEqColacion11
+
+     /** Verduras */
+     const Colacion1EqVerduras = !!arrayColacion1Platillo1 &&  Object.keys(arrayColacion1Platillo1).map((key)=> arrayColacion1Platillo1[key].clase === "2" ?arrayColacion1Platillo1[key].eq:0)
+     const sumColacion1EqVerduras = !! arrayColacion1Platillo1 && Colacion1EqVerduras.reduce((a,b) => a + b)
+     const Colacion1EqVerduras2 = !!arrayColacion1Platillo2 &&  Object.keys(arrayColacion1Platillo2).map((key)=> arrayColacion1Platillo2[key].clase === "2" ?arrayColacion1Platillo2[key].eq:0)
+     const sumColacion1EqVerduras2 = !! arrayColacion1Platillo2 && Colacion1EqVerduras2.reduce((a,b) => a + b)
+     const Colacion1EqVerduras3 = !!arrayColacion1Platillo3 &&  Object.keys(arrayColacion1Platillo3).map((key)=> arrayColacion1Platillo3[key].clase === "2" ?arrayColacion1Platillo3[key].eq:0)
+     const sumColacion1EqVerduras3 = !! arrayColacion1Platillo3 && Colacion1EqVerduras3.reduce((a,b) => a + b)
+     const totalEqColacion1Verduras1 = sumColacion1EqVerduras + sumColacion1EqVerduras2 + sumColacion1EqVerduras3
+     const eqVerdurasColacion1 = parseInt(DisVerdurasColacion1Val) - totalEqColacion1Verduras1
+
+     /** Proteinas */
+     const Colacion1EqProteinas = !!arrayColacion1Platillo1 &&  Object.keys(arrayColacion1Platillo1).map((key)=> arrayColacion1Platillo1[key].clase === "6" ?arrayColacion1Platillo1[key].eq:0)
+     const sumColacion1EqProteinas = !! arrayColacion1Platillo1 && Colacion1EqProteinas.reduce((a,b) => a + b)
+     const Colacion1EqProteinas2 = !!arrayColacion1Platillo2 &&  Object.keys(arrayColacion1Platillo2).map((key)=> arrayColacion1Platillo2[key].clase === "6" ?arrayColacion1Platillo2[key].eq:0)
+     const sumColacion1EqProteinas2 = !! arrayColacion1Platillo2 && Colacion1EqProteinas2.reduce((a,b) => a + b)
+     const Colacion1EqProteinas3 = !!arrayColacion1Platillo3 &&  Object.keys(arrayColacion1Platillo3).map((key)=> arrayColacion1Platillo3[key].clase === "6" ?arrayColacion1Platillo3[key].eq:0)
+     const sumColacion1EqProteinas3 = !! arrayColacion1Platillo3 && Colacion1EqProteinas3.reduce((a,b) => a + b)
+     const totalEqColacion1Proteinas1 = sumColacion1EqProteinas + sumColacion1EqProteinas2 + sumColacion1EqProteinas3
+     const eqProteinasColacion1 = parseInt(DisProteinasColacion1Val) - totalEqColacion1Proteinas1
+     /** Cereales */
+     const Colacion1EqCereales = !!arrayColacion1Platillo1 &&  Object.keys(arrayColacion1Platillo1).map((key)=> arrayColacion1Platillo1[key].clase === "1" ?arrayColacion1Platillo1[key].eq:0)
+     const sumColacion1EqCereales = !! arrayColacion1Platillo1 && Colacion1EqCereales.reduce((a,b) => a + b)
+     const Colacion1EqCereales2 = !!arrayColacion1Platillo2 &&  Object.keys(arrayColacion1Platillo2).map((key)=> arrayColacion1Platillo2[key].clase === "1" ?arrayColacion1Platillo2[key].eq:0)
+     const sumColacion1EqCereales2 = !! arrayColacion1Platillo2 && Colacion1EqCereales2.reduce((a,b) => a + b)
+     const Colacion1EqCereales3 = !!arrayColacion1Platillo3 &&  Object.keys(arrayColacion1Platillo3).map((key)=> arrayColacion1Platillo3[key].clase === "1" ?arrayColacion1Platillo3[key].eq:0)
+     const sumColacion1EqCereales3 = !! arrayColacion1Platillo3 && Colacion1EqCereales3.reduce((a,b) => a + b)
+     const totalEqColacion1Cereales1 = sumColacion1EqCereales + sumColacion1EqCereales2 + sumColacion1EqCereales3
+     const eqCerealesColacion1 = parseInt(DisCerealesColacion1Val) - totalEqColacion1Cereales1
+     /** Lacteos */
+     const Colacion1EqLacteos = !!arrayColacion1Platillo1 &&  Object.keys(arrayColacion1Platillo1).map((key)=> arrayColacion1Platillo1[key].clase === "8" ?arrayColacion1Platillo1[key].eq:0)
+     const sumColacion1EqLacteos = !! arrayColacion1Platillo1 && Colacion1EqLacteos.reduce((a,b) => a + b)
+     const Colacion1EqLacteos2 = !!arrayColacion1Platillo2 &&  Object.keys(arrayColacion1Platillo2).map((key)=> arrayColacion1Platillo2[key].clase === "8" ?arrayColacion1Platillo2[key].eq:0)
+     const sumColacion1EqLacteos2 = !! arrayColacion1Platillo2 && Colacion1EqLacteos2.reduce((a,b) => a + b)
+     const Colacion1EqLacteos3 = !!arrayColacion1Platillo3 &&  Object.keys(arrayColacion1Platillo3).map((key)=> arrayColacion1Platillo3[key].clase === "8" ?arrayColacion1Platillo3[key].eq:0)
+     const sumColacion1EqLacteos3 = !! arrayColacion1Platillo3 && Colacion1EqLacteos3.reduce((a,b) => a + b)
+     const totalEqColacion1Lacteos1 = sumColacion1EqLacteos + sumColacion1EqLacteos2 + sumColacion1EqLacteos3
+     const eqLacteosColacion1 = parseInt(DisLacteosColacion1Val) - totalEqColacion1Lacteos1
+
+     /** Grasas */
+     const Colacion1EqGrasas = !!arrayColacion1Platillo1 &&  Object.keys(arrayColacion1Platillo1).map((key)=> arrayColacion1Platillo1[key].clase === "4" ?arrayColacion1Platillo1[key].eq:0)
+     const sumColacion1EqGrasas = !! arrayColacion1Platillo1 && Colacion1EqGrasas.reduce((a,b) => a + b)
+     const Colacion1EqGrasas2 = !!arrayColacion1Platillo2 &&  Object.keys(arrayColacion1Platillo2).map((key)=> arrayColacion1Platillo2[key].clase === "4" ?arrayColacion1Platillo2[key].eq:0)
+     const sumColacion1EqGrasas2 = !! arrayColacion1Platillo2 && Colacion1EqGrasas2.reduce((a,b) => a + b)
+     const Colacion1EqGrasas3 = !!arrayColacion1Platillo3 &&  Object.keys(arrayColacion1Platillo3).map((key)=> arrayColacion1Platillo3[key].clase === "4" ?arrayColacion1Platillo3[key].eq:0)
+     const sumColacion1EqGrasas3 = !! arrayColacion1Platillo3 && Colacion1EqGrasas3.reduce((a,b) => a + b)
+     const totalEqColacion1Grasas1 = sumColacion1EqGrasas + sumColacion1EqGrasas2 + sumColacion1EqGrasas3
+     const eqGrasasColacion1 = parseInt(DisGrasasColacion1Val) - totalEqColacion1Grasas1
+       /** Azucares */
+       const Colacion1EqAzucares = !!arrayColacion1Platillo1 &&  Object.keys(arrayColacion1Platillo1).map((key)=> arrayColacion1Platillo1[key].clase === "5" ?arrayColacion1Platillo1[key].eq:0)
+       const sumColacion1EqAzucares = !! arrayColacion1Platillo1 && Colacion1EqAzucares.reduce((a,b) => a + b)
+       const Colacion1EqAzucares2 = !!arrayColacion1Platillo2 &&  Object.keys(arrayColacion1Platillo2).map((key)=> arrayColacion1Platillo2[key].clase === "5" ?arrayColacion1Platillo2[key].eq:0)
+       const sumColacion1EqAzucares2 = !! arrayColacion1Platillo2 && Colacion1EqAzucares2.reduce((a,b) => a + b)
+       const Colacion1EqAzucares3 = !!arrayColacion1Platillo3 &&  Object.keys(arrayColacion1Platillo3).map((key)=> arrayColacion1Platillo3[key].clase === "5" ?arrayColacion1Platillo3[key].eq:0)
+       const sumColacion1EqAzucares3 = !! arrayColacion1Platillo3 && Colacion1EqAzucares3.reduce((a,b) => a + b)
+       const totalEqColacion1Azucares1 = sumColacion1EqAzucares + sumColacion1EqAzucares2 + sumColacion1EqAzucares3
+       const eqAzucaresColacion1 = parseInt(DisAzucaresColacion1Val) - totalEqColacion1Azucares1
+      /** Leguminosas */
+      const Colacion1EqLeguminosas = !!arrayColacion1Platillo1 &&  Object.keys(arrayColacion1Platillo1).map((key)=> arrayColacion1Platillo1[key].clase === "3" ?arrayColacion1Platillo1[key].eq:0)
+      const sumColacion1EqLeguminosas = !! arrayColacion1Platillo1 && Colacion1EqLeguminosas.reduce((a,b) => a + b)
+      const Colacion1EqLeguminosas2 = !!arrayColacion1Platillo2 &&  Object.keys(arrayColacion1Platillo2).map((key)=> arrayColacion1Platillo2[key].clase === "3" ?arrayColacion1Platillo2[key].eq:0)
+      const sumColacion1EqLeguminosas2 = !! arrayColacion1Platillo2 && Colacion1EqLeguminosas2.reduce((a,b) => a + b)
+      const Colacion1EqLeguminosas3 = !!arrayColacion1Platillo3 &&  Object.keys(arrayColacion1Platillo3).map((key)=> arrayColacion1Platillo3[key].clase === "3" ?arrayColacion1Platillo3[key].eq:0)
+      const sumColacion1EqLeguminosas3 = !! arrayColacion1Platillo3 && Colacion1EqLeguminosas3.reduce((a,b) => a + b)
+      const totalEqColacion1Leguminosas1 = sumColacion1EqLeguminosas + sumColacion1EqLeguminosas2 + sumColacion1EqLeguminosas3
+      const eqLeguminosasColacion1 = parseInt(DisLeguminosasColacion1Val) - totalEqColacion1Leguminosas1
+       /** Agua */
+       const Colacion1EqAgua = !!arrayColacion1Platillo1 &&  Object.keys(arrayColacion1Platillo1).map((key)=> arrayColacion1Platillo1[key].clase === "9" ?arrayColacion1Platillo1[key].eq:0)
+       const sumColacion1EqAgua = !! arrayColacion1Platillo1 && Colacion1EqAgua.reduce((a,b) => a + b)
+       const Colacion1EqAgua2 = !!arrayColacion1Platillo2 &&  Object.keys(arrayColacion1Platillo2).map((key)=> arrayColacion1Platillo2[key].clase === "9" ?arrayColacion1Platillo2[key].eq:0)
+       const sumColacion1EqAgua2 = !! arrayColacion1Platillo2 && Colacion1EqAgua2.reduce((a,b) => a + b)
+       const Colacion1EqAgua3 = !!arrayColacion1Platillo3 &&  Object.keys(arrayColacion1Platillo3).map((key)=> arrayColacion1Platillo3[key].clase === "9" ?arrayColacion1Platillo3[key].eq:0)
+       const sumColacion1EqAgua3 = !! arrayColacion1Platillo3 && Colacion1EqAgua3.reduce((a,b) => a + b)
+       const totalEqColacion1Agua1 = sumColacion1EqAgua + sumColacion1EqAgua2 + sumColacion1EqAgua3
+       const eqAguaColacion1 = parseInt(DisAguaColacion1Val) - totalEqColacion1Agua1
+
+    /** COMIDA */
+    /** Platillo 1 */
+    /** Frutas */
+    const ComidaEqFrutas = !!arrayComidaPlatillo1 &&  Object.keys(arrayComidaPlatillo1).map((key)=> arrayComidaPlatillo1[key].clase === "7" ?arrayComidaPlatillo1[key].eq:0)
+    const sumComidaEqFrutas = !! arrayComidaPlatillo1 && ComidaEqFrutas.reduce((a,b) => a + b)
+    const ComidaEqFrutas2 = !!arrayComidaPlatillo2 &&  Object.keys(arrayComidaPlatillo2).map((key)=> arrayComidaPlatillo2[key].clase === "7" ?arrayComidaPlatillo2[key].eq:0)
+    const sumComidaEqFrutas2 = !! arrayComidaPlatillo2 && ComidaEqFrutas2.reduce((a,b) => a + b)
+    const ComidaEqFrutas3 = !!arrayComidaPlatillo3 &&  Object.keys(arrayComidaPlatillo3).map((key)=> arrayComidaPlatillo3[key].clase === "7" ?arrayComidaPlatillo3[key].eq:0)
+    const sumComidaEqFrutas3 = !! arrayComidaPlatillo3 && ComidaEqFrutas3.reduce((a,b) => a + b)
+    const totalEqComida1 = sumComidaEqFrutas + sumComidaEqFrutas2 + sumComidaEqFrutas3
+    const eqFrutasComida = parseInt(DisfrutaComidaVal) - totalEqComida1
+
+     /** Verduras */
+     const ComidaEqVerduras = !!arrayComidaPlatillo1 &&  Object.keys(arrayComidaPlatillo1).map((key)=> arrayComidaPlatillo1[key].clase === "2" ?arrayComidaPlatillo1[key].eq:0)
+     const sumComidaEqVerduras = !! arrayComidaPlatillo1 && ComidaEqVerduras.reduce((a,b) => a + b)
+     const ComidaEqVerduras2 = !!arrayComidaPlatillo2 &&  Object.keys(arrayComidaPlatillo2).map((key)=> arrayComidaPlatillo2[key].clase === "2" ?arrayComidaPlatillo2[key].eq:0)
+     const sumComidaEqVerduras2 = !! arrayComidaPlatillo2 && ComidaEqVerduras2.reduce((a,b) => a + b)
+     const ComidaEqVerduras3 = !!arrayComidaPlatillo3 &&  Object.keys(arrayComidaPlatillo3).map((key)=> arrayComidaPlatillo3[key].clase === "2" ?arrayComidaPlatillo3[key].eq:0)
+     const sumComidaEqVerduras3 = !! arrayComidaPlatillo3 && ComidaEqVerduras3.reduce((a,b) => a + b)
+     const totalEqComidaVerduras1 = sumComidaEqVerduras + sumComidaEqVerduras2 + sumComidaEqVerduras3
+     const eqVerdurasComida = parseInt(DisVerdurasComidaVal) - totalEqComidaVerduras1
+
+     /** Proteinas */
+     const ComidaEqProteinas = !!arrayComidaPlatillo1 &&  Object.keys(arrayComidaPlatillo1).map((key)=> arrayComidaPlatillo1[key].clase === "6" ?arrayComidaPlatillo1[key].eq:0)
+     const sumComidaEqProteinas = !! arrayComidaPlatillo1 && ComidaEqProteinas.reduce((a,b) => a + b)
+     const ComidaEqProteinas2 = !!arrayComidaPlatillo2 &&  Object.keys(arrayComidaPlatillo2).map((key)=> arrayComidaPlatillo2[key].clase === "6" ?arrayComidaPlatillo2[key].eq:0)
+     const sumComidaEqProteinas2 = !! arrayComidaPlatillo2 && ComidaEqProteinas2.reduce((a,b) => a + b)
+     const ComidaEqProteinas3 = !!arrayComidaPlatillo3 &&  Object.keys(arrayComidaPlatillo3).map((key)=> arrayComidaPlatillo3[key].clase === "6" ?arrayComidaPlatillo3[key].eq:0)
+     const sumComidaEqProteinas3 = !! arrayComidaPlatillo3 && ComidaEqProteinas3.reduce((a,b) => a + b)
+     const totalEqComidaProteinas1 = sumComidaEqProteinas + sumComidaEqProteinas2 + sumComidaEqProteinas3
+     const eqProteinasComida = parseInt(DisProteinasComidaVal) - totalEqComidaProteinas1
+     /** Cereales */
+     const ComidaEqCereales = !!arrayComidaPlatillo1 &&  Object.keys(arrayComidaPlatillo1).map((key)=> arrayComidaPlatillo1[key].clase === "1" ?arrayComidaPlatillo1[key].eq:0)
+     const sumComidaEqCereales = !! arrayComidaPlatillo1 && ComidaEqCereales.reduce((a,b) => a + b)
+     const ComidaEqCereales2 = !!arrayComidaPlatillo2 &&  Object.keys(arrayComidaPlatillo2).map((key)=> arrayComidaPlatillo2[key].clase === "1" ?arrayComidaPlatillo2[key].eq:0)
+     const sumComidaEqCereales2 = !! arrayComidaPlatillo2 && ComidaEqCereales2.reduce((a,b) => a + b)
+     const ComidaEqCereales3 = !!arrayComidaPlatillo3 &&  Object.keys(arrayComidaPlatillo3).map((key)=> arrayComidaPlatillo3[key].clase === "1" ?arrayComidaPlatillo3[key].eq:0)
+     const sumComidaEqCereales3 = !! arrayComidaPlatillo3 && ComidaEqCereales3.reduce((a,b) => a + b)
+     const totalEqComidaCereales1 = sumComidaEqCereales + sumComidaEqCereales2 + sumComidaEqCereales3
+     const eqCerealesComida = parseInt(DisCerealesComidaVal) - totalEqComidaCereales1
+     /** Lacteos */
+     const ComidaEqLacteos = !!arrayComidaPlatillo1 &&  Object.keys(arrayComidaPlatillo1).map((key)=> arrayComidaPlatillo1[key].clase === "8" ?arrayComidaPlatillo1[key].eq:0)
+     const sumComidaEqLacteos = !! arrayColacion1Platillo1 && ComidaEqLacteos.reduce((a,b) => a + b)
+     const ComidaEqLacteos2 = !!arrayComidaPlatillo2 &&  Object.keys(arrayComidaPlatillo2).map((key)=> arrayComidaPlatillo2[key].clase === "8" ?arrayComidaPlatillo2[key].eq:0)
+     const sumComidaEqLacteos2 = !! arrayComidaPlatillo2 && ComidaEqLacteos2.reduce((a,b) => a + b)
+     const ComidaEqLacteos3 = !!arrayComidaPlatillo3 &&  Object.keys(arrayComidaPlatillo3).map((key)=> arrayComidaPlatillo3[key].clase === "8" ?arrayComidaPlatillo3[key].eq:0)
+     const sumComidaEqLacteos3 = !! arrayComidaPlatillo3 && ComidaEqLacteos3.reduce((a,b) => a + b)
+     const totalEqComidaLacteos1 = sumComidaEqLacteos + sumComidaEqLacteos2 + sumComidaEqLacteos3
+     const eqLacteosComida = parseInt(DisLacteosComidaVal) - totalEqComidaLacteos1
+
+     /** Grasas */
+     const ComidaEqGrasas = !!arrayComidaPlatillo1 &&  Object.keys(arrayComidaPlatillo1).map((key)=> arrayComidaPlatillo1[key].clase === "4" ?arrayComidaPlatillo1[key].eq:0)
+     const sumComidaEqGrasas = !! arrayComidaPlatillo1 && ComidaEqGrasas.reduce((a,b) => a + b)
+     const ComidaEqGrasas2 = !!arrayComidaPlatillo2 &&  Object.keys(arrayComidaPlatillo2).map((key)=> arrayComidaPlatillo2[key].clase === "4" ?arrayComidaPlatillo2[key].eq:0)
+     const sumComidaEqGrasas2 = !! arrayComidaPlatillo2 && ComidaEqGrasas2.reduce((a,b) => a + b)
+     const ComidaEqGrasas3 = !!arrayComidaPlatillo3 &&  Object.keys(arrayComidaPlatillo3).map((key)=> arrayComidaPlatillo3[key].clase === "4" ?arrayComidaPlatillo3[key].eq:0)
+     const sumComidaEqGrasas3 = !! arrayComidaPlatillo3 && ComidaEqGrasas3.reduce((a,b) => a + b)
+     const totalEqComidaGrasas1 = sumComidaEqGrasas + sumComidaEqGrasas2 + sumComidaEqGrasas3
+     const eqGrasasComida = parseInt(DisGrasasComidaVal) - totalEqComidaGrasas1
+       /** Azucares */
+       const ComidaEqAzucares = !!arrayComidaPlatillo1 &&  Object.keys(arrayComidaPlatillo1).map((key)=> arrayComidaPlatillo1[key].clase === "5" ?arrayComidaPlatillo1[key].eq:0)
+       const sumComidaEqAzucares = !! arrayComidaPlatillo1 && ComidaEqAzucares.reduce((a,b) => a + b)
+       const ComidaEqAzucares2 = !!arrayComidaPlatillo2 &&  Object.keys(arrayComidaPlatillo2).map((key)=> arrayComidaPlatillo2[key].clase === "5" ?arrayComidaPlatillo2[key].eq:0)
+       const sumComidaEqAzucares2 = !! arrayComidaPlatillo2 && ComidaEqAzucares2.reduce((a,b) => a + b)
+       const ComidaEqAzucares3 = !!arrayComidaPlatillo3 &&  Object.keys(arrayComidaPlatillo3).map((key)=> arrayComidaPlatillo3[key].clase === "5" ?arrayComidaPlatillo3[key].eq:0)
+       const sumComidaEqAzucares3 = !! arrayComidaPlatillo3 && ComidaEqAzucares3.reduce((a,b) => a + b)
+       const totalEqComidaAzucares1 = sumComidaEqAzucares + sumComidaEqAzucares2 + sumComidaEqAzucares3
+       const eqAzucaresComida = parseInt(DisAzucaresComidaVal) - totalEqComidaAzucares1
+      /** Leguminosas */
+      const ComidaEqLeguminosas = !!arrayComidaPlatillo1 &&  Object.keys(arrayComidaPlatillo1).map((key)=> arrayComidaPlatillo1[key].clase === "3" ?arrayComidaPlatillo1[key].eq:0)
+      const sumComidaEqLeguminosas = !! arrayComidaPlatillo1 && ComidaEqLeguminosas.reduce((a,b) => a + b)
+      const ComidaEqLeguminosas2 = !!arrayComidaPlatillo2 &&  Object.keys(arrayComidaPlatillo2).map((key)=> arrayComidaPlatillo2[key].clase === "3" ?arrayComidaPlatillo2[key].eq:0)
+      const sumComidaEqLeguminosas2 = !! arrayComidaPlatillo2 && ComidaEqLeguminosas2.reduce((a,b) => a + b)
+      const ComidaEqLeguminosas3 = !!arrayComidaPlatillo3 &&  Object.keys(arrayComidaPlatillo3).map((key)=> arrayComidaPlatillo3[key].clase === "3" ?arrayComidaPlatillo3[key].eq:0)
+      const sumComidaEqLeguminosas3 = !! arrayComidaPlatillo3 && ComidaEqLeguminosas3.reduce((a,b) => a + b)
+      const totalEqComidaLeguminosas1 = sumComidaEqLeguminosas + sumComidaEqLeguminosas2 + sumComidaEqLeguminosas3
+      const eqLeguminosasComida = parseInt(DisLeguminosasComidaVal) - totalEqComidaLeguminosas1
+       /** Agua */
+       const ComidaEqAgua = !!arrayComidaPlatillo1 &&  Object.keys(arrayComidaPlatillo1).map((key)=> arrayComidaPlatillo1[key].clase === "9" ?arrayComidaPlatillo1[key].eq:0)
+       const sumComidaEqAgua = !! arrayComidaPlatillo1 && ComidaEqAgua.reduce((a,b) => a + b)
+       const ComidaEqAgua2 = !!arrayComidaPlatillo2 &&  Object.keys(arrayComidaPlatillo2).map((key)=> arrayComidaPlatillo2[key].clase === "9" ?arrayComidaPlatillo2[key].eq:0)
+       const sumComidaEqAgua2 = !! arrayComidaPlatillo2 && ComidaEqAgua2.reduce((a,b) => a + b)
+       const ComidaEqAgua3 = !!arrayComidaPlatillo3 &&  Object.keys(arrayComidaPlatillo3).map((key)=> arrayComidaPlatillo3[key].clase === "9" ?arrayComidaPlatillo3[key].eq:0)
+       const sumComidaEqAgua3 = !! arrayComidaPlatillo3 && ComidaEqAgua3.reduce((a,b) => a + b)
+       const totalEqComidaAgua1 = sumComidaEqAgua + sumComidaEqAgua2 + sumComidaEqAgua3
+       const eqAguaComida = parseInt(DisAguaComidaVal) - totalEqComidaAgua1
+
+
+       /** COLACION 2 */
+    /** Platillo 1 */
+    /** Frutas */
+    const Colacion2EqFrutas = !!arrayColacion2Platillo1 &&  Object.keys(arrayColacion2Platillo1).map((key)=> arrayColacion2Platillo1[key].clase === "7" ?arrayColacion2Platillo1[key].eq:0)
+    const sumColacion2EqFrutas = !! arrayColacion2Platillo1 && Colacion2EqFrutas.reduce((a,b) => a + b)
+    const Colacion2EqFrutas2 = !!arrayColacion2Platillo2 &&  Object.keys(arrayColacion2Platillo2).map((key)=> arrayColacion2Platillo2[key].clase === "7" ?arrayColacion2Platillo2[key].eq:0)
+    const sumColacion2EqFrutas2 = !! arrayColacion2Platillo2 && Colacion2EqFrutas2.reduce((a,b) => a + b)
+    const Colacion2EqFrutas3 = !!arrayColacion2Platillo3 &&  Object.keys(arrayColacion2Platillo3).map((key)=> arrayColacion2Platillo3[key].clase === "7" ?arrayColacion2Platillo3[key].eq:0)
+    const sumColacion2EqFrutas3 = !! arrayColacion2Platillo3 && Colacion2EqFrutas3.reduce((a,b) => a + b)
+    const totalEqColacion21 = sumColacion2EqFrutas + sumColacion2EqFrutas2 + sumColacion2EqFrutas3
+    const eqFrutasColacion2 = parseInt(DisfrutaColacion2Val) - totalEqColacion21
+
+     /** Verduras */
+     const Colacion2EqVerduras = !!arrayColacion2Platillo1 &&  Object.keys(arrayColacion2Platillo1).map((key)=> arrayColacion2Platillo1[key].clase === "2" ?arrayColacion2Platillo1[key].eq:0)
+     const sumColacion2EqVerduras = !! arrayColacion2Platillo1 && Colacion2EqVerduras.reduce((a,b) => a + b)
+     const Colacion2EqVerduras2 = !!arrayColacion2Platillo2 &&  Object.keys(arrayColacion2Platillo2).map((key)=> arrayColacion2Platillo2[key].clase === "2" ?arrayColacion2Platillo2[key].eq:0)
+     const sumColacion2EqVerduras2 = !! arrayColacion2Platillo2 && Colacion2EqVerduras2.reduce((a,b) => a + b)
+     const Colacion2EqVerduras3 = !!arrayColacion2Platillo3 &&  Object.keys(arrayColacion2Platillo3).map((key)=> arrayColacion2Platillo3[key].clase === "2" ?arrayColacion2Platillo3[key].eq:0)
+     const sumColacion2EqVerduras3 = !! arrayColacion2Platillo3 && Colacion2EqVerduras3.reduce((a,b) => a + b)
+     const totalEqColacion2Verduras1 = sumColacion2EqVerduras + sumColacion2EqVerduras2 + sumColacion2EqVerduras3
+     const eqVerdurasColacion2 = parseInt(DisVerdurasColacion2Val) - totalEqColacion2Verduras1
+
+     /** Proteinas */
+     const Colacion2EqProteinas = !!arrayColacion2Platillo1 &&  Object.keys(arrayColacion2Platillo1).map((key)=> arrayColacion2Platillo1[key].clase === "6" ?arrayColacion2Platillo1[key].eq:0)
+     const sumColacion2EqProteinas = !! arrayColacion2Platillo1 && Colacion2EqProteinas.reduce((a,b) => a + b)
+     const Colacion2EqProteinas2 = !!arrayColacion2Platillo2 &&  Object.keys(arrayColacion2Platillo2).map((key)=> arrayColacion2Platillo2[key].clase === "6" ?arrayColacion2Platillo2[key].eq:0)
+     const sumColacion2EqProteinas2 = !! arrayColacion2Platillo2 && Colacion2EqProteinas2.reduce((a,b) => a + b)
+     const Colacion2EqProteinas3 = !!arrayColacion2Platillo3 &&  Object.keys(arrayColacion2Platillo3).map((key)=> arrayColacion2Platillo3[key].clase === "6" ?arrayColacion2Platillo3[key].eq:0)
+     const sumColacion2EqProteinas3 = !! arrayColacion2Platillo3 && Colacion2EqProteinas3.reduce((a,b) => a + b)
+     const totalEqColacion2Proteinas1 = sumColacion2EqProteinas + sumColacion2EqProteinas2 + sumColacion2EqProteinas3
+     const eqProteinasColacion2 = parseInt(DisProteinasColacion2Val) - totalEqColacion2Proteinas1
+    
+    
+    
+     /** Cereales */
+     const Colacion2EqCereales = !!arrayColacion2Platillo1 &&  Object.keys(arrayColacion2Platillo1).map((key)=> arrayColacion2Platillo1[key].clase === "1" ?arrayColacion2Platillo1[key].eq:0)
+     const sumColacion2EqCereales = !! arrayColacion2Platillo1 && Colacion2EqCereales.reduce((a,b) => a + b)
+     const Colacion2EqCereales2 = !!arrayColacion2Platillo2 &&  Object.keys(arrayColacion2Platillo2).map((key)=> arrayColacion2Platillo2[key].clase === "1" ?arrayColacion2Platillo2[key].eq:0)
+     const sumColacion2EqCereales2 = !! arrayColacion2Platillo2 && Colacion2EqCereales2.reduce((a,b) => a + b)
+     const Colacion2EqCereales3 = !!arrayColacion2Platillo3 &&  Object.keys(arrayColacion2Platillo3).map((key)=> arrayColacion2Platillo3[key].clase === "1" ?arrayColacion2Platillo3[key].eq:0)
+     const sumColacion2EqCereales3 = !! arrayColacion2Platillo3 && Colacion2EqCereales3.reduce((a,b) => a + b)
+     const totalEqColacion2Cereales1 = sumColacion2EqCereales + sumColacion2EqCereales2 + sumColacion2EqCereales3
+     const eqCerealesColacion2 = parseInt(DisCerealesColacion2Val) - totalEqColacion2Cereales1
+     /** Lacteos */
+     const Colacion2EqLacteos = !!arrayColacion2Platillo1 &&  Object.keys(arrayColacion2Platillo1).map((key)=> arrayColacion2Platillo1[key].clase === "8" ?arrayColacion2Platillo1[key].eq:0)
+     const sumColacion2EqLacteos = !! arrayColacion2Platillo1 && Colacion2EqLacteos.reduce((a,b) => a + b)
+     const Colacion2EqLacteos2 = !!arrayColacion2Platillo2 &&  Object.keys(arrayColacion2Platillo2).map((key)=> arrayColacion2Platillo2[key].clase === "8" ?arrayColacion2Platillo2[key].eq:0)
+     const sumColacion2EqLacteos2 = !! arrayColacion2Platillo2 && Colacion2EqLacteos2.reduce((a,b) => a + b)
+     const Colacion2EqLacteos3 = !!arrayColacion2Platillo3 &&  Object.keys(arrayColacion2Platillo3).map((key)=> arrayColacion2Platillo3[key].clase === "8" ?arrayColacion2Platillo3[key].eq:0)
+     const sumColacion2EqLacteos3 = !! arrayColacion2Platillo3 && Colacion2EqLacteos3.reduce((a,b) => a + b)
+     const totalEqColacion2Lacteos1 = sumColacion2EqLacteos + sumColacion2EqLacteos2 + sumColacion2EqLacteos3
+     const eqLacteosColacion2 = parseInt(DisLacteosColacion2Val) - totalEqColacion2Lacteos1
+
+     /** Grasas */
+     const Colacion2EqGrasas = !!arrayColacion2Platillo1 &&  Object.keys(arrayColacion2Platillo1).map((key)=> arrayColacion2Platillo1[key].clase === "4" ?arrayColacion2Platillo1[key].eq:0)
+     const sumColacion2EqGrasas = !! arrayColacion2Platillo1 && Colacion2EqGrasas.reduce((a,b) => a + b)
+     const Colacion2EqGrasas2 = !!arrayColacion2Platillo2 &&  Object.keys(arrayColacion2Platillo2).map((key)=> arrayColacion2Platillo2[key].clase === "4" ?arrayColacion2Platillo2[key].eq:0)
+     const sumColacion2EqGrasas2 = !! arrayColacion2Platillo2 && Colacion2EqGrasas2.reduce((a,b) => a + b)
+     const Colacion2EqGrasas3 = !!arrayColacion2Platillo3 &&  Object.keys(arrayColacion2Platillo3).map((key)=> arrayColacion2Platillo3[key].clase === "4" ?arrayColacion2Platillo3[key].eq:0)
+     const sumColacion2EqGrasas3 = !! arrayColacion2Platillo3 && Colacion2EqGrasas3.reduce((a,b) => a + b)
+     const totalEqColacion2Grasas1 = sumColacion2EqGrasas + sumColacion2EqGrasas2 + sumColacion2EqGrasas3
+     const eqGrasasColacion2 = parseInt(DisGrasasColacion2Val) - totalEqColacion2Grasas1
+    
+     /** Azucares */
+       const Colacion2EqAzucares = !!arrayColacion2Platillo1 &&  Object.keys(arrayColacion2Platillo1).map((key)=> arrayColacion2Platillo1[key].clase === "5" ?arrayColacion2Platillo1[key].eq:0)
+       const sumColacion2EqAzucares = !! arrayColacion2Platillo1 && Colacion2EqAzucares.reduce((a,b) => a + b)
+       const Colacion2EqAzucares2 = !!arrayColacion2Platillo2 &&  Object.keys(arrayColacion2Platillo2).map((key)=> arrayColacion2Platillo2[key].clase === "5" ?arrayColacion2Platillo2[key].eq:0)
+       const sumColacion2EqAzucares2 = !! arrayColacion2Platillo2 && Colacion2EqAzucares2.reduce((a,b) => a + b)
+       const Colacion2EqAzucares3 = !!arrayColacion2Platillo3 &&  Object.keys(arrayColacion2Platillo3).map((key)=> arrayColacion2Platillo3[key].clase === "5" ?arrayColacion2Platillo3[key].eq:0)
+       const sumColacion2EqAzucares3 = !! arrayColacion2Platillo3 && Colacion2EqAzucares3.reduce((a,b) => a + b)
+       const totalEqColacion2Azucares1 = sumColacion2EqAzucares + sumColacion2EqAzucares2 + sumColacion2EqAzucares3
+       const eqAzucaresColacion2 = parseInt(DisAzucaresColacion2Val) - totalEqColacion2Azucares1
+      /** Leguminosas */
+      const Colacion2EqLeguminosas = !!arrayColacion2Platillo1 &&  Object.keys(arrayColacion2Platillo1).map((key)=> arrayColacion2Platillo1[key].clase === "3" ?arrayColacion2Platillo1[key].eq:0)
+      const sumColacion2EqLeguminosas = !! arrayColacion2Platillo1 && Colacion2EqLeguminosas.reduce((a,b) => a + b)
+      const Colacion2EqLeguminosas2 = !!arrayColacion2Platillo2 &&  Object.keys(arrayColacion2Platillo2).map((key)=> arrayColacion2Platillo2[key].clase === "3" ?arrayColacion2Platillo2[key].eq:0)
+      const sumColacion2EqLeguminosas2 = !! arrayColacion2Platillo2 && Colacion2EqLeguminosas2.reduce((a,b) => a + b)
+      const Colacion2EqLeguminosas3 = !!arrayColacion2Platillo3 &&  Object.keys(arrayColacion2Platillo3).map((key)=> arrayColacion2Platillo3[key].clase === "3" ?arrayColacion2Platillo3[key].eq:0)
+      const sumColacion2EqLeguminosas3 = !! arrayColacion2Platillo3 && Colacion2EqLeguminosas3.reduce((a,b) => a + b)
+      const totalEqColacion2Leguminosas1 = sumColacion2EqLeguminosas + sumColacion2EqLeguminosas2 + sumColacion2EqLeguminosas3
+      const eqLeguminosasColacion2 = parseInt(DisLeguminosasColacion2Val) - totalEqColacion2Leguminosas1
+       /** Agua */
+       const Colacion2EqAgua = !!arrayColacion2Platillo1 &&  Object.keys(arrayColacion2Platillo1).map((key)=> arrayColacion2Platillo1[key].clase === "9" ?arrayColacion2Platillo1[key].eq:0)
+       const sumColacion2EqAgua = !! arrayColacion2Platillo1 && Colacion2EqAgua.reduce((a,b) => a + b)
+       const Colacion2EqAgua2 = !!arrayColacion2Platillo2 &&  Object.keys(arrayColacion2Platillo2).map((key)=> arrayColacion2Platillo2[key].clase === "9" ?arrayColacion2Platillo2[key].eq:0)
+       const sumColacion2EqAgua2 = !! arrayColacion2Platillo2 && Colacion2EqAgua2.reduce((a,b) => a + b)
+       const Colacion2EqAgua3 = !!arrayColacion2Platillo3 &&  Object.keys(arrayColacion2Platillo3).map((key)=> arrayColacion2Platillo3[key].clase === "9" ?arrayColacion2Platillo3[key].eq:0)
+       const sumColacion2EqAgua3 = !! arrayColacion2Platillo3 && Colacion2EqAgua3.reduce((a,b) => a + b)
+       const totalEqColacion2Agua1 = sumColacion2EqAgua + sumColacion2EqAgua2 + sumColacion2EqAgua3
+       const eqAguaColacion2 = parseInt(DisAguaColacion2Val) - totalEqColacion2Agua1
+
+
+
+
+       /** C   E   N   A  -  C  E   N  A */
+    /** Platillo 1 */
+    /** Frutas */
+    const CenaEqFrutas = !!arrayCenaPlatillo1 &&  Object.keys(arrayCenaPlatillo1).map((key)=> arrayCenaPlatillo1[key].clase === "7" ?arrayCenaPlatillo1[key].eq:0)
+    const sumCenaEqFrutas = !! arrayCenaPlatillo1 && CenaEqFrutas.reduce((a,b) => a + b)
+    const CenaEqFrutas2 = !!arrayCenaPlatillo2 &&  Object.keys(arrayCenaPlatillo2).map((key)=> arrayCenaPlatillo2[key].clase === "7" ?arrayCenaPlatillo2[key].eq:0)
+    const sumCenaEqFrutas2 = !! arrayCenaPlatillo2 && CenaEqFrutas2.reduce((a,b) => a + b)
+    const CenaEqFrutas3 = !!arrayCenaPlatillo3 &&  Object.keys(arrayCenaPlatillo3).map((key)=> arrayCenaPlatillo3[key].clase === "7" ?arrayCenaPlatillo3[key].eq:0)
+    const sumCenaEqFrutas3 = !! arrayCenaPlatillo3 && CenaEqFrutas3.reduce((a,b) => a + b)
+    const totalEqCena1 = sumCenaEqFrutas + sumCenaEqFrutas2 + sumCenaEqFrutas3
+    const eqFrutasCena = parseInt(DisfrutaCenaVal) - totalEqCena1
+
+     /** Verduras */
+     const CenaEqVerduras = !!arrayCenaPlatillo1 &&  Object.keys(arrayCenaPlatillo1).map((key)=> arrayCenaPlatillo1[key].clase === "2" ?arrayCenaPlatillo1[key].eq:0)
+     const sumCenaEqVerduras = !! arrayCenaPlatillo1 && CenaEqVerduras.reduce((a,b) => a + b)
+     const CenaEqVerduras2 = !!arrayCenaPlatillo2 &&  Object.keys(arrayCenaPlatillo2).map((key)=> arrayCenaPlatillo2[key].clase === "2" ?arrayCenaPlatillo2[key].eq:0)
+     const sumCenaEqVerduras2 = !! arrayCenaPlatillo2 && CenaEqVerduras2.reduce((a,b) => a + b)
+     const CenaEqVerduras3 = !!arrayCenaPlatillo3 &&  Object.keys(arrayCenaPlatillo3).map((key)=> arrayCenaPlatillo3[key].clase === "2" ?arrayCenaPlatillo3[key].eq:0)
+     const sumCenaEqVerduras3 = !! arrayCenaPlatillo3 && CenaEqVerduras3.reduce((a,b) => a + b)
+     const totalEqCenaVerduras1 = sumCenaEqVerduras + sumCenaEqVerduras2 + sumCenaEqVerduras3
+     const eqVerdurasCena = parseInt(DisVerdurasCenaVal) - totalEqCenaVerduras1
+
+     /** Proteinas */
+     const CenaEqProteinas = !!arrayCenaPlatillo1 &&  Object.keys(arrayCenaPlatillo1).map((key)=> arrayCenaPlatillo1[key].clase === "6" ?arrayCenaPlatillo1[key].eq:0)
+     const sumCenaEqProteinas = !! arrayCenaPlatillo1 && CenaEqProteinas.reduce((a,b) => a + b)
+     const CenaEqProteinas2 = !!arrayCenaPlatillo2 &&  Object.keys(arrayCenaPlatillo2).map((key)=> arrayCenaPlatillo2[key].clase === "6" ?arrayCenaPlatillo2[key].eq:0)
+     const sumCenaEqProteinas2 = !! arrayCenaPlatillo2 && CenaEqProteinas2.reduce((a,b) => a + b)
+     const CenaEqProteinas3 = !!arrayCenaPlatillo3 &&  Object.keys(arrayCenaPlatillo3).map((key)=> arrayCenaPlatillo3[key].clase === "6" ?arrayCenaPlatillo3[key].eq:0)
+     const sumCenaEqProteinas3 = !! arrayCenaPlatillo3 && CenaEqProteinas3.reduce((a,b) => a + b)
+     const totalEqCenaProteinas1 = sumCenaEqProteinas + sumCenaEqProteinas2 + sumCenaEqProteinas3
+     const eqProteinasCena = parseInt(DisProteinasCenaVal) - totalEqCenaProteinas1
+    
+    
+    
+     /** Cereales */
+     const CenaEqCereales = !!arrayCenaPlatillo1 &&  Object.keys(arrayCenaPlatillo1).map((key)=> arrayCenaPlatillo1[key].clase === "1" ?arrayCenaPlatillo1[key].eq:0)
+     const sumCenaEqCereales = !! arrayCenaPlatillo1 && CenaEqCereales.reduce((a,b) => a + b)
+     const CenaEqCereales2 = !!arrayCenaPlatillo2 &&  Object.keys(arrayCenaPlatillo2).map((key)=> arrayCenaPlatillo2[key].clase === "1" ?arrayCenaPlatillo2[key].eq:0)
+     const sumCenaEqCereales2 = !! arrayCenaPlatillo2 && CenaEqCereales2.reduce((a,b) => a + b)
+     const CenaEqCereales3 = !!arrayCenaPlatillo3 &&  Object.keys(arrayCenaPlatillo3).map((key)=> arrayCenaPlatillo3[key].clase === "1" ?arrayCenaPlatillo3[key].eq:0)
+     const sumCenaEqCereales3 = !! arrayCenaPlatillo3 && CenaEqCereales3.reduce((a,b) => a + b)
+     const totalEqCenaCereales1 = sumCenaEqCereales + sumCenaEqCereales2 + sumCenaEqCereales3
+     const eqCerealesCena = parseInt(DisCerealesCenaVal) - totalEqCenaCereales1
+     /** Lacteos */
+     const CenaEqLacteos = !!arrayCenaPlatillo1 &&  Object.keys(arrayCenaPlatillo1).map((key)=> arrayCenaPlatillo1[key].clase === "8" ?arrayCenaPlatillo1[key].eq:0)
+     const sumCenaEqLacteos = !! arrayCenaPlatillo1 && CenaEqLacteos.reduce((a,b) => a + b)
+     const CenaEqLacteos2 = !!arrayCenaPlatillo2 &&  Object.keys(arrayCenaPlatillo2).map((key)=> arrayCenaPlatillo2[key].clase === "8" ?arrayCenaPlatillo2[key].eq:0)
+     const sumCenaEqLacteos2 = !! arrayCenaPlatillo2 && CenaEqLacteos2.reduce((a,b) => a + b)
+     const CenaEqLacteos3 = !!arrayCenaPlatillo3 &&  Object.keys(arrayCenaPlatillo3).map((key)=> arrayCenaPlatillo3[key].clase === "8" ?arrayCenaPlatillo3[key].eq:0)
+     const sumCenaEqLacteos3 = !! arrayCenaPlatillo3 && CenaEqLacteos3.reduce((a,b) => a + b)
+     const totalEqCenaLacteos1 = sumCenaEqLacteos + sumCenaEqLacteos2 + sumCenaEqLacteos3
+     const eqLacteosCena = parseInt(DisLacteosCenaVal) - totalEqCenaLacteos1
+
+     /** Grasas */
+     const CenaEqGrasas = !!arrayCenaPlatillo1 &&  Object.keys(arrayCenaPlatillo1).map((key)=> arrayCenaPlatillo1[key].clase === "4" ?arrayCenaPlatillo1[key].eq:0)
+     const sumCenaEqGrasas = !! arrayCenaPlatillo1 && CenaEqGrasas.reduce((a,b) => a + b)
+     const CenaEqGrasas2 = !!arrayCenaPlatillo2 &&  Object.keys(arrayCenaPlatillo2).map((key)=> arrayCenaPlatillo2[key].clase === "4" ?arrayCenaPlatillo2[key].eq:0)
+     const sumCenaEqGrasas2 = !! arrayCenaPlatillo2 && CenaEqGrasas2.reduce((a,b) => a + b)
+     const CenaEqGrasas3 = !!arrayCenaPlatillo3 &&  Object.keys(arrayCenaPlatillo3).map((key)=> arrayCenaPlatillo3[key].clase === "4" ?arrayCenaPlatillo3[key].eq:0)
+     const sumCenaEqGrasas3 = !! arrayCenaPlatillo3 && CenaEqGrasas3.reduce((a,b) => a + b)
+     const totalEqCenaGrasas1 = sumCenaEqGrasas + sumCenaEqGrasas2 + sumCenaEqGrasas3
+     const eqGrasasCena = parseInt(DisGrasasCenaVal) - totalEqCenaGrasas1
+    
+     /** Azucares */
+       const CenaEqAzucares = !!arrayCenaPlatillo1 &&  Object.keys(arrayCenaPlatillo1).map((key)=> arrayCenaPlatillo1[key].clase === "5" ?arrayCenaPlatillo1[key].eq:0)
+       const sumCenaEqAzucares = !! arrayCenaPlatillo1 && CenaEqAzucares.reduce((a,b) => a + b)
+       const CenaEqAzucares2 = !!arrayCenaPlatillo2 &&  Object.keys(arrayCenaPlatillo2).map((key)=> arrayCenaPlatillo2[key].clase === "5" ?arrayCenaPlatillo2[key].eq:0)
+       const sumCenaEqAzucares2 = !! arrayCenaPlatillo2 && CenaEqAzucares2.reduce((a,b) => a + b)
+       const CenaEqAzucares3 = !!arrayCenaPlatillo3 &&  Object.keys(arrayCenaPlatillo3).map((key)=> arrayCenaPlatillo3[key].clase === "5" ?arrayCenaPlatillo3[key].eq:0)
+       const sumCenaEqAzucares3 = !! arrayCenaPlatillo3 && CenaEqAzucares3.reduce((a,b) => a + b)
+       const totalEqCenaAzucares1 = sumCenaEqAzucares + sumCenaEqAzucares2 + sumCenaEqAzucares3
+       const eqAzucaresCena = parseInt(DisAzucaresCenaVal) - totalEqCenaAzucares1
+      /** Leguminosas */
+      const CenaEqLeguminosas = !!arrayCenaPlatillo1 &&  Object.keys(arrayCenaPlatillo1).map((key)=> arrayCenaPlatillo1[key].clase === "3" ?arrayCenaPlatillo1[key].eq:0)
+      const sumCenaEqLeguminosas = !! arrayCenaPlatillo1 && CenaEqLeguminosas.reduce((a,b) => a + b)
+      const CenaEqLeguminosas2 = !!arrayCenaPlatillo2 &&  Object.keys(arrayCenaPlatillo2).map((key)=> arrayCenaPlatillo2[key].clase === "3" ?arrayCenaPlatillo2[key].eq:0)
+      const sumCenaEqLeguminosas2 = !! arrayCenaPlatillo2 && CenaEqLeguminosas2.reduce((a,b) => a + b)
+      const CenaEqLeguminosas3 = !!arrayCenaPlatillo3 &&  Object.keys(arrayCenaPlatillo3).map((key)=> arrayCenaPlatillo3[key].clase === "3" ?arrayCenaPlatillo3[key].eq:0)
+      const sumCenaEqLeguminosas3 = !! arrayCenaPlatillo3 && CenaEqLeguminosas3.reduce((a,b) => a + b)
+      const totalEqCenaLeguminosas1 = sumCenaEqLeguminosas + sumCenaEqLeguminosas2 + sumCenaEqLeguminosas3
+      const eqLeguminosasCena = parseInt(DisLeguminosasCenaVal) - totalEqCenaLeguminosas1
+       /** Agua */
+       const CenaEqAgua = !!arrayCenaPlatillo1 &&  Object.keys(arrayCenaPlatillo1).map((key)=> arrayCenaPlatillo1[key].clase === "9" ?arrayCenaPlatillo1[key].eq:0)
+       const sumCenaEqAgua = !! arrayCenaPlatillo1 && CenaEqAgua.reduce((a,b) => a + b)
+       const CenaEqAgua2 = !!arrayCenaPlatillo2 &&  Object.keys(arrayCenaPlatillo2).map((key)=> arrayCenaPlatillo2[key].clase === "9" ?arrayCenaPlatillo2[key].eq:0)
+       const sumCenaEqAgua2 = !! arrayCenaPlatillo2 && CenaEqAgua2.reduce((a,b) => a + b)
+       const CenaEqAgua3 = !!arrayCenaPlatillo3 &&  Object.keys(arrayCenaPlatillo3).map((key)=> arrayCenaPlatillo3[key].clase === "9" ?arrayCenaPlatillo3[key].eq:0)
+       const sumCenaEqAgua3 = !! arrayCenaPlatillo3 && CenaEqAgua3.reduce((a,b) => a + b)
+       const totalEqCenaAgua1 = sumCenaEqAgua + sumCenaEqAgua2 + sumCenaEqAgua3
+       const eqAguaCena = parseInt(DisAguaCenaVal) - totalEqCenaAgua1
+
+
    
- 
     const valido = eqFrutas <= -1 || eqVerduras <= -1 || eqProteinas <= -1 || eqCereales <= -1 || eqAzucares <= -1 || eqGrasas <= -1
                                   || eqLeguminosas <= -1 || eqAgua <= -1
-
+    const validoColacion1 = eqFrutasColacion1 <= -1 || eqVerdurasColacion1 <= -1 || eqProteinasColacion1 <= -1 || eqCerealesColacion1 <= -1 || eqAzucaresColacion1 <= -1 || eqGrasasColacion1 <= -1
+                                  || eqLeguminosasColacion1 <= -1 || eqAguaColacion1 <= -1
+    const validoComida = eqFrutasComida <= -1 || eqVerdurasComida <= -1 || eqProteinasComida <= -1 || eqCerealesComida <= -1 || eqAzucaresComida <= -1 || eqGrasasComida <= -1
+                                  || eqLeguminosasComida <= -1 || eqAguaComida <= -1
+    const validoColacion2 = eqFrutasColacion2 <= -1 || eqVerdurasColacion2 <= -1 || eqProteinasColacion2 <= -1 || eqCerealesColacion2 <= -1 || eqAzucaresColacion2 <= -1 || eqGrasasColacion2 <= -1
+                                  || eqLeguminosasColacion2 <= -1 || eqAguaColacion2 <= -1
+    const validoCena = eqFrutasCena <= -1 || eqVerdurasCena <= -1 || eqProteinasCena <= -1 || eqCerealesCena <= -1 || eqAzucaresCena <= -1 || eqGrasasCena <= -1
+                                  || eqLeguminosasCena <= -1 || eqAguaCena <= -1
 
     const obt = !!arrayPlatillo &&  Object.keys(arrayPlatillo).map((key)=> parseInt(arrayPlatillo[key].kcal) * arrayPlatillo[key].eq)
     const obt2 = !!arrayPlatillo2 &&  Object.keys(arrayPlatillo2).map((key)=> parseInt(arrayPlatillo2[key].kcal) * arrayPlatillo2[key].eq)
@@ -693,7 +1858,6 @@ cerrarDieta = () =>{
              { this.state.pasoUno === true 
              ?<div> 
                 <div className="dietoCalculo">
-                    
                     <div className="headDietasModal">
                         <h5 className="asignadoDieta">Asignada: Sergio Maldonado</h5>
                         <h4>Dieta alta en carbohidratos</h4>
@@ -1092,44 +2256,70 @@ cerrarDieta = () =>{
         ? <img className="iconDieta"src={icoDesayunoActivado} />
         : <img className="iconDieta"src={icoDesayuno} />
         }
-   
     <p className="parrafoDieta">Desayuno</p>
     </NavItem>
     </Col>
+
     <Col md="2">
     <NavItem onClick={this.stepDieta2}>
     { this.state.checkColacion1 == true
-      ? valido
+      ? validoColacion1
         ? <div className="circuloCheckRed"><AlertCircle  className="icoCheckDietas" size={20} /></div>
         : <div className="circuloCheck"><Check  className="icoCheckDietas" size={20} /></div>
-            :null
+    :null
     }  
     { this.state.stepColacion1 == true
     ? <img className="iconDieta"src={icoColacionActivado} />
     : <img className="iconDieta"src={icoColacion} />
     }
-   
     <p className="parrafoDieta">Colación 1</p>
     </NavItem>
     </Col>
-   
+
     <Col md="2">
-    <NavItem eventKey={3} disabled="disabled">
-    <img className="iconDieta" src={icoComida} /> 
+
+    <NavItem eventKey={3} onClick={this.stepDieta3}>
+   { this.state.checkComida == true
+      ? validoComida
+        ? <div className="circuloCheckRed"><AlertCircle  className="icoCheckDietas" size={20} /></div>
+        : <div className="circuloCheck"><Check  className="icoCheckDietas" size={20} /></div>
+    :null
+    }  
+    { this.state.stepComida == true
+    ? <img className="iconDieta"src={icoComidaActivado} />
+    : <img className="iconDieta"src={icoComida} />
+    }
     <p className="parrafoDieta">Comida</p>      
      </NavItem>
     </Col>
-    
      <Col md="2">
-     <NavItem eventKey={3} disabled>
-    <img className="iconDieta" src={icoColacion} />
-    <p className="parrafoDieta">Colación</p>
+     <NavItem eventKey={3} onClick={this.stepDieta4}>
+     { this.state.checkColacion2 == true
+      ? validoColacion2
+        ? <div className="circuloCheckRed"><AlertCircle  className="icoCheckDietas" size={20} /></div>
+        : <div className="circuloCheck"><Check  className="icoCheckDietas" size={20} /></div>
+    :null
+    } 
+     { this.state.stepColacion2 == true
+    ? <img className="iconDieta"src={icoColacionActivado} />
+    : <img className="iconDieta"src={icoColacion} />
+    }
+    <p className="parrafoDieta">Colación 2</p>
     </NavItem>
     </Col>
    
     <Col md="2">
-    <NavItem eventKey={3} disabled>
-    <img className="iconDieta" src={icoCena} />
+    <NavItem eventKey={3} onClick={this.stepDieta5}>
+    { this.state.checkCena == true
+      ? validoCena
+        ? <div className="circuloCheckRed"><AlertCircle  className="icoCheckDietas" size={20} /></div>
+        : <div className="circuloCheck"><Check  className="icoCheckDietas" size={20} /></div>
+    :null
+    } 
+    { this.state.stepCena == true
+    ? <img className="iconDieta"src={icoCenaActivado} />
+    : <img className="iconDieta"src={icoCena} />
+    }
     <p className="parrafoDieta">Cena</p>
     </NavItem>
     </Col>
@@ -1148,6 +2338,7 @@ cerrarDieta = () =>{
                              this.state.stepDesayuno === true
                              ? <span>
                         <Col md="8"><Platillo1Desayuno 
+                        nombre={this.state.nombrePlatilloDesayuno}
                         arrayPlatillo={platillo1array} 
                         alimentosFiltro={alimentosFiltro}
                         busqueda={this.buscarPlatillo1Desayuno}
@@ -1199,6 +2390,247 @@ cerrarDieta = () =>{
                          :null
 
                          }
+                         {  
+                             this.state.stepColacion1 === true
+                             ? <span>
+                        <Col md="8">
+                        <Platillo1Colacion1 
+                        arrayPlatillo={this.state.platillo1Colacion1Array} 
+                        alimentosFiltro={this.state.filteredAlimentoColacion1}
+                        busqueda={this.buscarPlatillo1Colacion1}
+                        mostrarAlimento={this.enviarAlientoColacion1}
+                        nombrePlatillo={this.enviarNombre}
+                        resultadoAlimentos={this.state.mostrarAlimentos}
+                        activar={this.activarPlatillo1Colacion1}
+                        clase={this.state.platillo1colacion1}
+                        borrar={this.borrarAlimentoColacion1Platillo1}
+                        Eq={this.enviarEqColacion1Platillo1}
+                        fuera={this.fuera}
+                        cargador={this.state.cargandoColacion1}
+                        />
+                        <Platillo2Colacion1 
+                        arrayPlatillo={this.state.platillo2Colacion1Array} 
+                        alimentosFiltro={this.state.filteredAlimento2Colacion1}
+                        busqueda={this.buscarPlatillo2Colacion1}
+                        mostrarAlimento={this.enviarAlimentoPlatillo2Colacion1}
+                        nombrePlatillo={this.enviarNombre}
+                        resultadoAlimentos={this.state.mostrarAlimentos}
+                        activar={this.activarPlatillo2Colacion1}
+                        clase={this.state.platillo2colacion1}
+                        mostrar={this.state.mostrarColacion1}
+                        borrar={this.borrarAlimentoColacion1Platillo2}
+                        Eq={this.enviarEqColacion1Platillo2}
+                        fuera={this.fuera}
+                        cargador={this.state.cargandoColacion1Platillo2}
+                        />
+
+
+                        <Platillo3Colacion1 
+                        arrayPlatillo={this.state.platillo3Colacion1Array} 
+                        alimentosFiltro={this.state.filteredAlimento3Colacion1}
+                        busqueda={this.buscarPlatillo3Colacion1}
+                        mostrarAlimento={this.enviarAlimentoPlatillo3Colacion1}
+                        nombrePlatillo={this.enviarNombre}
+                        resultadoAlimentos={this.state.mostrarAlimentos}
+                        activar={this.activarPlatillo3Colacion1}
+                        clase={this.state.platillo3colacion1}
+                        mostrar={this.state.mostrarPlatillo3Colacion1}
+                        borrar={this.borrarAlimentoColacion1Platillo3}
+                        Eq={this.enviarEqColacion1Platillo3}
+                        fuera={this.fuera}
+                        cargador={this.state.cargandoColacion1Platillo3}
+                        />
+                        </Col>
+                        <TablaNutrimentalDesayuno
+                        sumaKcal={sumar}
+                        suma={sumatoria}
+                        />
+                        </span>
+                         
+                         :null
+
+                         }
+                         {this.state.stepComida === true
+                             ? <span>
+                             <Col md="8">
+                        <Platillo1Comida 
+                        arrayPlatillo={this.state.platillo1ComidaArray} 
+                        alimentosFiltro={this.state.filteredAlimento1Comida} 
+                        busqueda={this.buscarPlatillo1Comida}
+                        mostrarAlimento={this.enviarAlimentoPlatillo1Comida}
+                        nombrePlatillo={this.enviarNombre1Comida}
+                        resultadoAlimentos={this.state.mostrarAlimentos}
+                        activar={this.activarPlatillo1Comida}
+                        clase={this.state.platillo1comida}
+                        borrar={this.borrarAlimentoComidaPlatillo1}
+                        Eq={this.enviarEqComidaPlatillo1}
+                        fuera={this.fuera}
+                        cargador={this.state.cargandoComidaPlatillo1}
+                        />
+                        <Platillo2Comida 
+                        arrayPlatillo={this.state.platillo2ComidaArray} 
+                        alimentosFiltro={this.state.filteredAlimento2Comida}
+                        busqueda={this.buscarPlatillo2Comida}
+                        mostrarAlimento={this.enviarAlimentoPlatillo2Comida}
+                        nombrePlatillo={this.enviarNombre2Comida}
+                        resultadoAlimentos={this.state.mostrarAlimentos}
+                        activar={this.activarPlatillo2Comida}
+                        clase={this.state.platillo2comida}
+                        mostrar={this.state.mostrarComida}
+                        borrar={this.borrarAlimentoComidaPlatillo2}
+                        Eq={this.enviarEqComidaPlatillo2}
+                        fuera={this.fuera}
+                        cargador={this.state.cargandoComidaPlatillo2}
+                        />
+
+
+                        <Platillo3Comida 
+                        arrayPlatillo={this.state.platillo3ComidaArray} 
+                        alimentosFiltro={this.state.filteredAlimento3Comida}
+                        busqueda={this.buscarPlatillo3Comida}
+                        mostrarAlimento={this.enviarAlimentoPlatillo3Comida}
+                        nombrePlatillo={this.enviarNombre3Comida}
+                        resultadoAlimentos={this.state.mostrarAlimentos}
+                        activar={this.activarPlatillo3Comida}
+                        clase={this.state.platillo3comida}
+                        mostrar={this.state.mostrarPlatillo3Comida}
+                        borrar={this.borrarAlimentoComidaPlatillo3}
+                        Eq={this.enviarEqComidaPlatillo3}
+                        fuera={this.fuera}
+                        cargador={this.state.cargandoComidaPlatillo3}
+                        />
+                        </Col>
+                        <TablaNutrimentalComida
+                        sumaKcal={sumar}
+                        suma={sumatoria}
+                        />
+                        </span>
+                         
+                         :null
+
+                         }
+
+                         {  
+                             this.state.stepColacion2 === true
+                             ? <span>
+                        <Col md="8">
+                        <Platillo1Colacion2 
+                        arrayPlatillo={this.state.platillo1Colacion2Array} 
+                        alimentosFiltro={this.state.filteredAlimentoColacion2}
+                        busqueda={this.buscarPlatillo1Colacion2}
+                        mostrarAlimento={this.enviarAlimentoColacion2}
+                        nombrePlatillo={this.enviarNombre}
+                        resultadoAlimentos={this.state.mostrarAlimentos}
+                        activar={this.activarPlatillo1Colacion2}
+                        clase={this.state.platillo1colacion2}
+                        borrar={this.borrarAlimentoColacion2Platillo1}
+                        Eq={this.enviarEqColacion2Platillo1}
+                        fuera={this.fuera}
+                        cargador={this.state.cargandoColacion2}
+                        />
+                        <Platillo2Colacion2 
+                        arrayPlatillo={this.state.platillo2Colacion2Array} 
+                        alimentosFiltro={this.state.filteredAlimento2Colacion2}
+                        busqueda={this.buscarPlatillo2Colacion2}
+                        mostrarAlimento={this.enviarAlimentoPlatillo2Colacion2}
+                        nombrePlatillo={this.enviarNombre}
+                        resultadoAlimentos={this.state.mostrarAlimentos}
+                        activar={this.activarPlatillo2Colacion2}
+                        clase={this.state.platillo2colacion2}
+                        mostrar={this.state.mostrarColacion2}
+                        borrar={this.borrarAlimentoColacion2Platillo2}
+                        Eq={this.enviarEqColacion2Platillo2}
+                        fuera={this.fuera}
+                        cargador={this.state.cargandoColacion2Platillo2}
+                        />
+
+                        <Platillo3Colacion2 
+                        arrayPlatillo={this.state.platillo3Colacion2Array} 
+                        alimentosFiltro={this.state.filteredAlimento3Colacion2}
+                        busqueda={this.buscarPlatillo3Colacion2}
+                        mostrarAlimento={this.enviarAlimentoPlatillo3Colacion2}
+                        nombrePlatillo={this.enviarNombre}
+                        resultadoAlimentos={this.state.mostrarAlimentos}
+                        activar={this.activarPlatillo3Colacion2}
+                        clase={this.state.platillo3colacion2}
+                        mostrar={this.state.mostrarPlatillo3Colacion2}
+                        borrar={this.borrarAlimentoColacion2Platillo3}
+                        Eq={this.enviarEqColacion2Platillo3}
+                        fuera={this.fuera}
+                        cargador={this.state.cargandoColacion2Platillo3}
+                        />
+                        </Col>
+                        <TablaNutrimentalDesayuno
+                        sumaKcal={sumar}
+                        suma={sumatoria}
+                        />
+                        </span>
+                         
+                         :null
+
+                         }
+                         {  
+                             this.state.stepCena === true
+                             ? <span>
+                        <Col md="8">
+                        <Platillo1Cena 
+                        arrayPlatillo={this.state.platillo1CenaArray} 
+                        alimentosFiltro={this.state.filteredAlimentoCena} 
+                        busqueda={this.buscarPlatillo1Cena}
+                        mostrarAlimento={this.enviarAlimentoCena}
+                        nombrePlatillo={this.enviarNombre1Cena}
+                        resultadoAlimentos={this.state.mostrarAlimentos}
+                        activar={this.activarPlatillo1Cena}
+                        clase={this.state.platillo1cena}
+                        borrar={this.borrarAlimentoCenaPlatillo1}
+                        Eq={this.enviarEqCenaPlatillo1}
+                        fuera={this.fuera}
+                        cargador={this.state.cargandoCena}
+                        />
+                        <Platillo2Cena 
+                        arrayPlatillo={this.state.platillo2CenaArray} 
+                        alimentosFiltro={this.state.filteredAlimento2Cena}
+                        busqueda={this.buscarPlatillo2Cena}
+                        mostrarAlimento={this.enviarAlimentoPlatillo2Cena}
+                        nombrePlatillo={this.enviarNombre2Cena}
+                        resultadoAlimentos={this.state.mostrarAlimentos}
+                        activar={this.activarPlatillo2Cena}
+                        clase={this.state.platillo2cena}
+                        mostrar={this.state.mostrarCena}
+                        borrar={this.borrarAlimentoCenaPlatillo2}
+                        Eq={this.enviarEqCenaPlatillo2}
+                        fuera={this.fuera}
+                        cargador={this.state.cargandoCenaPlatillo2}
+                        />
+
+
+                        <Platillo3Cena 
+                        arrayPlatillo={this.state.platillo3CenaArray} 
+                        alimentosFiltro={this.state.filteredAlimento3Cena}
+                        busqueda={this.buscarPlatillo3Cena}
+                        mostrarAlimento={this.enviarAlimentoPlatillo3Cena}
+                        nombrePlatillo={this.enviarNombre3Cena}
+                        resultadoAlimentos={this.state.mostrarAlimentos}
+                        activar={this.activarPlatillo3Cena}
+                        clase={this.state.platillo3cena}
+                        mostrar={this.state.mostrarPlatillo3Cena}
+                        borrar={this.borrarAlimentoCenaPlatillo3}
+                        Eq={this.enviarEqCenaPlatillo3}
+                        fuera={this.fuera}
+                        cargador={this.state.cargandoCenaPlatillo3}
+                        />
+                        </Col>
+                        <TablaNutrimentalDesayuno
+                        sumaKcal={sumar}
+                        suma={sumatoria}
+                        />
+                        </span>
+                         
+                         :null
+
+                         }
+
+
 
                         { /*** Platillo 1 Desayuno */}
                        
@@ -1228,6 +2660,93 @@ cerrarDieta = () =>{
                <div className={eqAgua === 0 ?"triggerGrey": eqAgua >= 0 ?"trigger": "triggerRed"}><span>{eqAgua}</span></div><img className="icon" src={ico8} /></div>
                </div>
           :null }
+          
+          {this.state.bottomNavColacion1 == true ?<div>
+           <div className="eqTablero">
+           <div className={eqFrutasColacion1 === 0 ?"triggerGrey": eqFrutasColacion1 >= 0 ?"trigger": "triggerRed"}><span>{eqFrutasColacion1}</span></div><img className="icon" src={ico1} /></div>
+           <div className="eqTablero">
+               <div className={eqVerdurasColacion1 === 0 ?"triggerGrey": eqVerdurasColacion1 >= 0 ?"trigger": "triggerRed"}><span>{eqVerdurasColacion1}</span></div><img className="icon" src={ico2} /></div>
+           <div className="eqTablero">
+               <div className={eqProteinasColacion1 === 0 ?"triggerGrey": eqProteinasColacion1 >= 0 ?"trigger": "triggerRed"}><span>{eqProteinasColacion1}</span></div><img className="icon" src={ico3} /></div>
+           <div className="eqTablero"> 
+               <div className={eqGrasasColacion1 === 0 ?"triggerGrey": eqGrasasColacion1 >= 0 ?"trigger": "triggerRed"}><span>{eqGrasasColacion1}</span></div><img className="icon" src={ico4} /></div>
+           <div className="eqTablero"> 
+               <div className={eqLacteosColacion1 === 0 ?"triggerGrey": eqLacteosColacion1 >= 0 ?"trigger": "triggerRed"}><span>{eqLacteosColacion1}</span></div><img className="icon" src={ico5} /></div>
+           <div className="eqTablero"> 
+               <div className={eqAzucaresColacion1 === 0 ?"triggerGrey": eqAzucaresColacion1 >= 0 ?"trigger": "triggerRed"}><span>{eqAzucaresColacion1}</span></div><img className="icon" src={ico6} /></div>
+           <div className="eqTablero"> 
+               <div className={eqCerealesColacion1 === 0 ?"triggerGrey": eqCerealesColacion1 >= 0 ?"trigger": "triggerRed"}><span>{eqCerealesColacion1}</span></div><img className="icon" src={ico7} /></div>
+           <div className="eqTablero">  
+               <div className={eqLeguminosasColacion1 === 0 ?"triggerGrey": eqLeguminosasColacion1 >= 0 ?"trigger": "triggerRed"}><span>{eqLeguminosasColacion1}</span></div><img className="icon" src={ico9} /></div>
+           <div className="eqTablero">  
+               <div className={eqAguaColacion1 === 0 ?"triggerGrey": eqAguaColacion1 >= 0 ?"trigger": "triggerRed"}><span>{eqAguaColacion1}</span></div><img className="icon" src={ico8} /></div>
+               </div>
+          :null }
+          {this.state.bottomNavComida == true ?<div>
+           <div className="eqTablero">
+           <div className={eqFrutasComida === 0 ?"triggerGrey": eqFrutasComida >= 0 ?"trigger": "triggerRed"}><span>{eqFrutasComida}</span></div><img className="icon" src={ico1} /></div>
+           <div className="eqTablero">
+               <div className={eqVerdurasComida === 0 ?"triggerGrey": eqVerdurasComida >= 0 ?"trigger": "triggerRed"}><span>{eqVerdurasComida}</span></div><img className="icon" src={ico2} /></div>
+           <div className="eqTablero">
+               <div className={eqProteinasComida === 0 ?"triggerGrey": eqProteinasComida >= 0 ?"trigger": "triggerRed"}><span>{eqProteinasComida}</span></div><img className="icon" src={ico3} /></div>
+           <div className="eqTablero"> 
+               <div className={eqGrasasComida === 0 ?"triggerGrey": eqGrasasComida >= 0 ?"trigger": "triggerRed"}><span>{eqGrasasComida}</span></div><img className="icon" src={ico4} /></div>
+           <div className="eqTablero"> 
+               <div className={eqLacteosComida === 0 ?"triggerGrey": eqLacteosComida >= 0 ?"trigger": "triggerRed"}><span>{eqLacteosComida}</span></div><img className="icon" src={ico5} /></div>
+           <div className="eqTablero"> 
+               <div className={eqAzucaresComida === 0 ?"triggerGrey": eqAzucaresComida >= 0 ?"trigger": "triggerRed"}><span>{eqAzucaresComida}</span></div><img className="icon" src={ico6} /></div>
+           <div className="eqTablero"> 
+               <div className={eqCerealesComida === 0 ?"triggerGrey": eqCerealesComida >= 0 ?"trigger": "triggerRed"}><span>{eqCerealesComida}</span></div><img className="icon" src={ico7} /></div>
+           <div className="eqTablero">  
+               <div className={eqLeguminosasComida === 0 ?"triggerGrey": eqLeguminosasComida >= 0 ?"trigger": "triggerRed"}><span>{eqLeguminosasComida}</span></div><img className="icon" src={ico9} /></div>
+           <div className="eqTablero">  
+               <div className={eqAguaComida === 0 ?"triggerGrey": eqAguaComida >= 0 ?"trigger": "triggerRed"}><span>{eqAguaComida}</span></div><img className="icon" src={ico8} /></div>
+               </div>
+          :null }
+
+          {this.state.bottomNavColacion2 == true ?<div>
+           <div className="eqTablero">
+           <div className={eqFrutasColacion2 === 0 ?"triggerGrey": eqFrutasColacion2 >= 0 ?"trigger": "triggerRed"}><span>{eqFrutasColacion2}</span></div><img className="icon" src={ico1} /></div>
+           <div className="eqTablero">
+               <div className={eqVerdurasColacion2 === 0 ?"triggerGrey": eqVerdurasColacion2 >= 0 ?"trigger": "triggerRed"}><span>{eqVerdurasColacion2}</span></div><img className="icon" src={ico2} /></div>
+           <div className="eqTablero">
+               <div className={eqProteinasColacion2 === 0 ?"triggerGrey": eqProteinasColacion2 >= 0 ?"trigger": "triggerRed"}><span>{eqProteinasColacion2}</span></div><img className="icon" src={ico3} /></div>
+           <div className="eqTablero"> 
+               <div className={eqGrasasColacion2 === 0 ?"triggerGrey": eqGrasasColacion2 >= 0 ?"trigger": "triggerRed"}><span>{eqGrasasColacion2}</span></div><img className="icon" src={ico4} /></div>
+           <div className="eqTablero"> 
+               <div className={eqLacteosColacion2 === 0 ?"triggerGrey": eqLacteosColacion2 >= 0 ?"trigger": "triggerRed"}><span>{eqLacteosColacion2}</span></div><img className="icon" src={ico5} /></div>
+           <div className="eqTablero"> 
+               <div className={eqAzucaresColacion2 === 0 ?"triggerGrey": eqAzucaresColacion2 >= 0 ?"trigger": "triggerRed"}><span>{eqAzucaresColacion2}</span></div><img className="icon" src={ico6} /></div>
+           <div className="eqTablero"> 
+               <div className={eqCerealesColacion2 === 0 ?"triggerGrey": eqCerealesColacion2 >= 0 ?"trigger": "triggerRed"}><span>{eqCerealesColacion2}</span></div><img className="icon" src={ico7} /></div>
+           <div className="eqTablero">  
+               <div className={eqLeguminosasColacion2 === 0 ?"triggerGrey": eqLeguminosasColacion2 >= 0 ?"trigger": "triggerRed"}><span>{eqLeguminosasColacion2}</span></div><img className="icon" src={ico9} /></div>
+           <div className="eqTablero">  
+               <div className={eqAguaColacion2 === 0 ?"triggerGrey": eqAguaColacion2 >= 0 ?"trigger": "triggerRed"}><span>{eqAguaColacion2}</span></div><img className="icon" src={ico8} /></div>
+               </div>
+          :null }
+          {this.state.bottomNavCena == true ?<div>
+           <div className="eqTablero">
+           <div className={eqFrutasCena === 0 ?"triggerGrey": eqFrutasCena >= 0 ?"trigger": "triggerRed"}><span>{eqFrutasCena}</span></div><img className="icon" src={ico1} /></div>
+           <div className="eqTablero">
+               <div className={eqVerdurasCena === 0 ?"triggerGrey": eqVerdurasCena >= 0 ?"trigger": "triggerRed"}><span>{eqVerdurasCena}</span></div><img className="icon" src={ico2} /></div>
+           <div className="eqTablero">
+               <div className={eqProteinasCena === 0 ?"triggerGrey": eqProteinasCena >= 0 ?"trigger": "triggerRed"}><span>{eqProteinasCena}</span></div><img className="icon" src={ico3} /></div>
+           <div className="eqTablero"> 
+               <div className={eqGrasasCena === 0 ?"triggerGrey": eqGrasasCena >= 0 ?"trigger": "triggerRed"}><span>{eqGrasasCena}</span></div><img className="icon" src={ico4} /></div>
+           <div className="eqTablero"> 
+               <div className={eqLacteosCena === 0 ?"triggerGrey": eqLacteosCena >= 0 ?"trigger": "triggerRed"}><span>{eqLacteosCena}</span></div><img className="icon" src={ico5} /></div>
+           <div className="eqTablero"> 
+               <div className={eqAzucaresCena === 0 ?"triggerGrey": eqAzucaresCena >= 0 ?"trigger": "triggerRed"}><span>{eqAzucaresCena}</span></div><img className="icon" src={ico6} /></div>
+           <div className="eqTablero"> 
+               <div className={eqCerealesCena === 0 ?"triggerGrey": eqCerealesCena >= 0 ?"trigger": "triggerRed"}><span>{eqCerealesCena}</span></div><img className="icon" src={ico7} /></div>
+           <div className="eqTablero">  
+               <div className={eqLeguminosasCena === 0 ?"triggerGrey": eqLeguminosasCena >= 0 ?"trigger": "triggerRed"}><span>{eqLeguminosasCena}</span></div><img className="icon" src={ico9} /></div>
+           <div className="eqTablero">  
+               <div className={eqAguaCena === 0 ?"triggerGrey": eqAguaCena >= 0 ?"trigger": "triggerRed"}><span>{eqAguaCena}</span></div><img className="icon" src={ico8} /></div>
+               </div>
+          :null }
+
            </Navbar> 
            
            

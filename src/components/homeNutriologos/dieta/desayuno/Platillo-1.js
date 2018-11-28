@@ -14,7 +14,7 @@ class Platillo1Desayuno extends Component{
                         </div>
                          <div className="platillo1">
                          <FormGroup bsSize="large">
-                         <FormControl onBlur={(e)=>this.props.nombrePlatillo(e.target.value)} className="formTittlePlatillo" type="text" placeholder="Nombre del platillo." />
+                         <FormControl value={this.props.nombre} onBlur={(e)=>this.props.nombrePlatillo(e.target.value)} className="formTittlePlatillo" type="text" placeholder="Nombre del platillo." />
                          </FormGroup>
                          <FormControl type="text" placeholder="Escribe el nombre del equivalente" onInput={this.props.busqueda}/>
                          
@@ -34,10 +34,10 @@ class Platillo1Desayuno extends Component{
                                 alimentosFiltro[alimento].clase,
                                 alimentosFiltro[alimento].pesoNetoGrm,
                                 alimentosFiltro[alimento].cantidad,
-                                alimentosFiltro[alimento].lipidosGrm,
-                                alimentosFiltro[alimento].proteinaGrm,
-                                alimentosFiltro[alimento].sodioMGrm,
-                                alimentosFiltro[alimento].hidratosCarbonoGrm
+                                alimentosFiltro[alimento].lipidosGrm ?alimentosFiltro[alimento].lipidosGrm:"0",
+                                alimentosFiltro[alimento].proteinaGrm ?alimentosFiltro[alimento].proteinaGrm:"0",
+                                alimentosFiltro[alimento].sodioMGrm?alimentosFiltro[alimento].sodioMGrm:"0",
+                                alimentosFiltro[alimento].hidratosCarbonoGrm?alimentosFiltro[alimento].hidratosCarbonoGrm:"0"   
                                )} className="resultadoAlimentosBusqueda">
 
                                {
@@ -51,7 +51,6 @@ class Platillo1Desayuno extends Component{
                          </div>
                             ))
                           )
-                          
                           } 
                          </div>  
                              <h3>Alimentos:</h3>

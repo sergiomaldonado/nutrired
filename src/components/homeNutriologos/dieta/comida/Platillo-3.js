@@ -2,7 +2,8 @@ import React, {Component} from 'react'
 import { Col,FormGroup, FormControl,Button} from 'react-bootstrap'
 import { Plus,Trash2, PlusCircle} from 'react-feather'
 
-class Platillo3Desayuno extends Component{
+
+class Platillo3Comida extends Component{
     render(){
         const platillo1array = this.props.arrayPlatillo 
         const alimentosFiltro = this.props.alimentosFiltro
@@ -25,11 +26,7 @@ class Platillo3Desayuno extends Component{
                             ?<div><img src="https://loading.io/spinners/message/index.messenger-typing-preloader.svg"></img></div>
                             :<div></div>
                          }
-                         {
-                              alimentosFiltro
-                              ?null
-                              :<h4>No hay coincidencias</h4>
-                          }    
+                          
                          
                          { !!alimentosFiltro && (
                             Object.keys(alimentosFiltro).map((alimento) => (
@@ -40,7 +37,11 @@ class Platillo3Desayuno extends Component{
                                 alimentosFiltro[alimento].energiaKCal,
                                 alimentosFiltro[alimento].clase,
                                 alimentosFiltro[alimento].pesoNetoGrm,
-                                alimentosFiltro[alimento].cantidad
+                                alimentosFiltro[alimento].cantidad,
+                                alimentosFiltro[alimento].lipidosGrm ?alimentosFiltro[alimento].lipidosGrm:"0",
+                                alimentosFiltro[alimento].proteinaGrm ?alimentosFiltro[alimento].proteinaGrm:"0",
+                                alimentosFiltro[alimento].sodioMGrm?alimentosFiltro[alimento].sodioMGrm:"0",
+                                alimentosFiltro[alimento].hidratosCarbonoGrm?alimentosFiltro[alimento].hidratosCarbonoGrm:"0" 
                                )} className="resultadoAlimentosBusqueda">
                               <Col className="colSugerenciaAlimentos" md="3">{ alimentosFiltro[alimento].tipo}</Col>
                               <Col className="colSugerenciaAlimentos" md="7">{alimentosFiltro[alimento].alimento}</Col>
@@ -91,4 +92,4 @@ class Platillo3Desayuno extends Component{
 
 }
 
-export default Platillo3Desayuno
+export default Platillo3Comida

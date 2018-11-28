@@ -3,7 +3,7 @@ import { Col,FormGroup, FormControl,Button} from 'react-bootstrap'
 import { Plus,Trash2, PlusCircle} from 'react-feather'
 
 
-class TablaNutrimentalDesayuno extends Component{
+class TablaNutrimentalComida extends Component{
     render(){
         const sumar = this.props.sumaKcal
         const sumatoria = this.props.suma
@@ -13,7 +13,7 @@ class TablaNutrimentalDesayuno extends Component{
             <Col md="4">
                     <div className="contenedorNutrimentos">
                        <div className="tituloInfo">
-                           <h3 className="h4Title">Información Nutrimental del desayuno</h3>
+                           <h3 className="h4Title">Información Nutrimental de la Comida</h3>
                            <p>Tamaño por porcion: </p>
                            </div>
                       <div className="kcalinfo">
@@ -38,4 +38,4 @@ class TablaNutrimentalDesayuno extends Component{
 
 }
 
-export default TablaNutrimentalDesayuno
+export default TablaNutrimentalComida
