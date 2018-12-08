@@ -1,40 +1,24 @@
 import React, { Component } from 'react'
-
+import Comunidad from '../comunidad'
 import withAutorization from '../withAutorization'
-import { db, auth } from '../../firebase/firebase'
-import { Grid, Row, Col, NavItem, Nav, Tab, Glyphicon, Form, FormGroup, FormControl, InputGroup, Image} from 'react-bootstrap'
-import { Users, Clipboard,BookOpen, Award, Globe, Calendar, Search } from 'react-feather'
-import Imagen from '../imagen.png'
-import SideNav from './side-nav-users'
 
 class ComunidadPacientes extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      user: null,
-    }
-  }
-  
+  // componentDidMount() {
+  //   const { auth } = this.props
+  //   if (!auth) return
+  //   this.getUser(auth)
+  // }
+
+  // componentDidUpdate(prevProps, prevState) {
+  //   if (prevProps.auth === this.props.auth) return
+  // }
+
   render() {
-
-      return(
-            <Grid>
-  <Row className="show-grid">
-   <SideNav />
-    <Col xs={12} md={10}>
-    <h1>Bienvenido a la mejor red social del mundo</h1>
-    </Col>
-  </Row>
-  </Grid>
-
-      )
-   
-    
-   
+    const { auth } = this.props
+    return <Comunidad auth={auth} type="pacientes" />
   }
 }
 
+const authCondition = authUser => !!authUser
 
-const authCondition = (authUser) => !!authUser;
-
-export default withAutorization(authCondition)(ComunidadPacientes);
+export default withAutorization(authCondition)(ComunidadPacientes)
