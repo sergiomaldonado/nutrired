@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import UserProfile from './homePacientes/userProfile'
-import { db, auth } from '../firebase/firebase'
+import { db, auth, dbfb, authfb } from '../firebase/firebase'
 
 
 class Acount extends Component {
@@ -9,19 +9,20 @@ class Acount extends Component {
     constructor(props){
         super(props);
        this.state = {
-           nutriologo:null
+          nutriologo:null
        }
     }
-
     componentDidMount(){
         const uid = auth.currentUser.uid;
+        console.log(`usuario logueado: ${uid}`)
         db.ref('users/nutriologos/').child(uid).on('value', snapshot => {
           const exists = (snapshot.val() !== null);
-          console.log(exists)
+          //console.log(exists)
           this.setState({
             nutriologo: exists
           });
-        }) 
+        })    
+       
     }
     render(){
         return this.state.nutriologo === true

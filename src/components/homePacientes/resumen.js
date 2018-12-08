@@ -64,7 +64,7 @@ class Resumen extends Component {
         const  {anoNacimiento, diaNacimiento, estatura, peso, meta} = this.state.datos;
         const  {img} = this.state.img;
         return(
-            <Col xs={12} md={10}>
+            <Col xs={12} md={12}>
           <Row className="show-grid">
            <Col className="card-cliente" xs={12} md={12}>
             <Col className="contfoto" xs={12} md={12}>

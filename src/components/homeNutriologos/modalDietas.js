@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import './../App.css'
 import { db } from './../../firebase'
 import { authfb, dbfb } from './../../firebase/firebase'
-import { Grid,Row, Tooltip, Col, FormGroup, FormControl, Navbar,NavItem , Nav, Button} from 'react-bootstrap'
-import { CheckCircle, Check, AlertCircle, ChevronDown, ArrowRight, ArrowLeft} from 'react-feather'
+import { Grid,Row, Tooltip, Col, FormGroup, InputGroup, FormControl, Navbar,NavItem , Nav, Button, Alert} from 'react-bootstrap'
+import { CheckCircle, Check, AlertCircle, ChevronDown, ArrowRight,  Search, ArrowLeft} from 'react-feather'
 import Slider from 'react-rangeslider'
 import './../rangeSlideStyles.css'
 import ico1 from './icons/ico-1.svg'
@@ -23,10 +23,7 @@ import icoComida from './icons/icoComida.svg'
 import icoComidaActivado from './icons/icoComida-activado.svg'
 import icoCena from './icons/icoCena.svg'
 import icoCenaActivado from './icons/icoCena-activado.svg'
-
-
 import CCG from './dbAlimentos/cerealesConGrasa.json'
-
 import Platillo1Desayuno from './dieta/desayuno/Platillo-1'
 import Platillo2Desayuno from './dieta/desayuno/Platillo-2'
 import Platillo3Desayuno from './dieta/desayuno/Platillo-3'
@@ -45,138 +42,63 @@ import Platillo2Cena from './dieta/cena/Platillo-2'
 import Platillo3Cena from './dieta/cena/Platillo-3'
 import TablaNutrimentalDesayuno from './dieta/desayuno/infNutrimental' 
 import {debounce} from 'lodash'
+import BusquedaUsuarios from './busquedaUsers'
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 const byPropKey = (propertyName, value) => () => ({
     [propertyName]: value,
 });
+
 class ModalDietas extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-        filter:{
-            alimento:'',
-            search:''
-        },
-        show:false,
-        frutasValue: 0,
-        verdurasValue:0,
-        proteinasValue:0,
-        grasasValue:0,
-        lacteosValue:0,
-        azucaresValue:0,
-        cerealesValue:0,
-        leguminosasValue:0,
-        aguaValue:0,
-        sumaPrueba:12,
-        verdurasKcal:25,verdurasHCO:4,verdurasLip:0,verdurasProt:2,
-        frutasKcal:60,frutasHCO:15,frutasLip:0,frutasProt:0,
-        proteinasKcal:75, proteinasHCO:0, proteinasLip:5, proteinasProt:7,  /** AOA MAG */
-        grasasKcal:45, grasasHCO:0, grasasLip:5, grasasProt:0, /** Aceites S/P */
-        lacteosKcal:110, lacteosHCO:12, lacteosLip:4, lacteosProt:9,  /** leche semi descremada */
-        azucaresKcal:40, azucaresHCO:10, azucaresLip:0, azucaresProt:0, /** Azucar S/G */
-        cerealesKcal:60, cerealesHCO:15, cerealesLip:0, cerealesProt:0,  /** Cereales S/G **/
-        leguminosasKcal:120, leguminosasHCO:20, leguminosasLip:1, leguminosasProt:8, /** Leguminosas **/
-        aguaKcal:0, aguaHCO:0, aguaLip:0, aguaProt:0, /** Agua **/
-        /** Valores de Tablero de resultados de meta  */
-        metaKcalDieta: 0, metaLipDieta: null, metaHCODieta:null, metaProDieta:null,
-        frutasDatoKcal:0,frutasDatoHCO:0,frutasDatoLip:0,frutasDatoPro:0,
-        verdurasDatoKcal:0,verdurasDatoHCO:0,verdurasDatoLip:0,verdurasDatoPro:0,
-        proteinasDatoKcal:0,proteinasDatoHCO:0,proteinasDatoLip:0,proteinasDatoPro:0,
-        grasasDatoKcal:0,grasasDatoHCO:0,grasasDatoLip:0,grasasDatoPro:0,
-        lacteosDatoKcal:0,lacteosDatoHCO:0,lacteosDatoLip:0,lacteosDatoPro:0,
-        azucaresDatoKcal:0,azucaresDatoHCO:0,azucaresDatoLip:0,azucaresDatoPro:0,
-        cerealesDatoKcal:0,cerealesDatoHCO:0,cerealesDatoLip:0,cerealesDatoPro:0,
-        leguminosasDatoKcal:0,leguminosasDatoHCO:0,leguminosasDatoLip:0,leguminosasDatoPro:0,
-        Kcalsumatoria:0,
-        HCOsumatoria:0,
-        Lipsumatoria:0,
-        Prosumatoria:0,
-        inputDisabled1:true,inputDisabled2:true,inputDisabled3:true,inputDisabled4:true,inputDisabled5:true,inputDisabled6:true,
-        inputDisabled7:true,inputDisabled8:true,inputDisabled9:true,
-        FrutasInputStyle:"frutasDesayunoInactivo",
-        frutasDistribucion:0, frutaDesayunoValue:0, frutaColacion1Value:0,frutaComidaValue:0,frutaColacion2Value:0,frutaCenaValue:0,
-        /**** VALORES INICIALES DE DISTRIBUCION  */
-        DisfrutaDesayunoVal:0, DisfrutaColacion1Val:0, DisfrutaComidaVal:0, DisfrutaColacion2Val:0, DisfrutaCenaVal:0,
-        DisVerdurasDesayunoVal:0, DisVerdurasColacion1Val:0, DisVerdurasComidaVal:0, DisVerdurasColacion2Val:0, DisVerdurasCenaVal:0,
-        DisProteinasDesayunoVal:0, DisProteinasColacion1Val:0, DisProteinasComidaVal:0, DisProteinasColacion2Val:0, DisProteinasCenaVal:0,
-        DisGrasasDesayunoVal:0, DisGrasasColacion1Val:0, DisGrasasComidaVal:0, DisGrasasColacion2Val:0, DisGrasasCenaVal:0,
-        DisLacteosDesayunoVal:0, DisLacteosColacion1Val:0, DisLacteosComidaVal:0, DisLacteosColacion2Val:0, DisLacteosCenaVal:0,
-        DisAzucaresDesayunoVal:0, DisAzucaresColacion1Val:0, DisAzucaresComidaVal:0, DisAzucaresColacion2Val:0, DisAzucaresCenaVal:0,
-        DisCerealesDesayunoVal:0, DisCerealesColacion1Val:0, DisCerealesComidaVal:0, DisCerealesColacion2Val:0, DisCerealesCenaVal:0,
-        DisLeguminosasDesayunoVal:0, DisLeguminosasColacion1Val:0, DisLeguminosasComidaVal:0, DisLeguminosasColacion2Val:0, DisLeguminosasCenaVal:0,
-        DisAguaDesayunoVal:0, DisAguaColacion1Val:0, DisAguaComidaVal:0, DisAguaColacion2Val:0, DisAguaCenaVal:0,
-        
-     /** PASOS DIETA */
-        paso1:'paso1visible',
-        paso2:'paso2invisible',
-        paso3:'paso2invisible',
-        step1:'dieta-activado',
-        counter1:'step-dieta-activado',
-        line1:'line-activado',
-        step2:'dieta-desactivado',
-        step3:'dieta-desactivado',
-        counter2:'step-counter-desactivado',
-        line2:'line-desactivado',
-        step3:'dieta-desactivado',
-        counter3:'step-dieta-desactivado',
-        line3:'line-desactivado',
-        pasoUno:true,
-        pasoDos:false,
-        pasoTres:false,
-        btnRegresar:"btnDisplayNone",
-        users: [],
-        filteredAlimento: [],
-        mostrarAlimentos:'noMostrar',
-        alimentosSeleccionados:{ 
-        },
-        idPlatillo:0,
-        platillo1:'platillo-1-desactivado',
-        platillo2:'platillo-2-desactivado',
-        platillo3:'platillo-3-desactivado',
-        platillo1colacion1:'platillo-1-desactivado',
-        platillo2colacion1:'platillo-2-desactivado',
-        platillo3colacion1:'platillo-3-desactivado',
-        platillo1comida:'platillo-1-desactivado',
-        platillo2comida:'platillo-2-desactivado',
-        platillo3comida:'platillo-3-desactivado',
-        platillo1colacion2:'platillo-1-desactivado',
-        platillo2colacion2:'platillo-2-desactivado',
-        platillo3colacion2:'platillo-3-desactivado',
-        platillo1cena:'platillo-1-desactivado',
-        platillo2cena:'platillo-2-desactivado',
-        platillo3cena:'platillo-3-desactivado',
-        mostrarPaso2:'mostrarPaso2',
-        cargando:false,
-        mostrar:"nohayquemostrar",
-        mostrarPlatillo3:"nohayquemostrar",
-        
-        
-        mostrarColacion1:"nohayquemostrar",
-        mostrarPlatillo3Colacion1:"nohayquemostrar",
-        cargandoComidaPlatillo1:false,
-        mostrarComida:"nohayquemostrar",
-        mostrarPlatillo3Comida:"nohayquemostrar",
-        cargandoColacion2Platillo1:false,
-        mostrarColacion2:"nohayquemostrar",
-        mostrarPlatillo3Colacion2:"nohayquemostrar",
-        cargandoCenaPlatillo1:false,
-        mostrarCena:"nohayquemostrar",
-        mostrarPlatillo3Cena:"nohayquemostrar",
-
-
-        stepDesayuno:true,
-        stepColacion1:false,
-        stepComida:false,
-        stepColacion2:false,
-        stepCena:false,
-        checkDesayuno:true,
-        checkComida:false,
-        checkColacion2:false,
-        bottomNavDesayuno:true
+        show:false,frutasValue: 0,verdurasValue:0,proteinasValue:0,grasasValue:0,
+        lacteosValue:0,azucaresValue:0,cerealesValue:0,leguminosasValue:0,aguaValue:0,sumaPrueba:12,
+        verdurasKcal:25,verdurasHCO:4,verdurasLip:0,verdurasProt:2,frutasKcal:60,
+        frutasHCO:15,frutasLip:0,frutasProt:0,proteinasKcal:75, proteinasHCO:0, proteinasLip:5, proteinasProt:7,  /** AOA MAG */grasasKcal:45, grasasHCO:0, grasasLip:5, grasasProt:0, /** Aceites S/P */
+        lacteosKcal:110, lacteosHCO:12, lacteosLip:4, lacteosProt:9,
+          /** leche semi descremada */azucaresKcal:40, azucaresHCO:10, azucaresLip:0, azucaresProt:0,
+           /** Azucar S/G */
+        cerealesKcal:60, cerealesHCO:15, cerealesLip:0, cerealesProt:0, 
+         /** Cereales S/G **/leguminosasKcal:120, leguminosasHCO:20, leguminosasLip:1, leguminosasProt:8, 
+         /** Leguminosas **/aguaKcal:0, aguaHCO:0, aguaLip:0, aguaProt:0, /** Agua **/
+        /** Valores de Tablero de resultados de meta  */metaKcalDieta: 0, 
+        metaLipDieta: null, metaHCODieta:null, metaProDieta:null, frutasDatoKcal:0,
+        frutasDatoHCO:0,frutasDatoLip:0,frutasDatoPro:0,verdurasDatoKcal:0,verdurasDatoHCO:0,verdurasDatoLip:0,verdurasDatoPro:0,proteinasDatoKcal:0,proteinasDatoHCO:0,proteinasDatoLip:0,proteinasDatoPro:0,
+        grasasDatoKcal:0,grasasDatoHCO:0,grasasDatoLip:0,grasasDatoPro:0,lacteosDatoKcal:0,lacteosDatoHCO:0,lacteosDatoLip:0,lacteosDatoPro:0,azucaresDatoKcal:0,azucaresDatoHCO:0,azucaresDatoLip:0,azucaresDatoPro:0,
+        cerealesDatoKcal:0,cerealesDatoHCO:0,cerealesDatoLip:0,cerealesDatoPro:0,leguminosasDatoKcal:0,leguminosasDatoHCO:0,leguminosasDatoLip:0,leguminosasDatoPro:0,
+        Kcalsumatoria:0,HCOsumatoria:0,Lipsumatoria:0,Prosumatoria:0,inputDisabled1:true,inputDisabled2:true,inputDisabled3:true,inputDisabled4:true,inputDisabled5:true,inputDisabled6:true,
+        inputDisabled7:true,inputDisabled8:true,inputDisabled9:true,FrutasInputStyle:"frutasDesayunoInactivo",frutasDistribucion:0, frutaDesayunoValue:0, frutaColacion1Value:0,frutaComidaValue:0,frutaColacion2Value:0,frutaCenaValue:0,
+        /**** VALORES INICIALES DE DISTRIBUCION  */DisfrutaDesayunoVal:0, DisfrutaColacion1Val:0, DisfrutaComidaVal:0, DisfrutaColacion2Val:0, DisfrutaCenaVal:0,DisVerdurasDesayunoVal:0, DisVerdurasColacion1Val:0, DisVerdurasComidaVal:0, DisVerdurasColacion2Val:0, DisVerdurasCenaVal:0,
+        DisProteinasDesayunoVal:0, DisProteinasColacion1Val:0, DisProteinasComidaVal:0, DisProteinasColacion2Val:0, DisProteinasCenaVal:0,DisGrasasDesayunoVal:0, DisGrasasColacion1Val:0, DisGrasasComidaVal:0, DisGrasasColacion2Val:0, DisGrasasCenaVal:0,
+        DisLacteosDesayunoVal:0, DisLacteosColacion1Val:0, DisLacteosComidaVal:0, DisLacteosColacion2Val:0, DisLacteosCenaVal:0,DisAzucaresDesayunoVal:0, DisAzucaresColacion1Val:0, DisAzucaresComidaVal:0, DisAzucaresColacion2Val:0, DisAzucaresCenaVal:0,
+        DisCerealesDesayunoVal:0, DisCerealesColacion1Val:0, DisCerealesComidaVal:0, DisCerealesColacion2Val:0, DisCerealesCenaVal:0,DisLeguminosasDesayunoVal:0, DisLeguminosasColacion1Val:0, DisLeguminosasComidaVal:0, DisLeguminosasColacion2Val:0, DisLeguminosasCenaVal:0,
+        DisAguaDesayunoVal:0, DisAguaColacion1Val:0, DisAguaComidaVal:0, DisAguaColacion2Val:0, DisAguaCenaVal:0,   
+         /** PASOS DIETA */paso1:'paso1visible',paso2:'paso2invisible',paso3:'paso2invisible',
+         
+         step1:'dieta-activado',counter1:'step-dieta-activado',line1:'line-activado',
+         step2:'dieta-desactivado',step3:'dieta-desactivado',counter2:'step-counter-desactivado',
+         line2:'line-desactivado',step3:'dieta-desactivado', counter3:'step-counter-desactivado',
+         line3:'line-desactivado-dietas',
+         
+         
+         pasoUno:true,pasoDos:false,pasoTres:false,btnRegresar:"btnDisplayNone",filteredAlimento: [],mostrarAlimentos:'noMostrar',
+        idPlatillo:0,platillo1:'platillo-1-desactivado',platillo2:'platillo-2-desactivado',platillo3:'platillo-3-desactivado',platillo1colacion1:'platillo-1-desactivado',platillo2colacion1:'platillo-2-desactivado',platillo3colacion1:'platillo-3-desactivado',platillo1comida:'platillo-1-desactivado',platillo2comida:'platillo-2-desactivado',platillo3comida:'platillo-3-desactivado',platillo1colacion2:'platillo-1-desactivado',platillo2colacion2:'platillo-2-desactivado',platillo3colacion2:'platillo-3-desactivado',platillo1cena:'platillo-1-desactivado',platillo2cena:'platillo-2-desactivado',platillo3cena:'platillo-3-desactivado',mostrarPaso2:'mostrarPaso2',cargando:false,mostrar:"nohayquemostrar",mostrarPlatillo3:"nohayquemostrar",
+        mostrarColacion1:"nohayquemostrar",mostrarPlatillo3Colacion1:"nohayquemostrar",cargandoComidaPlatillo1:false,mostrarComida:"nohayquemostrar",mostrarPlatillo3Comida:"nohayquemostrar",cargandoColacion2Platillo1:false,mostrarColacion2:"nohayquemostrar",mostrarPlatillo3Colacion2:"nohayquemostrar",cargandoCenaPlatillo1:false,mostrarCena:"nohayquemostrar",mostrarPlatillo3Cena:"nohayquemostrar",
+        stepDesayuno:true,stepColacion1:false,stepComida:false,stepColacion2:false,stepCena:false,checkDesayuno:true,checkComida:false,checkColacion2:false,bottomNavDesayuno:true,nombreResetaEnProceso:"Nombre de la Receta",pacientesFiltrados:[]
     }
-    
   
    /** this.handleOnFilter = this.handleOnFilter.bind(this)*/
   }
+  componentDidMount(){
+
+                    }
+
+                    
   activarPlatillo1desayuno = () =>{
       this.setState({
           platillo1:"platillo-1-activado",
@@ -464,7 +386,6 @@ query == ""
 :this.setState({filteredAlimentoCena, cargandoCena:false })
 },1000)
 
-
 buscarPlatillo2Cena = (e) => {
     e.target.value == '' ?this.setState({filteredAlimento2Cena:[], cargandoCenaPlatillo2:false}) :null
     this.setState({cargandoCenaPlatillo2:true})
@@ -493,11 +414,9 @@ query == ""
 :this.setState({filteredAlimento3Cena, cargandoCenaPlatillo3:false })
 },1000)
 
-
-
 crearReceta = () => {
       const uid = authfb.currentUser.uid
-      this.setState({pasoUno:false,pasoDos:true, clickPaso:this.crearReceta, btnRegresar:"siguienteStepDieta2"}) 
+      this.setState({pasoUno:false,pasoDos:true,clickPaso:this.crearReceta, btnRegresar:"siguienteStepDieta2"}) 
       const idRecetaEnProceso = this.props.idReceta
       const {metaKcalDieta, metaLipDieta, metaHCODieta, metaProDieta} = this.state
       const dietoCalculo = {
@@ -511,19 +430,53 @@ crearReceta = () => {
           leguminosas:{eq:this.state.leguminosasValue, Kcal:this.state.leguminosasDatoKcal, HCO:this.state.leguminosasDatoHCO,Lip:this.state.leguminosasDatoLip,Pro:this.state.leguminosasDatoPro },
           agua:{eq:this.state.aguaValue, Kcal:this.state.aguaKcal, HCO:this.state.aguaHCO,Lip:this.state.aguaLip,Pro:this.state.aguaProt },
         }
-      db.dietoCalculoReceta(uid, idRecetaEnProceso, metaKcalDieta, metaLipDieta, metaHCODieta, metaProDieta, dietoCalculo)
+        this.setState({ step2:'dieta-activado',counter2:'step-counter-activado',line2:'line-activado'})
+      db.dietoCalculoReceta(uid, idRecetaEnProceso, metaKcalDieta, metaLipDieta, metaHCODieta, metaProDieta, dietoCalculo, this.state.nombreResetaEnProceso)
 }
 otrosDatosReceta = () => {
-    this.setState({pasoDos:false,pasoTres:true, clickPaso:this.otrosDatosReceta})
-    alert("mas Datos para receta") 
+    this.setState({pasoDos:false,pasoTres:true, clickPaso:this.otrosDatosReceta, step3:'dieta-activado', counter3:'step-counter-activado'})
 }
   pasoUno = () =>{
     this.state.pasoUno === true ? this.crearReceta() :null
     this.state.pasoDos === true ? this.otrosDatosReceta()  :null
+    this.state.pasoTres === true? this.guardarDieta():null
 }
+
+guardarDieta = () =>{
+    this.props.cerrarModalDietas()
+    this.setState({
+        pasoUno:true,
+        pasoDos:false,
+        pasoTres:false,
+        btnRegresar:"btnDisplayNone",
+        idDietaEnProceso:"",
+    })
+    this.props.notificacion()
+    this.setState({
+        show:false,frutasValue: 0,verdurasValue:0,proteinasValue:0,grasasValue:0,lacteosValue:0,azucaresValue:0,cerealesValue:0,leguminosasValue:0,aguaValue:0,sumaPrueba:12,
+        verdurasKcal:25,verdurasHCO:4,verdurasLip:0,verdurasProt:2,frutasKcal:60,frutasHCO:15,frutasLip:0,frutasProt:0,proteinasKcal:75, proteinasHCO:0, proteinasLip:5, proteinasProt:7,  /** AOA MAG */grasasKcal:45, grasasHCO:0, grasasLip:5, grasasProt:0, /** Aceites S/P */
+        lacteosKcal:110, lacteosHCO:12, lacteosLip:4, lacteosProt:9,  /** leche semi descremada */azucaresKcal:40, azucaresHCO:10, azucaresLip:0, azucaresProt:0, /** Azucar S/G */
+        cerealesKcal:60, cerealesHCO:15, cerealesLip:0, cerealesProt:0,  /** Cereales S/G **/leguminosasKcal:120, leguminosasHCO:20, leguminosasLip:1, leguminosasProt:8, /** Leguminosas **/aguaKcal:0, aguaHCO:0, aguaLip:0, aguaProt:0, /** Agua **/
+        /** Valores de Tablero de resultados de meta  */metaKcalDieta: 0, metaLipDieta: null, metaHCODieta:null, metaProDieta:null, frutasDatoKcal:0,frutasDatoHCO:0,frutasDatoLip:0,frutasDatoPro:0,verdurasDatoKcal:0,verdurasDatoHCO:0,verdurasDatoLip:0,verdurasDatoPro:0,proteinasDatoKcal:0,proteinasDatoHCO:0,proteinasDatoLip:0,proteinasDatoPro:0,
+        grasasDatoKcal:0,grasasDatoHCO:0,grasasDatoLip:0,grasasDatoPro:0,lacteosDatoKcal:0,lacteosDatoHCO:0,lacteosDatoLip:0,lacteosDatoPro:0,azucaresDatoKcal:0,azucaresDatoHCO:0,azucaresDatoLip:0,azucaresDatoPro:0,
+        cerealesDatoKcal:0,cerealesDatoHCO:0,cerealesDatoLip:0,cerealesDatoPro:0,leguminosasDatoKcal:0,leguminosasDatoHCO:0,leguminosasDatoLip:0,leguminosasDatoPro:0,
+        Kcalsumatoria:0,HCOsumatoria:0,Lipsumatoria:0,Prosumatoria:0,inputDisabled1:true,inputDisabled2:true,inputDisabled3:true,inputDisabled4:true,inputDisabled5:true,inputDisabled6:true,
+        inputDisabled7:true,inputDisabled8:true,inputDisabled9:true,FrutasInputStyle:"frutasDesayunoInactivo",frutasDistribucion:0, frutaDesayunoValue:0, frutaColacion1Value:0,frutaComidaValue:0,frutaColacion2Value:0,frutaCenaValue:0,
+        /**** VALORES INICIALES DE DISTRIBUCION  */DisfrutaDesayunoVal:0, DisfrutaColacion1Val:0, DisfrutaComidaVal:0, DisfrutaColacion2Val:0, DisfrutaCenaVal:0,DisVerdurasDesayunoVal:0, DisVerdurasColacion1Val:0, DisVerdurasComidaVal:0, DisVerdurasColacion2Val:0, DisVerdurasCenaVal:0,
+        DisProteinasDesayunoVal:0, DisProteinasColacion1Val:0, DisProteinasComidaVal:0, DisProteinasColacion2Val:0, DisProteinasCenaVal:0,DisGrasasDesayunoVal:0, DisGrasasColacion1Val:0, DisGrasasComidaVal:0, DisGrasasColacion2Val:0, DisGrasasCenaVal:0,
+        DisLacteosDesayunoVal:0, DisLacteosColacion1Val:0, DisLacteosComidaVal:0, DisLacteosColacion2Val:0, DisLacteosCenaVal:0,DisAzucaresDesayunoVal:0, DisAzucaresColacion1Val:0, DisAzucaresComidaVal:0, DisAzucaresColacion2Val:0, DisAzucaresCenaVal:0,
+        DisCerealesDesayunoVal:0, DisCerealesColacion1Val:0, DisCerealesComidaVal:0, DisCerealesColacion2Val:0, DisCerealesCenaVal:0,DisLeguminosasDesayunoVal:0, DisLeguminosasColacion1Val:0, DisLeguminosasComidaVal:0, DisLeguminosasColacion2Val:0, DisLeguminosasCenaVal:0,
+        DisAguaDesayunoVal:0, DisAguaColacion1Val:0, DisAguaComidaVal:0, DisAguaColacion2Val:0, DisAguaCenaVal:0,   
+         /** PASOS DIETA */paso1:'paso1visible',paso2:'paso2invisible',paso3:'paso2invisible',step1:'dieta-activado',counter1:'step-dieta-activado',line1:'line-activado',step2:'dieta-desactivado',step3:'dieta-desactivado',counter2:'step-counter-desactivado',line2:'line-desactivado',step3:'dieta-desactivado',counter3:'step-counter-desactivado',line3:'line-desactivado',pasoUno:true,pasoDos:false,pasoTres:false,btnRegresar:"btnDisplayNone",filteredAlimento: [],mostrarAlimentos:'noMostrar',
+        idPlatillo:0,platillo1:'platillo-1-desactivado',platillo2:'platillo-2-desactivado',platillo3:'platillo-3-desactivado',platillo1colacion1:'platillo-1-desactivado',platillo2colacion1:'platillo-2-desactivado',platillo3colacion1:'platillo-3-desactivado',platillo1comida:'platillo-1-desactivado',platillo2comida:'platillo-2-desactivado',platillo3comida:'platillo-3-desactivado',platillo1colacion2:'platillo-1-desactivado',platillo2colacion2:'platillo-2-desactivado',platillo3colacion2:'platillo-3-desactivado',platillo1cena:'platillo-1-desactivado',platillo2cena:'platillo-2-desactivado',platillo3cena:'platillo-3-desactivado',mostrarPaso2:'mostrarPaso2',cargando:false,mostrar:"nohayquemostrar",mostrarPlatillo3:"nohayquemostrar",
+        mostrarColacion1:"nohayquemostrar",mostrarPlatillo3Colacion1:"nohayquemostrar",cargandoComidaPlatillo1:false,mostrarComida:"nohayquemostrar",mostrarPlatillo3Comida:"nohayquemostrar",cargandoColacion2Platillo1:false,mostrarColacion2:"nohayquemostrar",mostrarPlatillo3Colacion2:"nohayquemostrar",cargandoCenaPlatillo1:false,mostrarCena:"nohayquemostrar",mostrarPlatillo3Cena:"nohayquemostrar",
+        stepDesayuno:true,stepColacion1:false,stepComida:false,stepColacion2:false,stepCena:false,checkDesayuno:true,checkComida:false,checkColacion2:false,bottomNavDesayuno:true,nombreResetaEnProceso:"Nombre de la Receta",pacientesFiltrados:[]
+    })
+}
+
   regresarSteps = () =>{
-    this.state.pasoDos === true ?this.setState({pasoUno:true,pasoDos:false, btnRegresar:"btnDisplayNone"}) :null
-    this.state.pasoTres === true ?this.setState({pasoDos:true,pasoTres:false}) :null
+    this.state.pasoDos === true ?this.setState({pasoUno:true,pasoDos:false, btnRegresar:"btnDisplayNone",step2:'dieta-desactivado', counter2:'step-counter-desactivado',line2:'line-desactivado'}) :null
+    this.state.pasoTres === true ?this.setState({pasoDos:true,pasoTres:false,step3:'dieta-desactivado', counter3:'step-counter-desactivado'}) :null
 }
   frutasValue = (value) => { 
     this.setState({ 
@@ -1212,9 +1165,20 @@ enviarEqCenaPlatillo3 = (e, ref)=>{
     const uid = authfb.currentUser.uid
     const idRecetaEnProceso = this.props.idReceta
     const valor = e == "" ?0 :e
+
     dbfb.ref(`users/nutriologos/${uid}/dietas/${idRecetaEnProceso}/dieta/cena/platillo3/alimentos/${ref}/`).update({
       eq: parseInt(valor)
    });
+}
+
+guardarRecomendacionesGeneralesDieta = (e)=>{
+    const uid = authfb.currentUser.uid
+    const idDietaEnProceso = this.props.idReceta
+    const valor = e == "" ?"No hay recomendaciones para mostrar." :e
+    dbfb.ref(`users/nutriologos/${uid}/dietas/${idDietaEnProceso}/recomendaciones/`).update({
+        comentarios:valor
+    })
+    this.notificacionDietaGuardada
 }
 
 
@@ -1294,7 +1258,12 @@ stepDieta5 = () =>{
      bottomNavCena:true
     })
 }
-
+nombreDieta = (e) => {
+    const valor = e == "" ?"Sin Titulo" :e
+   this.setState({ 
+    nombreResetaEnProceso:valor
+   })
+   }
 
 /** Funciones Set de Valores de Tablero de resultados de meta  */
 metaKcalDieta = (value) => { this.setState({ metaKcalDieta: value }) }
@@ -1303,7 +1272,39 @@ cerrarDieta = () =>{
         show:true
     })
 }
+
+     /***  B U S Q U E D A   - -   F I L T R A D O   D E   U S U A R I O S */
+
+    filtrado = (e) => {
+    e.target.value == '' ?this.setState({fil:[], cargandofil:false}) :null
+    this.setState({cargandofil:true})
+    const {users} = this.state
+    const user = Object.keys(users).map(k =>{
+        users[k].nombre
+    }) 
+    console.log(user)
+    this.setfil(e.target.value.toLowerCase())
+    
+}
+
+
+notify = (nombre, apellido) => {toast.success(`Se asigno la dieta a ${nombre} ${apellido}`, {
+    position: "bottom-right",
+    autoClose: 2000,
+    hideProgressBar: true,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: true
+    });
+};
+
+    
+
+
   render() { 
+
+
+    const {users} = this.state
     const{ DisfrutaDesayunoVal, DisfrutaColacion1Val, DisfrutaComidaVal, DisfrutaColacion2Val, DisfrutaCenaVal,
         DisVerdurasDesayunoVal, DisVerdurasColacion1Val, DisVerdurasComidaVal, DisVerdurasColacion2Val, DisVerdurasCenaVal,
         DisProteinasDesayunoVal, DisProteinasColacion1Val, DisProteinasComidaVal, DisProteinasColacion2Val, DisProteinasCenaVal,
@@ -1544,7 +1545,7 @@ cerrarDieta = () =>{
      const eqCerealesComida = parseInt(DisCerealesComidaVal) - totalEqComidaCereales1
      /** Lacteos */
      const ComidaEqLacteos = !!arrayComidaPlatillo1 &&  Object.keys(arrayComidaPlatillo1).map((key)=> arrayComidaPlatillo1[key].clase === "8" ?arrayComidaPlatillo1[key].eq:0)
-     const sumComidaEqLacteos = !! arrayColacion1Platillo1 && ComidaEqLacteos.reduce((a,b) => a + b)
+     const sumComidaEqLacteos = !! arrayComidaPlatillo1 && ComidaEqLacteos.reduce((a,b) => a + b)
      const ComidaEqLacteos2 = !!arrayComidaPlatillo2 &&  Object.keys(arrayComidaPlatillo2).map((key)=> arrayComidaPlatillo2[key].clase === "8" ?arrayComidaPlatillo2[key].eq:0)
      const sumComidaEqLacteos2 = !! arrayComidaPlatillo2 && ComidaEqLacteos2.reduce((a,b) => a + b)
      const ComidaEqLacteos3 = !!arrayComidaPlatillo3 &&  Object.keys(arrayComidaPlatillo3).map((key)=> arrayComidaPlatillo3[key].clase === "8" ?arrayComidaPlatillo3[key].eq:0)
@@ -1825,31 +1826,47 @@ cerrarDieta = () =>{
 
      return(
           <div>
+    
         {
             this.props.mostrar === true
            ? 
             <div onClick={this.fuera} className="modalDietas">
             <div className="contenidoModalDietas">
             <Navbar fixedTop>
+            <ToastContainer 
+            position="bottom-right"
+                  autoClose={2000}
+                  hideProgressBar
+                  newestOnTop={false}
+                  closeOnClick
+                  rtl={false}
+                  pauseOnVisibilityChange
+                  draggable
+                  pauseOnHover={false}
+            />
             <Button onClick={this.regresarSteps} className={`${this.state.btnRegresar} btn-primary`}> <ArrowLeft  className="ic" size={18} /></Button>
             <Grid className="gridStepsDietas">
             <Row>
-            <Col className="col-paso" xs={3} md={4}>
-            <div class="alineador">
+            <Col className="col-paso-2" xs={3} md={4}>
+            <div class="alineador-2">
             <div className={this.state.step1}><h6 className={this.state.counter1}>1</h6></div>
             <div className={this.state.line1}> </div>
             </div>       
             </Col>
-            <Col  className="col-paso"  xs={3} md={4}>
-            <div class="alineador">
+            <Col  className="col-paso-2"  xs={3} md={4}>
+            <div class="alineador-2">
             <div className={this.state.step2}><h6 className={this.state.counter2}>2</h6></div>
             <div className={this.state.line2}></div>
             </div>
             </Col>
-            <Col  className="col-paso"  xs={3} md={4}>
-            <div class="alineador">
+            <Col  className="col-paso-2"  xs={3} md={4}>
+            <div class="alineador-2">
             <div className={this.state.step3}><h6 className={this.state.counter3}>3</h6></div>
-            <div className="line-3"><Button onClick={this.pasoUno} className="siguienteStepDieta btn-primary"> <ArrowRight  className="ic" size={18} /></Button></div>
+
+
+            <div className="line-3-dietas"><Button onClick={this.pasoUno} className="siguienteStepDieta btn-primary"> {this.state.pasoTres === true ?"Guardar Dieta":<ArrowRight  className="ic" size={18} />}</Button></div>
+        
+            
             </div>
             </Col> 
             </Row>
@@ -1859,14 +1876,19 @@ cerrarDieta = () =>{
              ?<div> 
                 <div className="dietoCalculo">
                     <div className="headDietasModal">
-                        <h5 className="asignadoDieta">Asignada: Sergio Maldonado</h5>
-                        <h4>Dieta alta en carbohidratos</h4>
+                       
+                      {/*** N O M B R E   D E  L A  D I E T A */} 
+
+                      <FormGroup bsSize="large">
+                         <FormControl onBlur={(e)=>this.nombreDieta(e.target.value)} className="formTittleDieta" type="text" placeholder={this.state.nombreResetaEnProceso} />
+                      </FormGroup>
+               
                     </div>
                     <div className="dietasContainer">
                         <div className="dietaConfiguracion">
                         <Grid>
                             <Row>
-                                <Col xs={12} md={2}><h3>Dieta</h3></Col>
+                                <Col xs={12} md={2}></Col>
                                 <Col xs={12} md={2}> 
                                 <p>Kcal<FormGroup><FormControl  onChange={event => this.setState({metaKcalDieta:event.target.value, metaHCODieta:60, metaLipDieta:25, metaProDieta:15})}  type="nunumber"  placeholder="2000"/></FormGroup></p>
                                 </Col>
@@ -1892,19 +1914,19 @@ cerrarDieta = () =>{
                         <div className="dietoTittle2"><h3>Distribución <ChevronDown  className="ic" size={20} /></h3></div>
                             <Row>
                                 <Col className="containerPanelDietas"  xs={12} md={12}>
-                                <Col className="uno">&nbsp;</Col>
-                                <Col className="uno">&nbsp;</Col>
-                                <Col className="cuatro">Eq</Col>
-                                <Col className="cuatro">Kcal</Col>
-                                <Col className="cuatro">HCO</Col>
-                                <Col className="cuatro">Lip</Col>
-                                <Col className="cuatro">Pro</Col>
-                                <Col className="cuatro">&nbsp;</Col>
-                                <Col className="tres">Desayuno</Col>
-                                <Col className="dos">Colación 1</Col>
-                                <Col className="tres">Comida</Col>
-                                <Col className="dos">Colacion 2</Col>
-                                <Col className="tres">Cena</Col>
+                                <Col  className="uno">&nbsp;</Col>
+                                <Col  className="uno">&nbsp;</Col>
+                                <Col  className="cuatro">Eq</Col>
+                                <Col  className="cuatro">Kcal</Col>
+                                <Col  className="cuatro">HCO</Col>
+                                <Col  className="cuatro">Lip</Col>
+                                <Col  className="cuatro">Pro</Col>
+                                <Col  className="cuatro">&nbsp;</Col>
+                                <Col  className="tres">Desayuno</Col>
+                                <Col  className="dos">Colación 1</Col>
+                                <Col  className="tres">Comida</Col>
+                                <Col  className="dos">Colacion 2</Col>
+                                <Col  className="tres">Cena</Col>
        
                                 {/*** COMEINZA DIETOCALCULO */}
                                 <div className="dietoCalculo">
@@ -2307,7 +2329,6 @@ cerrarDieta = () =>{
     <p className="parrafoDieta">Colación 2</p>
     </NavItem>
     </Col>
-   
     <Col md="2">
     <NavItem eventKey={3} onClick={this.stepDieta5}>
     { this.state.checkCena == true
@@ -2753,8 +2774,27 @@ cerrarDieta = () =>{
            </div> :null }
 
 
+ 
+             { this.state.pasoTres === true ?
 
-             { this.state.pasoTres === true ? <h1> Paso 3</h1> :null }
+             
+                <Grid>
+                  
+                 <Row className="show-grid">
+                   <Col xs={12} md={7}>
+                   <h3>Asigna esta dieta a uno de tus pacientes</h3>
+                    <BusquedaUsuarios  notificacion={this.notify} onClick={()=>this.createNotification('success')} dietaEnProceso={this.props.idReceta} filtro={this.filtrado} array={this.props.array}/>
+                   </Col>
+                   <Col xs={6} md={5}>
+                   <h3>Recomendaciones Generales</h3>
+                   <FormGroup bsSize="large">
+                         <FormControl onBlur={(e)=>this.guardarRecomendacionesGeneralesDieta(e.target.value)} componentClass="textarea" placeholder="Escribe aquí las recomendaciones" />
+                   </FormGroup>
+                   </Col>
+                 </Row>
+                </Grid>
+             
+              :null }
              </div>  
               </div>
               : null

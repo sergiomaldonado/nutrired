@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="31px" height="45px" viewBox="0 0 31 45" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 41.1 (35376) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 11</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <polygon id="path-1" points="14.9958511 0.0406221719 0.0191489362 0.0406221719 0.0191489362 43.5240781 29.9725532 43.5240781 29.9725532 0.0406221719"></polygon>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Desktop-HD-Copy" transform="translate(-874.000000, -202.000000)">
+            <g id="Group-11" transform="translate(859.000000, 195.000000)">
+                <g id="drop" transform="translate(15.500000, 7.576923)">
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <g id="Clip-2"></g>
+                    <path d="M14.9862766,0.0406221719 C14.3578723,0.0406221719 13.7684043,0.35270362 13.4115957,0.875311086 C12.0379787,2.88288462 0,20.7105373 0,28.3852262 C0,36.7321154 6.72319149,43.5240781 14.9862766,43.5240781 C23.2493617,43.5240781 29.9725532,36.7321154 29.9725532,28.3852262 C29.9725532,20.7105373 17.9345745,2.88288462 16.562234,0.875311086 C16.2041489,0.35270362 15.6159574,0.0406221719 14.9862766,0.0406221719 Z M14.9862766,39.6552998 C8.83531915,39.6552998 3.82978723,34.6000962 3.82978723,28.3852262 C3.82978723,23.59181 10.853617,11.7965498 14.9862766,5.44304864 C19.1202128,11.7965498 26.142766,23.59181 26.142766,28.3852262 C26.142766,34.6000962 21.1385106,39.6552998 14.9862766,39.6552998 Z" id="Fill-1" fill="#2ADDFF" mask="url(#mask-2)"></path>
+                </g>
+                <rect id="Rectangle-26-Copy-7" x="0" y="0" width="59" height="59"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

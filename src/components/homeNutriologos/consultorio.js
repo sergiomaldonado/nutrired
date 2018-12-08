@@ -2,13 +2,17 @@ import React, { Component } from 'react'
 import withAutorization from '../withAutorization'
 import { dbfb, authfb } from '../../firebase/firebase'
 import { db, auth } from '../../firebase/'
-import { Grid, Thumbnail, Modal, Button, Row, Col, NavItem, Nav, Tab, Label, FormGroup, FormControl, InputGroup, Image} from 'react-bootstrap'
-import { Users, User,Phone, Clipboard,BookOpen, Award, MessageCircle, Search, ChevronDown} from 'react-feather'
+import { Grid, NavDropdown,Thumbnail, MenuItem, Modal, Button, Row, Col, NavItem, Nav, Tab, Label, FormGroup, FormControl, InputGroup, Image} from 'react-bootstrap'
+import { Users,Popover, OverlayTrigger, User,Phone, Clipboard,BookOpen, Award, MessageCircle, Search, ChevronDown, MoreHorizontal} from 'react-feather'
 import Imagen from '../imagen.png'
 import SideNav from './side-nav'
 import './../App.css'
 import InputRange from 'react-input-range';
 import ModalDietas from './modalDietas'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 const byPropKey = (propertyName, value) => () => ({
   [propertyName]: value,
 });  
@@ -38,12 +42,25 @@ class Consultorio extends Component {
   }
   componentDidMount(){  
     const uid = authfb.currentUser.uid
+
     dbfb.ref(`users/nutriologos/${uid}/pacientes`).on('value', snapshot =>{
-    this.setState({
-         users: snapshot.val()
-          }) 
-       })
-    }
+      this.setState({
+           users: snapshot.val()
+            }) 
+         })
+
+    dbfb.ref(`users/nutriologos/${uid}/dietas`).on('value', snapshot =>{
+        this.setState({
+             dietas: snapshot.val()
+              }) 
+           })
+    
+    
+      }
+
+    
+
+
     handleClose() {
       this.setState({ show: false });
     }
@@ -89,7 +106,8 @@ class Consultorio extends Component {
     }
     cerrarDieta = () => {
       this.setState({ showDieta: false,
-        btnCerrarModal:"salirModalDesactivado"
+        btnCerrarModal:"salirModalDesactivado",
+        dietaId:""
       
       });
     }
@@ -103,6 +121,7 @@ class Consultorio extends Component {
           dietaId:key
           });
     }
+    
 
      clickTab1 = ()=>{
        this.setState({
@@ -128,15 +147,35 @@ class Consultorio extends Component {
         tabActivo3: "show",
       })
     }
+    notificacionDietaGuardada = () => {toast.success("Se guardo tu dieta", {
+      position: "bottom-right",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true
+      });
+  }
 
   render() {
+      const  {users, dietas} = this.state;
       
-      const  {users} = this.state;
       return(
          
          <div>
+         <ToastContainer 
+            position="bottom-right"
+                  autoClose={2000}
+                  hideProgressBar
+                  newestOnTop={false}
+                  closeOnClick
+                  rtl={false}
+                  pauseOnVisibilityChange
+                  draggable
+                  pauseOnHover={false}
+            />
               <button onClick={this.cerrarDieta} className={this.state.btnCerrarModal}>x</button>
-              <ModalDietas mostrar={this.state.showDieta} idReceta={this.state.dietaId} />
+              <ModalDietas notificacion={this.notificacionDietaGuardada} cerrarModalDietas={this.cerrarDieta} array={users} mostrar={this.state.showDieta} idReceta={this.state.dietaId} />
             <Grid>
                 {/***  MODAL PERFIL USUARIO ***/}
           <Modal bsSize="large" show={this.state.show} onHide={this.handleClose}>
@@ -164,10 +203,9 @@ class Consultorio extends Component {
              </Col>
             <Col  xs={12} md={9}> <h2 className="p-meta">"{this.state.datosPersonalesPaciente.meta}"</h2></Col>
             </Col>
-           <Col  xs={12} md={9}>
-           <h1 className="nombreCard">{this.state.nombrePaciente} {this.state.apellidoPaciente}</h1>
+            <Col  xs={12} md={9}>
+            <h1 className="nombreCard">{this.state.nombrePaciente} {this.state.apellidoPaciente}</h1>
               <p className="p-card"> <strong className="strongCard">Tel: </strong> {this.state.telefonoPaciente} <strong className="strongCard"> Mail:</strong> {this.state.emailPaciente}</p>
-             
               </Col>
               <Col  className="continfo" xs={12}  md={3}>
               <p className="p-card"> <strong  className="strongCard">IMC:</strong> { Math.round(this.state.datosPersonalesPaciente.peso / Math.pow(this.state.datosPersonalesPaciente.estatura, 2)) }% <strong className="strongCard"> Edad: {this.state.datosPersonalesPaciente.edad}</strong>  <strong className="strongCard">Estatura:</strong>{this.state.datosPersonalesPaciente.estatura} <strong className="strongCard">Peso Actual:</strong>{this.state.datosPersonalesPaciente.peso} <strong className="strongCard">Dieta:</strong>Sin Asignar </p>
@@ -175,7 +213,6 @@ class Consultorio extends Component {
           </Col>
          </Row>  
          <div>
-        
          </div>
          <Col xs={12} md={12}>
          <row>
@@ -362,30 +399,52 @@ class Consultorio extends Component {
 
         </div>
   
-
-
         
         </Tab.Pane>
         <Tab.Pane eventKey="second">
-   
-
-      <Grid> 
+      <Grid className="gridDietasNutriologo"> 
         <Row>
        <FormGroup className="search">
-       <Col  className="crearDieta" xs={12} md={1}>
+        <Col xs={12} md={2}>
           <InputGroup bsSize="large">
          <Button onClick={this.mostrarDieta} className="btn-primary">Crear Dieta</Button>
           </InputGroup>
           </Col>
-         <Col xs={12} md={8}>
+         <Col  xs={12} md={10}>
         <InputGroup bsSize="large">
          <InputGroup.Addon><Search color="#FF7500" className="ic" size={20} /></InputGroup.Addon>
-          <FormControl type="text" />
+          <FormControl type="text" placeholder="Buscar dieta" />
           </InputGroup>
           </Col>
-         
           </FormGroup>
+
+          { !!dietas && (
+            <div>
+              
+              <Row>
+             {Object.keys(dietas).map( key =>
+             <Col xs={12} md={4}>
+             
+              <div className="card-dietaNutriologoPanel">
+              <div className="colorFondoTituloCardDietaPanel">
+
+                
+ 
+                
+              <MoreHorizontal eventKey={3} className="moreMenuDietaNutriologoPanel"></MoreHorizontal>
+               <h3 className="tittleCardPanelDietas">{dietas[key].nombre}</h3>  
+               </div>
+              </div>
+           
+            
+           
+        
+          </Col>
+            )}  </Row>
+     </div>
+    ) }
           </Row>
+          
           </Grid>  
         </Tab.Pane>
         <Tab.Pane eventKey="tercera">Tab 3 content</Tab.Pane>

@@ -4,6 +4,203 @@ body{
   background-color: #F4F4F4;
   font-family: 'Montserrat', sans-serif;
 }
+#root{
+  margin-left: 0px;
+}
+.gridColumnasPlanAlimentacion{
+  width: 100%;
+  margin-top:20px;
+}
+.gridHistorialDeConsultas{
+  width: 100%;
+
+}
+.chart{
+  width: 500px;
+}
+.card-dietaNutriologoPanel{
+  text-align:center;
+  background-image: url('./img/bgDieta.jpg');
+  background-size: cover;
+  background-position: center;
+  height: 110px;
+  min-height: 110px;
+  border-radius:10px;
+}
+.colorFondoTituloCardDietaPanel{
+  position: relative;
+  background-color: rgba(231,23,95,0.8);
+  border-radius:10px;
+  height: 100%;
+  width: 100%;
+  color:white;
+}
+.tittleCardPanelDietas{
+ padding-top: 40px;
+  height: auto;
+}
+.gridDietasNutriologo{
+  width: 100%;
+}
+.moreMenuDietaNutriologoPanel{
+  float: right;
+  margin-top: 5px;
+  margin-right: 10px;
+  color: #7F0028;
+}
+.col1{background-color: blue;}
+.col2{background-color: red}
+.col3{background-color: yellow}
+.col4{background-color: pink}
+.col5{background-color: green}
+.col6{background-color: purple}
+
+.columnaDieta{
+  border-bottom:2px dotted #CDCDCD;
+  padding-top: 30px;
+
+}
+.userCardDieta{
+  background-color: #009C1A;
+}
+.colDesayunoPlanAlimentacion{
+  text-align: center;
+  color:#FF5E38;
+}
+.colColacionPlanAlimentacion{
+  text-align: center;
+  color:#EB0E54;
+}
+
+.btn-default.active, .btn-default:active, .open>.dropdown-toggle.btn-default{
+  background-color: #EB0E54 !important;
+  border: 1px solid #EB0E54;
+  color: white;
+  font-weight: 500;
+}
+.btn-default.active:hover{
+  background-color: #EB0E54 !important;
+  border: 1px solid #EB0E54;
+  color: white;
+  font-weight: 500;
+}
+.btn-default{
+  border: 1px solid #EB0E54;
+}
+.btn-default:hover{
+  border: 1px solid #EB0E54;
+  background-color: #FFF2F6;
+  color: #EB0E54;
+}
+.buttonSelectPrograma{margin-top: 25px;}
+
+.colComidaPlanAlimentacion{
+  text-align: center;
+  color:#6FD904;
+}
+.gridShowUsers{
+  width: 100%
+}
+.tittleDietaAsignada{
+  text-align: center;
+  line-height: 150px;
+  color: white;
+}
+.headerDietaAsignada{
+  width: 100%;
+  height: 150px;
+  background-image: url('./img/bgDieta.jpg');
+  background-size: cover;
+  background-position: center;
+  border-radius:10px 10px 0px 0px;
+}
+.colorFondoTituloDietaAsignada{
+  background-color: rgba(231,23,95,0.6);
+  border-radius:10px 10px 0px 0px;
+  height: 100%;
+  width: 100%
+}
+.colPlatilloPlanAlimentacion{
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.contenedorPlatilloPlanAlimentacion{
+  border-radius:10px;
+  border:solid 1px #FF5F39;
+  overflow: hidden;
+}
+.tituloPlatilloPlanAlimentacion{
+  background-color:  #FF5F39;
+  width: 100%;
+  height: auto;
+  padding: 10px;
+  border:solid 1px #FF5F39;
+  color:white;
+}
+.tituloPlatilloColacion1PlanAlimentacion{
+  background-color:  #EB0E54;
+  width: 100%;
+  height: auto;
+  padding: 10px;
+  border:solid 1px #EB0E54;
+  color:white;
+}
+
+.tituloPlatilloComidaPlanAlimentacion{
+  background-color:  #6FD904;
+  width: 100%;
+  height: auto;
+  padding: 10px;
+  border:solid 1px #6FD904;
+  color:white;
+}
+
+
+.notificacionUsuarioAgredado{
+  position: absolute;
+  float: right !important;
+  z-index: 99999;
+}
+.colUser{
+  padding: 10px;
+}
+.textNameUserDieta{
+  line-height: 60px;
+}
+.containerButtonAsignarDieta{
+  opacity: 0;
+  position: absolute;
+  z-index: 3;
+  background: rgba(0, 0, 0, .14);
+  width: 94%;
+  height: 80%;
+  border-radius: 10px;
+  transition: 0.5ms;
+}
+.containerButtonAsignarDieta:hover{
+  opacity: 1;
+  position: absolute;
+  z-index: 3;
+  background: rgba(0, 0, 0, .14);
+  width: 94%;
+  height: 80%;
+  border-radius: 10px;
+  display: inline;
+}
+.containerResultUserDieta{
+  background-color: white;
+  border-radius:10px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+  height:80px;
+  line-height: 80px;
+  overflow-x: hidden !important;
+}
+.imgResultadoUserDieta{
+  width: 60px;
+  height: 60px;
+}
+
 .infoNutrimental{
 width: 100%;
 }
@@ -246,6 +443,11 @@ margin-top: 8px;
 .col-paso{
   margin-right:-55px !important ; 
 }
+.col-paso-2{
+  margin-right:-6.5% !important ; 
+}
+
+
 .tittle-step{
   margin-left: -20px;
   text-align: left;
@@ -296,7 +498,9 @@ margin-top: 8px;
   margin-top: 20px;
 }
 .line-desactivado{ height: 3px; width: 80%; background-color: #DEDEDE; z-index: 0;}
+.line-desactivado-dietas{ height: 3px; width: 80%; background-color: #f8f8f8; z-index: 0;}
 .line-3{ height: 3px; width: 80%; background-color: #F4F4F4; z-index: 0;}
+.line-3-dietas{ height: 3px; width: 80%; background-color: #f8f8f8; z-index: 0;}
 .pasomarkactivado{
   color: #7ED321;
 }
@@ -613,6 +817,15 @@ display: none;
   box-shadow: inset 0 0px 0px white !important;
 
 }
+.formTittleDieta{
+  border: none;
+  text-align:center;
+  font-size: 30px !important;
+  -webkit-box-shadow: inset 0 10px 10px rgba(0,0,0,.075) !important; 
+  box-shadow: inset 0 0px 0px white !important;
+  background: transparent;
+
+}
 
 .platillo1{
   width: 100%;
@@ -664,6 +877,7 @@ position: absolute
   z-index: 999;
   margin-top: -94px;
 background-color: white}
+
 .dietaADesactivada{
 display: none;}
 
@@ -1044,16 +1258,30 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#91e842', end
   box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
   fill:#ff0000 !important;
 }
+.card-consulta-historial{
+  background-color: white;
+  border-radius: 10px; 
+  padding: 10px;
+  line-height: 80px;
+  margin-top: 20px;
+  height: 100px;
+}
+.tittleConsultaHistorial{
+  margin-bottom: -30px !important;
+}
+
 .card-cliente{
-  text-align: center;
   background-color: white;
   border-radius: 10px; 
   padding:20px;
-  margin: 20px;
-
+  margin-top: 20px;
+}
+.card-dietaAsignada{
+  background-color: white;
+  border-radius: 10px; 
+  margin-top: 20px;
 }
 .card-cliente-nutriologo{
-  
   background-color: white;
   border-radius: 10px; 
   padding:20px;
@@ -1168,6 +1396,11 @@ text-align: center;
   display: none;
 }
 .alineador{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.alineador-2{
   display: flex;
   justify-content: center;
   align-items: center;

@@ -9,7 +9,7 @@ export const crearDieta = (id,key) =>{
     key
   });
 }
-export const dietoCalculoReceta = (uid,idReceta, metaKcalDieta, metaLipDieta,metaHCODieta, metaProDieta, dietoCalculo) =>{
+export const dietoCalculoReceta = (uid,idReceta, metaKcalDieta, metaLipDieta,metaHCODieta, metaProDieta, dietoCalculo, nombre) =>{
 db.ref(`users/nutriologos/${uid}/dietas/${idReceta}`).set({
    idReceta, 
    metaKcalDieta, 
@@ -17,7 +17,7 @@ db.ref(`users/nutriologos/${uid}/dietas/${idReceta}`).set({
    metaHCODieta, 
    metaProDieta,
    dietoCalculo,
-   dieta:{desayuno:{platillo1:''}}
+   nombre:nombre?nombre:"Sin Titulo",
 })
 }
 export const doCreateUser = (id, nombre, apellido, email, telefono, matricula, pacientes, dietas, recetas, agenda,alertas, roll, ref) =>
