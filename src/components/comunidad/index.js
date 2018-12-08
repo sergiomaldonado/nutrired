@@ -11,7 +11,7 @@ import Imagen from '../imagen.png'
 import moment from 'moment'
 import { uploadImage } from '../../firebase/storage'
 import './comunidad.css'
-
+// 
 class ComunidadPacientes extends Component {
   constructor(props) {
     super(props)
